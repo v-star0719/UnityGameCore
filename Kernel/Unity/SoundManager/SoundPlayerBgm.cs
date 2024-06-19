@@ -1,6 +1,6 @@
 using System;
 
-namespace Sound
+namespace Kernel.Unity
 {
     //有一个播放列表，播放完了继续下一个，只有一个的话就循环播放那一个
     //支持播放列表

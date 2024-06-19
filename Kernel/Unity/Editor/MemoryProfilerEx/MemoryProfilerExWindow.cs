@@ -1,19 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Text;
-using SLua;
-using Unity.MemoryProfiler.Editor.Format;
 using UnityEditor;
 using UnityEditor.MemoryProfiler;
-using UnityEditorInternal;
 using UnityEngine;
-using UnityEngine.Profiling;
-using UnityEngine.Profiling.Memory.Experimental;
-using Object = UnityEngine.Object;
-
 
 namespace MemoryProfilerEx
 {

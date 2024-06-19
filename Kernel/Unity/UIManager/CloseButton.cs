@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Unity.UI
+namespace Kernel.Unity
 {
     public class CloseButton : MonoBehaviour
     {

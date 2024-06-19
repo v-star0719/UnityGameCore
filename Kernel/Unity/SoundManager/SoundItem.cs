@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-namespace Sound
+namespace Kernel.Unity
 {
     //SoundItem会被回收复用，通过SoundItemInfo进行长时间引用。
     //SoundItemInfo中有一个播放完成的回调

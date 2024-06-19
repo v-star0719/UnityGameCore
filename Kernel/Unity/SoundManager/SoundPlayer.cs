@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using CamelHotCLR.Utils;
 using UnityEngine;
 
-namespace Sound
+namespace Kernel.Unity
 {
     public class SoundPlayer
     {

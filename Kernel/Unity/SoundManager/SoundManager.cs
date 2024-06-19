@@ -1,20 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using CamelHotCLR;
 
-namespace Sound
+namespace Kernel.Unity
 {
     //将声音分层，每层一个sound player。这样就可以做出一个声音压过其他所有声音的效果了
     //支持AudioClip后台加载。
     //这里播放的都是固定位置的，如果是移动的声音，请自行管理带着它跑。
     //配套调试工具：SoundManagerDebugger
-    [QuickPlayMode.ReloadOnEnterPlayMode]
     public class SoundManager : MonoBehaviour
     {
         public const float DEFAULT_BKVOLUMN = 0.5f;
         public const float DEFAULT_SOUND_VOLUMN = 0.5f;
         public static SoundManager Instance { get; private set; }
+        public static Func<string, AudioClip> loader;
 
         private float bgmVolumn = DEFAULT_BKVOLUMN;
         private float soundVolumn = DEFAULT_SOUND_VOLUMN;
@@ -238,15 +237,20 @@ namespace Sound
 
         public AudioClip GetAudioClip(string name)
         {
-            AudioClip clip = null;
-            if (clips.ContainsKey(name))
+            if (loader == null)
+            {
+                Debug.LogError("Loader has not been set");
+                return null;
+            }
+
+            if (clips.TryGetValue(name, out var clip))
             {
                 clip = clips[name];
             }
 
             if (clip == null)
             {
-                clip = ResManager.LoadAssetSync<AudioClip>(name);
+                clip = loader(name);
                 if (clip != null)
                 {
                     clips[name] = clip;

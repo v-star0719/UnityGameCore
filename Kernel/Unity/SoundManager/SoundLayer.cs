@@ -1,4 +1,4 @@
-namespace Sound
+namespace Kernel.Unity
 {
     public enum SoundLayer
     {

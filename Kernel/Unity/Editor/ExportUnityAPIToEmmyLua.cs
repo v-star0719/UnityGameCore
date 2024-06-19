@@ -57,7 +57,9 @@ namespace Kernel.Unity
         private void Gen_Custom()
         {
             //unity以前的版本直接用LoadAssembly就可以了，新版不行，直接get。
+#if NGUI
             ExportAssembly(typeof(UILabel).Assembly, path);
+#endif
 
             //Debug.Log(typeof(CinemachineFreeLook).Assembly.FullName);
             //ExportAssembly(typeof(CinemachineFreeLook).Assembly, path);
