@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Kernel.Core.Misc;
 using UnityEngine;
@@ -282,6 +283,164 @@ namespace Kernel.Core
             on = dP1I >= 0 && dP1I <= dP1P2;
             pos = segP1 + vP1P2.normalized * dP1I;//交点
             return Mathf.Sqrt(vP1A.sqrMagnitude - dP1I * dP1I);
+        }
+        
+
+        //用三角形面积求高
+        //   1    c     2
+        //    -----------
+        //     -      -
+        // a    -   -   b
+        //       -
+        //       P
+        public static float PointToSegmentDistance(Vector3 p, Vector3 segP1, Vector3 segP2)
+        {
+            var a = Vector3.Distance(p, segP1);
+            if(a < 0.0001f)
+            {
+                return a;
+            }
+
+            var b = Vector3.Distance(p, segP2);
+            if(b < 0.0001f)
+            {
+                return b;
+            }
+
+            var c = Vector3.Distance(segP1, segP2);
+            if(c < 0.0001f)
+            {
+                return a;
+            }
+
+            if(a * a >= b * b + c * c)
+            {
+                return b;
+            }
+
+            if(b * b >= a * a + c * c)
+            {
+                return a;
+            }
+
+            var l = (a + b + c) * 0.5f;
+            var s = Mathf.Sqrt(l * (l - a) * (l - b) * (l - c));
+            return 2 * s / c;
+        }
+
+        private const float EPS = 0.0001f;
+        public static int SegmentIntersectCircle(Vector2 ptStart, Vector2 ptEnd, Vector2 ptCenter, float radius, Vector2[] result)
+        {
+            var fDis = Vector2.Distance(ptStart, ptEnd);
+
+            var d = Vector2.zero;
+            d.x = (ptEnd.x - ptStart.x) / fDis;
+            d.y = (ptEnd.y - ptStart.y) / fDis;
+
+            var E = Vector2.zero;
+            E.x = ptCenter.x - ptStart.x;
+            E.y = ptCenter.y - ptStart.y;
+
+            var a = E.x * d.x + E.y * d.y;
+            var a2 = a * a;
+
+            var e2 = E.x * E.x + E.y * E.y;
+
+            var r2 = radius * radius;
+
+            if((r2 - e2 + a2) < 0)
+            {
+                return 0;
+            }
+            else
+            {
+                int n = 0;
+                var f = Mathf.Sqrt(r2 - e2 + a2);
+                var t = a - f;
+
+                if((t - 0.0) > -EPS && (t - fDis) < EPS)
+                {
+                    result[n++] = new Vector2(ptStart.x + t * d.x, ptStart.y + t * d.y);
+                }
+
+                t = a + f;
+                if((t - 0.0) > -EPS && (t - fDis) < EPS)
+                {
+                    result[n++] = new Vector2(ptStart.x + t * d.x, ptStart.y + t * d.y);
+                }
+
+                return n;
+            }
+        }
+
+
+        //      D         C        F
+        // S////o//////////////////o//////E
+        //      -         |        -
+        //      -         |        -
+        //        -       |       -
+        //                O
+        public static int SegmentIntersectSphere(Vector3 ptStart, Vector3 ptEnd, Vector3 center, float radius, out float disance, Vector3[] inserts)
+        {
+            Vector3 vSO = center - ptStart;
+            Vector3 vEO = center - ptEnd;
+            Vector3 vSE = ptEnd - ptStart;
+            float dSE = 0;
+            float dSC = 0;
+
+            var dSO = vSO.magnitude;
+            var dEO = vEO.magnitude;
+            if(dSO < radius || dEO < radius)
+            {
+                //两个点都在球内，计算到直线的距离
+                dSE = vSE.magnitude;
+                dSC = Vector3.Dot(vSO, vSE) / dSE;
+                disance = Mathf.Sqrt(dSO * dSO - dSC * dSC);
+                return 0;
+            }
+
+            //两个点都不在球内，计算到直线的距离
+            vSE = ptEnd - ptStart;
+            dSE = vSE.magnitude;
+            dSC = Vector3.Dot(vSO, vSE) / dSE;
+            disance = Mathf.Sqrt(dSO * dSO - dSC * dSC);
+
+            //直线和圆不相交
+            if(disance > radius)
+            {
+                return 0;
+            }
+
+            //直线和圆相交。由于两个点都不在求内，所以只需要判断两个点是否位于OC的两侧即可
+            var b = Vector3.Dot(vEO, vSE) * dSC <= 0;
+            if(inserts == null || !b)
+            {
+                return 0;
+            }
+
+            var dDC = Mathf.Sqrt(radius * radius - disance* disance);
+            var dSD = dSC - dDC;
+
+            //todo 这里应该有两个交点
+            inserts[0] = dSD / dSE * vSE + ptStart;
+            return 1;
+        }
+
+        public static Vector2 RotateVector(Vector2 v, float rotation)
+        {
+            var m11 = Mathf.Cos(rotation);
+            var m12 = Mathf.Sin(rotation);
+            var m21 = -m12;
+            var m22 = m11;
+            return new Vector2(v.x * m11 + v.y * m21, v.x * m12 + v.y * m22);
+        }
+
+        ///-@param point Vector3
+        ///-@param pivot Vector3
+        ///-@param angle Quaternion
+        public static Vector3 RotateAroundPoint(Vector3 point, Vector3 pivot, Quaternion angle)
+        {
+            return angle * (point - pivot) + pivot;
         }
     }
 }
