@@ -1,4 +1,5 @@
 ﻿//#define STORAGE_DEBUG
+#define ENCRYPT
 
 using System;
 using System.Diagnostics;
@@ -73,7 +74,7 @@ namespace Kernel.Storage
                 {
                     bytes = File.ReadAllBytes(path);
                 }
-#if !UNITY_EDITOR
+#if !UNITY_EDITOR || ENCRYPT
                 Decode(bytes);
 #endif
                 Log($"load data from {path}");
@@ -106,7 +107,7 @@ namespace Kernel.Storage
 
             try
             {
-#if !UNITY_EDITOR
+#if !UNITY_EDITOR || ENCRYPT
                 Encode(bytes);
 #endif
                 File.WriteAllBytes(FilePath, bytes);
