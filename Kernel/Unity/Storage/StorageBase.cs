@@ -1,4 +1,4 @@
-﻿//#define STORAGE_DEBUG
+//#define STORAGE_DEBUG
 #define ENCRYPT
 
 using System;
@@ -73,10 +73,10 @@ namespace Kernel.Storage
                 if (File.Exists(path))
                 {
                     bytes = File.ReadAllBytes(path);
-                }
 #if !UNITY_EDITOR || ENCRYPT
-                Decode(bytes);
+                    Decode(bytes);
 #endif
+                }
                 Log($"load data from {path}");
             }
             catch (Exception e)

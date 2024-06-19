@@ -20,7 +20,7 @@ namespace Kernel.Unity
             return null;
         }
 
-        public virtual UIPanelContainer LoadContainer()
+        public virtual UIPanelContainerCore LoadContainer()
         {
             return null;
         }
