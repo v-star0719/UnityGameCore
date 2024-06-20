@@ -23,7 +23,7 @@ namespace Kernel.Unity
 
         private Vector2 scrollPos;
 
-        [MenuItem("VStar/GameConsole", false)]
+        [MenuItem("Tools/GameConsole", false)]
         public static void ShowWindow()
         {
             GetWindow<GameConsoleWindow>();

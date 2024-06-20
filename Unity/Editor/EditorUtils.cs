@@ -40,7 +40,7 @@ namespace Kernel.Unity
         /// <summary>
         /// 遍历目录下的文件。也可以使用AssetDatabase.FindAssets来获取目录下的资源
         /// </summary>
-        /// <param name="path">示例：Assets/Test/Test.txt</param>
+        /// <param name="path">示例：Assets/Test/</param>
         /// <param name="action">传入的路径包含Assets/。比如Assets/Test/Test.txt</param>
         /// <param name="opt"></param>
         public static void IterateAssetsInFolder(string path, Action<string> action, SearchOption opt = SearchOption.AllDirectories)
