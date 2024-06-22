@@ -37,7 +37,6 @@ namespace Kernel.Unity
             {
                 renderTexture = new RenderTexture((int)(Screen.width * renderTextureScale),
                     (int)(Screen.height * renderTextureScale), 32);
-                Debug.Log($"{renderTexture.width} {renderTexture.height} {Screen.width} {Screen.height}");
                 cam.targetTexture = renderTexture;
                 material.SetTexture("_BaseMap", renderTexture);
             }
