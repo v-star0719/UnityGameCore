@@ -36,6 +36,7 @@ namespace Kernel.Unity
             get => agent.destination;
             protected set
             {
+                Debug.LogError("set is not available");
             }
         }
 
@@ -69,7 +70,7 @@ namespace Kernel.Unity
         public override void SetDestination(Vector3 des)
         {
             agent.SetDestination(des);
-            IsArrived = false;
+            IsArrived = (Destination - transform.position).sqrMagnitude <= stoppingDistanceSqr;
         }
 
         public override void Tick(float deltaTime)

@@ -27,7 +27,7 @@ namespace Kernel.Unity
         public void SetDestination(Vector3 des)
         {
             Destination = des;
-            IsArrived = false;
+            IsArrived = (Destination - transform.position).sqrMagnitude <= stoppingDistance * stoppingDistance;
         }
 
         public void Tick(float deltaTime)

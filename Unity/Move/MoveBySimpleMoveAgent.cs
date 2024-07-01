@@ -30,9 +30,24 @@ namespace Kernel.Unity
             set => agent.stoppingDistance = value;
         }
 
-        public override Vector3 Destination { get; protected set; }
+        public override Vector3 Destination
+        {
+            get => agent.Destination;
+            protected set
+            {
+                Debug.LogError("set is not available");
+            }
+        }
 
-        public override bool IsArrived => agent.IsArrived;
+        public override bool IsArrived
+        {
+            get { return agent.IsArrived; }
+            protected set
+            {
+                Debug.LogError("set is not available");
+            }
+        }
+
         public override bool IsStopped { get; set; }
 
         public MoveBySimpleMoveAgent(SimpleMoveAgent agent) : base(agent.transform)
