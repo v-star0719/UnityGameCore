@@ -90,12 +90,11 @@ namespace Kernel.Unity
             }
         }
 
-        ///现在用Transform.SetParent就行了。
         public static void SetParent(Transform trans, Transform parent)
         {
-            trans.parent = parent;
+            trans.SetParent(parent);
             trans.localPosition = Vector3.zero;
-            trans.rotation = Quaternion.identity;
+            trans.localRotation = Quaternion.identity;
             trans.localScale = new Vector3(1, 1, 1);
         }
     }
