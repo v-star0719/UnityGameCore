@@ -62,7 +62,7 @@ namespace Kernel.Unity
 
         public void Update()
         {
-            if (target == null || leftEdge == null || rightEdge == null || topEdge == null || bottomEdge == null)
+            if (leftEdge == null || rightEdge == null || topEdge == null || bottomEdge == null)
             {
                 return;
             }
@@ -73,6 +73,11 @@ namespace Kernel.Unity
                 Init();
             }
 #endif
+
+            if (target == null)
+            {
+                return;
+            }
 
             var targetPos = target.position;
             switch (safeSide)
