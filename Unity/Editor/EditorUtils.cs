@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using Kernel.Core;
 using UnityEditor;
+using UnityEditor.Build;
 using UnityEngine;
 
 namespace Kernel.Unity
@@ -64,5 +65,15 @@ namespace Kernel.Unity
             EditorUtility.ClearProgressBar();
         }
 
+        public static NamedBuildTarget CurrentNamedBuildTarget
+        {
+            get
+            {
+                BuildTarget buildTarget = EditorUserBuildSettings.activeBuildTarget;
+                BuildTargetGroup targetGroup = BuildPipeline.GetBuildTargetGroup(buildTarget);
+                NamedBuildTarget namedBuildTarget = NamedBuildTarget.FromBuildTargetGroup(targetGroup);
+                return namedBuildTarget;
+            }
+        }
     }
 }

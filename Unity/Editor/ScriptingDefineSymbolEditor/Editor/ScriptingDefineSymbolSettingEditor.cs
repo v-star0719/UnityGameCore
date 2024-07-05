@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Kernel.Unity
 {
     [CustomEditor(typeof(ScriptingDefineSymbolSetting))]
-    public class ScriptingDefineSymbolDataEditor : Editor
+    public class ScriptingDefineSymbolSettingEditor : Editor
     {
         private ScriptingDefineSymbolSetting setting;
         public override void OnInspectorGUI()
@@ -49,12 +49,12 @@ namespace Kernel.Unity
                     sl.Add(t.value);
                 }
             }
-            PlayerSettings.SetScriptingDefineSymbols(CurrentNamedBuildTarget, sl.ToArray());
+            PlayerSettings.SetScriptingDefineSymbols(EditorUtils.CurrentNamedBuildTarget, sl.ToArray());
         }
 
         private void LoadFromPlayerSettings()
         {
-            var t = CurrentNamedBuildTarget;
+            var t = EditorUtils.CurrentNamedBuildTarget;
             PlayerSettings.GetScriptingDefineSymbols(t, out var defines);
             foreach (var s in defines)
             {
@@ -63,17 +63,6 @@ namespace Kernel.Unity
                     value = s,
                     enabled = true
                 });
-            }
-        }
-
-        public static NamedBuildTarget CurrentNamedBuildTarget
-        {
-            get
-            {
-                BuildTarget buildTarget = EditorUserBuildSettings.activeBuildTarget;
-                BuildTargetGroup targetGroup = BuildPipeline.GetBuildTargetGroup(buildTarget);
-                NamedBuildTarget namedBuildTarget = NamedBuildTarget.FromBuildTargetGroup(targetGroup);
-                return namedBuildTarget;
             }
         }
     }
