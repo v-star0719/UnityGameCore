@@ -1,5 +1,5 @@
 //#define STORAGE_DEBUG
-#define ENCRYPT
+//#define ENCRYPT
 
 using System;
 using System.Diagnostics;

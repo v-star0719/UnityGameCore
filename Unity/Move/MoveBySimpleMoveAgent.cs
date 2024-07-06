@@ -48,7 +48,11 @@ namespace Kernel.Unity
             }
         }
 
-        public override bool IsStopped { get; set; }
+        public override bool IsStopped
+        {
+            get => agent.IsStopped;
+            set { agent.IsStopped = value; }
+        }
 
         public MoveBySimpleMoveAgent(SimpleMoveAgent agent) : base(agent.transform)
         {

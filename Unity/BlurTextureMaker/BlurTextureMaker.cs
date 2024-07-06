@@ -5,6 +5,12 @@ using UnityEngine.UI;
 
 public class BlurTextureMaker : MonoBehaviour
 {
+    public class MakingData
+    {
+        internal Coroutine coroutine;
+        public bool IsFinished { get; internal set; }
+    }
+
     public int iteration = 10;
     public Vector4 size = new Vector4(0.1f, 0.1f);
     public float offset = 1;
@@ -29,7 +35,7 @@ public class BlurTextureMaker : MonoBehaviour
         }
     }
 
-    public IEnumerator Process(Texture texture)
+    public IEnumerator Process(Texture texture, MakingData rt)
     {
         yield return null;//等待start处理完
 
@@ -68,8 +74,9 @@ public class BlurTextureMaker : MonoBehaviour
             Graphics.Blit(halfRenderTexture, renderTexture);
         }
         Graphics.CopyTexture(renderTexture, texture);
+        rt.IsFinished = true;
     }
-    
+
     #region 手动模糊
     public static void Process2(Texture2D texture)
     {
@@ -131,12 +138,12 @@ public class BlurTextureMaker : MonoBehaviour
     #endregion
 
     //texture会被覆盖，如果不想被覆盖，请手动备份
-    public static void Blur(Texture2D texture)
+    public static MakingData Blur(Texture2D texture)
     {
         if (!texture.isReadable)
         {
             Debug.LogError("input texture in not readable.");
-            return;
+            return null;
         }
 
         if (instance == null)
@@ -147,6 +154,17 @@ public class BlurTextureMaker : MonoBehaviour
         }
 
         instance.StopAllCoroutines();
-        instance.StartCoroutine(instance.Process(texture));
+        var rt = new MakingData();
+        rt.coroutine = instance.StartCoroutine(instance.Process(texture, rt));
+        return rt;
+    }
+
+    public static void Stop(MakingData makeData)
+    {
+        if (makeData.IsFinished)
+        {
+            return;
+        }
+        instance.StopCoroutine(makeData.coroutine);
     }
 }

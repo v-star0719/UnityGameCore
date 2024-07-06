@@ -13,6 +13,7 @@ namespace Kernel.Unity
 
         public UIPanelBaseCore Panel { get; private set; }
         private Texture2D screenCapture;
+        private BlurTextureMaker.MakingData makingData;
 
         public void Start()
         {
@@ -51,7 +52,7 @@ namespace Kernel.Unity
             yield return new WaitForEndOfFrame(); //截屏需要等一帧
             screenCapture = ScreenCapture.CaptureScreenshotAsTexture();
             SetBgTexture(screenCapture);
-            BlurTextureMaker.Blur(screenCapture);
+            makingData = BlurTextureMaker.Blur(screenCapture);
             PlayableDirector.gameObject.SetActive(true);
         }
 
@@ -60,6 +61,12 @@ namespace Kernel.Unity
             if (screenCapture != null)
             {
                 Destroy(screenCapture);
+            }
+
+            if (makingData != null && !makingData.IsFinished)
+            {
+                BlurTextureMaker.Stop(makingData);
+                makingData = null;
             }
         }
     }
