@@ -2,7 +2,6 @@ using Codice.Client.Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
@@ -50,7 +49,10 @@ namespace Kernel.Unity
         protected virtual List<string> GetScenes()
         {
             var rt = new List<string>();
-            rt.AddRange(EditorBuildSettings.scenes);
+            foreach (var scene in EditorBuildSettings.scenes)
+            {
+                rt.Add(scene.path);
+            }
             return rt;
         }
 
