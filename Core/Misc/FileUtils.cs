@@ -11,9 +11,9 @@ namespace Kernel.Core
         //todo 缓存文件和目录的哈希值
         public static void Sync(string source, string target)
         {
-            if (File.Exists(source))
+            if(File.Exists(source))
             {
-                if (!File.Exists(target) || IsFileDiff(source, target))
+                if(!File.Exists(target) || IsFileDiff(source, target))
                 {
                     File.Copy(source, target, true);
                     Debug.Log($"copy file: {source} => {target}");
@@ -21,7 +21,7 @@ namespace Kernel.Core
             }
             else if(Directory.Exists(source))
             {
-                if (!Directory.Exists(target))
+                if(!Directory.Exists(target))
                 {
                     CopyDirectory(source, target, true);
                     Debug.Log($"Copy directory: {source} => {target}");
@@ -50,7 +50,7 @@ namespace Kernel.Core
                 for(var j = 0; j < sourceDirectories.Length; j++)
                 {
                     var sd = sourceDirectories[j];
-                    if(sd.Name == td.Name)
+                    if(sd != null && sd.Name == td.Name)
                     {
                         find = true;
                         sourceDirectories[j] = null;
@@ -61,16 +61,17 @@ namespace Kernel.Core
 
                 if(!find)
                 {
-                    Directory.Delete(td.FullName);
+                    Directory.Delete(td.FullName, true);
                     Debug.Log($"Delete {td.FullName}");
                 }
             }
-            //target中没有的目录复制过去，有的进行同步
+            //target中没有的目录复制过去
             foreach(var sd in sourceDirectories)
             {
                 if(sd != null)
                 {
-                    Sync(sd.FullName, Path.Combine(targetRoot, sd.Name));
+                    CopyDirectory(sd.FullName, Path.Combine(targetRoot, sd.Name), true);
+                    Debug.Log($"Copy directory: {sd.FullName} => {Path.Combine(targetRoot, sd.Name)}");
                 }
             }
         }
@@ -84,15 +85,15 @@ namespace Kernel.Core
                 bool find = false;
                 for(var j = 0; j < sourceFiles.Length; j++)
                 {
-                    var sd = sourceFiles[j];
-                    if(sd.Name == tf.Name)
+                    var sf = sourceFiles[j];
+                    if(sf != null && sf.Name == tf.Name)
                     {
                         find = true;
                         sourceFiles[j] = null;
-                        if(IsFileDiff(sd.FullName, tf.FullName))
+                        if(IsFileDiff(sf.FullName, tf.FullName))
                         {
-                            File.Copy(sd.FullName, tf.FullName);
-                            Debug.Log($"copy file: {sd.FullName} => {tf.FullName}");
+                            File.Copy(sf.FullName, tf.FullName, true);
+                            Debug.Log($"copy file: {sf.FullName} => {tf.FullName}");
                         }
                         break;
                     }
@@ -104,7 +105,7 @@ namespace Kernel.Core
                     Debug.Log($"Delete {tf.FullName}");
                 }
             }
-            //target中没有的目录复制过去，有的进行同步
+            //target中没有的目录复制过去
             foreach(var sf in sourceFiles)
             {
                 if(sf != null)
@@ -117,16 +118,16 @@ namespace Kernel.Core
 
         public static bool IsFileDiff(string source, string target)
         {
-            if (File.GetLastWriteTime(source) != File.GetLastWriteTime(target))
+            if(File.GetLastWriteTime(source) != File.GetLastWriteTime(target))
             {
                 return true;
             }
 
-            FileStream sourceFileStream = new FileStream(source, FileMode.Open);
-            FileStream targetFileStream = new FileStream(source, FileMode.Open);
-            using (sourceFileStream)
+            FileStream sourceFileStream = new FileStream(source, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            FileStream targetFileStream = new FileStream(target, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            using(sourceFileStream)
             {
-                using (targetFileStream)
+                using(targetFileStream)
                 {
                     if(sourceFileStream.Length != targetFileStream.Length)
                     {
@@ -135,7 +136,7 @@ namespace Kernel.Core
 
                     var sourceBytes = new byte[1024];
                     var targetBytes = new byte[sourceBytes.Length];
-                    while(sourceFileStream.CanRead)
+                    while(true)
                     {
                         var n = sourceFileStream.Read(sourceBytes);
                         targetFileStream.Read(targetBytes);
@@ -143,12 +144,18 @@ namespace Kernel.Core
                         {
                             if(sourceBytes[i] != targetBytes[i])
                             {
-                                return false;
+                                return true;
                             }
+                        }
+
+                        if (n == 0)
+                        {
+                            break;
                         }
                     }
                 }
             }
+
             return false;
         }
 
