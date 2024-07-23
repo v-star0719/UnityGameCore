@@ -1,20 +1,17 @@
-﻿using System;
-using System.IO;
+using System;
 using System.Text;
 using UnityEngine;
 
 namespace Kernel.Storage
 {
-    public class XmlSerializer : IStorageSerializer
+    public class StorageUnityJsonSerializer : IStorageSerializer
     {
         public byte[] Serialize<T>(T data)
         {
             try
             {
-                using var ms = new MemoryStream();
-                var xz = new System.Xml.Serialization.XmlSerializer(typeof(T));
-                xz.Serialize(ms, data);
-                return ms.ToArray();
+                var text = JsonUtility.ToJson(data);
+                return Encoding.UTF8.GetBytes(text);
             }
             catch (Exception e)
             {
@@ -30,12 +27,10 @@ namespace Kernel.Storage
                 return new T();
             }
 
+            var text = Encoding.UTF8.GetString(bytes);
             try
             {
-                using var fs = new MemoryStream(bytes);
-                using var sr = new StreamReader(fs, Encoding.UTF8);
-                var xz = new System.Xml.Serialization.XmlSerializer(typeof(T));
-                return (T)xz.Deserialize(sr);
+                return JsonUtility.FromJson<T>(text);
             }
             catch (Exception e)
             {

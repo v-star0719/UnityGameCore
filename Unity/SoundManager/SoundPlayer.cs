@@ -309,7 +309,7 @@ namespace Kernel.Unity
                 //找到了值一样的
                 PlayingSounds.Insert(mid, soundItem);//值相等，把上一个顶后面去。
             }
-            else if(left >= PlayingSounds.Count)
+            else
             {
                 //没找到，那么值位于[right], [left]之间，right < left
                 //插入到left的位置，把left的元素顶到后面，它比要插入的小

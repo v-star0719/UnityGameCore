@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using Kernel.Core;
 using Kernel.Core.Misc;
 
 namespace Kernel.Lang.Extension
@@ -245,7 +246,80 @@ namespace Kernel.Lang.Extension
                 list[r] = temp;
             }
         }
-	}
 
+        ///a和b比较结果，小于0=a在左边，b在右边
+        public static void BinarySearchInsert<T>(List<T> list, T n, Func<T, T, int> compare)
+        {
+            var left = 0;
+            var right = list.Count - 1;
+            var mid = 0;
+            while(left <= right)
+            {
+                mid = (left + right) >> 1;
+                var midValue = list[mid];
+                var c = compare(n, midValue);
+                if(c > 0)
+                {
+                    left = mid + 1;//目标在中间值的右边
+                }
+                else if(c < 0)
+                {
+                    right = mid - 1;//目标在中间值的左边
+                }
+                else
+                {
+                    break;//命中目标
+                }
+            }
 
+            if(left <= right)
+            {
+                list.Insert(mid, n);//会把mid往后顶，但是两个值都一样，先后应该无所谓吧
+            }
+            else if(left < list.Count)
+            {
+                //这种情况下最后结束一定是right < left。插入值位于这两个值之间。不管排列方式怎么样，是否位于right或者left，把值插入到这两个中间准没错了。
+                list.Insert(left, n);
+            }
+            else
+            {
+                //无脑加最后。为什么呢请看下面解答。
+                list.Add(n);
+            }
+
+            //详细分析
+            //哐哐循环没有命中，最后都会到left=right这一步（证明就不需要了吧），如果还没命中：
+            //   如果目标在左边，right-1。right < left结束循环。目标在[right] [left]这两个之间
+            //   如果目标在右边，left+1。right < left结束循环。目标在[right] [left]这两个之间
+
+            //如果list是空的，left=0，right=-1，循环不会进行。插入到left
+            //如果list只有一个元素，left=right=0。
+            //  目标等于它，命中插入到mid(0)
+            //  目标小于它，也就是位于中间值的左边，right-1=-1，left=0。还是插入到left，会把原来的大的顶到后面。
+            //  目标大于它，也就是位于中间值的右边，left+1=1，right=0。【【这时候left超过了数组大小，向后追加。】】
+            //如果list元素超过2个，正常执行循环搜索
+
+            //如果目标应插入到列表最左边，最后left=0，right=-1.插入到left就行
+            //如果目标应插入到列表最右边，最后left=ListCount，right=ListCount-1。【【left超过了数组大小，向后追加。】】
+
+            //List<int> array = new List<int>(100);
+            ////int[] testNumbers = new int[] { 55, 37, 35, 26 };
+            //for(int i = 0; i < 100; i++)
+            //{
+            //    BinarySearchInsert(array, Random.Range(0, 100), (a, b) => a.CompareTo(b));
+            //    bool r = true;
+            //    for(int i = 0; i < array.Count; i++)
+            //    {
+            //        for(int j = i + 1; j < array.Count; j++)
+            //        {
+            //            if(array[i] > array[j])
+            //            {
+            //                r = false;
+            //            }
+            //        }
+            //    }
+            //    Debug.Log(StringUtils.CollectionToString(array) + " " + r);
+            //}
+        }
+    }
 }

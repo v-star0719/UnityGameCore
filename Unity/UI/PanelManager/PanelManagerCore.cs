@@ -3,29 +3,29 @@ using UnityEngine;
 
 namespace Kernel.Unity
 {
-    public class UIManagerCore
+    public class PanelManagerCore
     {
         private const int DEPTH_GAP = 20;
-        private List<UIPanelBaseCore> panels = new List<UIPanelBaseCore>();
+        private List<PanelBaseCore> panels = new List<PanelBaseCore>();
 
         public Transform UIRoot { get; private set; }
 
-        public UIManagerCore(Transform root)
+        public PanelManagerCore(Transform root)
         {
             UIRoot = root;
         }
 
-        public virtual UIPanelBaseCore LoadPanel(string name)
+        public virtual PanelBaseCore LoadPanel(string name)
         {
             return null;
         }
 
-        public virtual UIPanelContainerCore LoadContainer()
+        public virtual PanelContainerCore LoadContainer()
         {
             return null;
         }
 
-        public virtual UIPanelBaseCore OpenPanel(string name, params object[] args)
+        public virtual PanelBaseCore OpenPanel(string name, params object[] args)
         {
             var panel = LoadPanel(name);
             var container = LoadContainer();
@@ -54,7 +54,7 @@ namespace Kernel.Unity
             return panel;
         }
 
-        public virtual void ClosePanel(UIPanelBaseCore pl)
+        public virtual void ClosePanel(PanelBaseCore pl)
         {
             for (var i = 0; i < panels.Count; i++)
             {
@@ -129,7 +129,7 @@ namespace Kernel.Unity
             }
         }
 
-        public virtual UIPanelBaseCore GetPanel(string name)
+        public virtual PanelBaseCore GetPanel(string name)
         {
             for (var i = 0; i < panels.Count; i++)
             {
@@ -142,7 +142,7 @@ namespace Kernel.Unity
             return null;
         }
 
-        public virtual UIPanelBaseCore GetTopPanel()
+        public virtual PanelBaseCore GetTopPanel()
         {
             if (panels.Count > 0)
             {

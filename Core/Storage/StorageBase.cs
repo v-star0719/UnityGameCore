@@ -4,9 +4,8 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using Kernel.Core;
 using Kernel.Storage;
-using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 namespace Kernel.Storage
 {
@@ -50,7 +49,7 @@ namespace Kernel.Storage
 
         protected virtual void InitFilePath()
         {
-            FilePath = $"{Application.persistentDataPath}/{FileName}";
+            FilePath = $"{FileName}.data";
         }
 
         public virtual void Clear()
@@ -81,7 +80,7 @@ namespace Kernel.Storage
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                LoggerX.Error(e.ToString());
             }
             finally
             {
@@ -115,7 +114,7 @@ namespace Kernel.Storage
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                LoggerX.Error(e.ToString());
             }
         }
 
@@ -136,7 +135,7 @@ namespace Kernel.Storage
         [Conditional("STORAGE_DEBUG")]
         protected void Log(string text)
         {
-            Debug.Log(text);
+            LoggerX.Info(text);
         }
 
         protected virtual void Encode(byte[] bytes)

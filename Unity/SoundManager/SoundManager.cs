@@ -186,7 +186,7 @@ namespace Kernel.Unity
             switch(layer)
             {
                 case SoundLayer.bgm:
-                    PlayBgm(new []{name});
+                    PlayBgm(new []{name}, volume, fadeIn, fadeout);
                     return null;
 
                 case SoundLayer.normal:
@@ -203,10 +203,10 @@ namespace Kernel.Unity
             Players[(int)sound.layer].Stop(sound.id);
         }
 
-        public void PlayBgm(string[] names)
+        public void PlayBgm(string[] names, float volume = 1, float fadeIn = 2f, float fadeOut = 2f)
         {
             var player = Players[(int)SoundLayer.bgm] as SoundPlayerBgm;
-            player.Play(names, bgmVolumn, 2, 2);
+            player.Play(names, volume, fadeIn, fadeOut);
         }
 
         public SoundItemInfo PlayNormalSound(string name, bool loop = false, float volume = 1, float duration = 0, float fadein = 0f, float fadeout = 0f, int maxCount = 0)

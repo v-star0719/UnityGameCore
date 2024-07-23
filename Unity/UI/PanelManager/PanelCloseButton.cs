@@ -7,11 +7,11 @@ using UnityEngine;
 
 namespace Kernel.Unity
 {
-    public class CloseButton : MonoBehaviour
+    public class PanelCloseButton : MonoBehaviour
     {
         public void OnClick()
         {
-            GetComponentInParent<UIPanelBaseCore>()?.Close();
+            GetComponentInParent<PanelBaseCore>()?.Close();
         }
     }
 }

@@ -41,7 +41,6 @@ namespace Kernel.Unity
         {
             StopAllSounds();
             soundNames = names;
-            this.volume = volume;
             this.fadein = fadein;
             this.fadeout = fadeout;
             base.Play(names[0], false, volume, 0, fadein, fadeout);

@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Kernel.Unity
 {
-    public class UIPanelBaseCore : MonoBehaviour
+    public class PanelBaseCore : MonoBehaviour
     {
         protected int depth;
-        protected UIManagerCore manager;
+        protected PanelManagerCore manager;
         protected GameObject container;
         public string PanelName { get; set; }
         public bool isFullPanel; //全屏界面会遮挡主底部的UI
@@ -30,7 +30,7 @@ namespace Kernel.Unity
             set => container = value;
         }
 
-        public virtual void Open(UIManagerCore mgr, params object[] args)
+        public virtual void Open(PanelManagerCore mgr, params object[] args)
         {
             manager = mgr;
             try

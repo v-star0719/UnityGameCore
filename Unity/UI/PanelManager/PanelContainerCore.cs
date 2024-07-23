@@ -5,13 +5,13 @@ using UnityEngine.Playables;
 namespace Kernel.Unity
 {
     //所有面板都会放到这个容器下。方便做通用的效果，比如动画、背景模糊
-    public class UIPanelContainerCore : MonoBehaviour
+    public class PanelContainerCore : MonoBehaviour
     {
         //弹窗动画。如果动画缩放从0开始的，将面板上的值设置为1,1,1，并且动画disable，
         //这样start初始化时面板都是(1,1,1)的，排版可以正常进行。动画update后就变成(0,0,0)了，排版会出问题。
         public PlayableDirector PlayableDirector;
 
-        public UIPanelBaseCore Panel { get; private set; }
+        public PanelBaseCore Panel { get; private set; }
         private Texture2D screenCapture;
         private BlurTextureMaker.MakingData makingData;
 
@@ -26,7 +26,7 @@ namespace Kernel.Unity
             }
         }
 
-        public void AddPanel(UIPanelBaseCore panel)
+        public void AddPanel(PanelBaseCore panel)
         {
             gameObject.name = $"{panel.PanelName}[Container]";
             Panel = panel;

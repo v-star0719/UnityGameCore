@@ -17,6 +17,7 @@ namespace Kernel.Unity
 
         private float refreshMargin;
         private bool isPaused;
+        private Vector2 scrollPos;
 
         private string[] foldoutKeys = new[]
         {
@@ -107,54 +108,65 @@ namespace Kernel.Unity
                 }
             }
 
-            var players = SoundManager.Instance.Players;
-            for (var i = 0; i < players.Length; i++)
+            using (var s = new GUILayout.ScrollViewScope(scrollPos))
             {
-                GUILayout.BeginVertical(EditorStyles.helpBox);
-                var player = players[i];
-                bool foldout = EditorPrefs.GetBool(foldoutKeys[i], true);
-                var t = EditorGUILayout.BeginFoldoutHeaderGroup(foldout, ((SoundLayer)i).ToString());
-                if (foldout != t)
+                var players = SoundManager.Instance.Players;
+                for (var i = 0; i < players.Length; i++)
                 {
-                    EditorPrefs.SetBool(foldoutKeys[i], t);
-                }
-                if (t)
-                {
-                    GUILayout.Label($"AliveCount:{player.AliveCount}, Volume:{player.Volume}, VolumeScale:{player.VolumeScale}");
-                    GUILayout.Label("【LoadingSounds】");
-                    GUISoundList(player.LoadingSounds);
-                    GUILayout.Label("【FadeInSounds】");
-                    GUISoundList(player.FadeInSounds);
-                    GUILayout.Label("【PlayingSounds】");
-                    GUISoundList(player.PlayingSounds);
-                    GUILayout.Label("【FadeOutSounds】");
-                    GUISoundList(player.FadeOutSounds);
-                    GUILayout.Label($"【DeadSoundDatas {player.DeadSoundDatas.Count}】");
-                }
-                EditorGUILayout.EndFoldoutHeaderGroup();
-                GUILayout.EndVertical();;
-            }
-
-            GUILayout.BeginVertical(EditorStyles.helpBox);
-            bool fd = EditorPrefs.GetBool("SoundManagerDebugger_AliveCounter", true);
-            var tb = EditorGUILayout.BeginFoldoutHeaderGroup(fd, "AliveCounter");
-            if (fd != tb)
-            {
-                EditorPrefs.SetBool("SoundManagerDebugger_AliveCounter", tb);
-            }
-            if (tb)
-            {
-                foreach (SoundPlayer player in SoundManager.Instance.Players)
-                {
-                    GUILayout.Label($"【{player.Layer.ToString()}】");
-                    foreach (var kv in player.AliveCounter)
+                    GUILayout.BeginVertical(EditorStyles.helpBox);
+                    var player = players[i];
+                    bool foldout = EditorPrefs.GetBool(foldoutKeys[i], true);
+                    var t = EditorGUILayout.BeginFoldoutHeaderGroup(foldout, ((SoundLayer)i).ToString());
+                    if (foldout != t)
                     {
-                        GUILayout.Label($"    {kv.Key}: {kv.Value}");
+                        EditorPrefs.SetBool(foldoutKeys[i], t);
+                    }
+
+                    if (t)
+                    {
+                        GUILayout.Label(
+                            $"AliveCount:{player.AliveCount}, Volume:{player.Volume}, VolumeScale:{player.VolumeScale}");
+                        GUILayout.Label("【LoadingSounds】");
+                        GUISoundList(player.LoadingSounds);
+                        GUILayout.Label("【FadeInSounds】");
+                        GUISoundList(player.FadeInSounds);
+                        GUILayout.Label("【PlayingSounds】");
+                        GUISoundList(player.PlayingSounds);
+                        GUILayout.Label("【FadeOutSounds】");
+                        GUISoundList(player.FadeOutSounds);
+                        GUILayout.Label($"【DeadSoundDatas {player.DeadSoundDatas.Count}】");
+                    }
+
+                    EditorGUILayout.EndFoldoutHeaderGroup();
+                    GUILayout.EndVertical();
+                    ;
+                }
+
+                GUILayout.BeginVertical(EditorStyles.helpBox);
+                bool fd = EditorPrefs.GetBool("SoundManagerDebugger_AliveCounter", true);
+                var tb = EditorGUILayout.BeginFoldoutHeaderGroup(fd, "AliveCounter");
+                if (fd != tb)
+                {
+                    EditorPrefs.SetBool("SoundManagerDebugger_AliveCounter", tb);
+                }
+
+                if (tb)
+                {
+                    foreach (SoundPlayer player in SoundManager.Instance.Players)
+                    {
+                        GUILayout.Label($"【{player.Layer.ToString()}】");
+                        foreach (var kv in player.AliveCounter)
+                        {
+                            GUILayout.Label($"    {kv.Key}: {kv.Value}");
+                        }
                     }
                 }
+
+                EditorGUILayout.EndFoldoutHeaderGroup();
+                GUILayout.EndVertical();
+
+                scrollPos = s.scrollPosition;
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
-            GUILayout.EndVertical();;
         }
 
         private void GUISoundList(List<SoundItem> list)
