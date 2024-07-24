@@ -37,5 +37,10 @@ namespace Kernel.Unity
                 );
             }
         }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.DrawWireCube(transform.position, range);
+        }
     }
 }
