@@ -1,5 +1,6 @@
-﻿namespace Kernel.Storage
+namespace Kernel.Storage
 {
+    /// 以什么格式保存数据，二进制、json、xml等等？
     public interface IStorageSerializer
     {
         byte[] Serialize<T>(T data);

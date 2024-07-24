@@ -4,6 +4,8 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
+using GameCore.Core;
 using Kernel.Core;
 using Kernel.Storage;
 
@@ -21,11 +23,9 @@ namespace Kernel.Storage
     //默认是存文件，如果要存别的地方，请重载OnLoad和OnSave
     public class StorageBase<T> : IStorage where T : new()
     {
-        public string FileName { get; protected set; }//请初始化
-        //UnityException: get_persistentDataPath can only be called from the main thread.
-        public string FilePath { get; protected set; }//
         private volatile bool changed;
         protected IStorageSerializer serializer;
+        protected IStorageLoaderSaver loaderSaver;
         protected T data;
 
         public bool Changed
@@ -41,15 +41,10 @@ namespace Kernel.Storage
             }
         }
 
-        public StorageBase(IStorageSerializer serializer, string fileName)
+        public StorageBase(IStorageSerializer serializer, IStorageLoaderSaver loaderSaver)
         {
             this.serializer = serializer;
-            FileName = fileName;
-        }
-
-        protected virtual void InitFilePath()
-        {
-            FilePath = $"{FileName}.data";
+            this.loaderSaver = loaderSaver;
         }
 
         public virtual void Clear()
@@ -59,24 +54,19 @@ namespace Kernel.Storage
         public virtual void Init()
         {
             OnInit();
-            InitFilePath();
         }
 
         public virtual void Load()
         {
-            var path = FilePath;
             byte[] bytes = null;
 
             try
             {
-                if (File.Exists(path))
-                {
-                    bytes = File.ReadAllBytes(path);
+                bytes = loaderSaver.Load();
 #if !UNITY_EDITOR || ENCRYPT
-                    Decode(bytes);
+                Decode(bytes);
 #endif
-                }
-                Log($"load data from {path}");
+                Log($"load data from {FileName}");
             }
             catch (Exception e)
             {
@@ -95,6 +85,7 @@ namespace Kernel.Storage
             {
                 return;
             }
+
             Changed = false;
             OnSave();
 
@@ -109,8 +100,8 @@ namespace Kernel.Storage
 #if !UNITY_EDITOR || ENCRYPT
                 Encode(bytes);
 #endif
-                File.WriteAllBytes(FilePath, bytes);
-                Log($"save data to {FilePath}");
+                loaderSaver.Save(bytes);
+                Log($"save data to {FileName}");
             }
             catch (Exception e)
             {
@@ -132,7 +123,7 @@ namespace Kernel.Storage
         {
         }
 
-        [Conditional("STORAGE_DEBUG")]
+    [Conditional("STORAGE_DEBUG")]
         protected void Log(string text)
         {
             LoggerX.Info(text);
