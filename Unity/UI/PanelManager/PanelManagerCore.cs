@@ -1,4 +1,6 @@
+using GameCore;
 using System.Collections.Generic;
+using Kernel.Core;
 using UnityEngine;
 
 namespace Kernel.Unity
@@ -6,23 +8,34 @@ namespace Kernel.Unity
     public class PanelManagerCore
     {
         private const int DEPTH_GAP = 20;
-        private List<PanelBaseCore> panels = new List<PanelBaseCore>();
 
         public Transform UIRoot { get; private set; }
+        public Camera Camera { get; private set; }
 
-        public PanelManagerCore(Transform root)
+        protected IResManager resManager;
+        protected List<PanelBaseCore> panels = new List<PanelBaseCore>();
+
+        public PanelManagerCore(Transform root, IResManager resManager)
         {
             UIRoot = root;
+            this.resManager = resManager;
+            Camera = root.GetComponentInChildren<Camera>();
         }
 
         public virtual PanelBaseCore LoadPanel(string name)
         {
+            var go = resManager.GetGameObject(name);
+            if(go != null)
+            {
+                return go.GetComponent<UIPanelBase>();
+            }
+            LoggerX.Error($"Panel is not found {name}");
             return null;
         }
 
         public virtual PanelContainerCore LoadContainer()
         {
-            return null;
+            return resManager.GetGameObject("PanelContainer").GetComponent<PanelContainerCore>();
         }
 
         public virtual PanelBaseCore OpenPanel(string name, params object[] args)
