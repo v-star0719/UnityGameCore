@@ -66,7 +66,6 @@ namespace Kernel.Storage
 #if !UNITY_EDITOR || ENCRYPT
                 Decode(bytes);
 #endif
-                Log($"load data from {FileName}");
             }
             catch (Exception e)
             {
@@ -101,7 +100,6 @@ namespace Kernel.Storage
                 Encode(bytes);
 #endif
                 loaderSaver.Save(bytes);
-                Log($"save data to {FileName}");
             }
             catch (Exception e)
             {
