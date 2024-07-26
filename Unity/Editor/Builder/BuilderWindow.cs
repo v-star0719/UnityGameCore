@@ -53,11 +53,11 @@ namespace Kernel.Unity
             scrollPos = GUILayout.BeginScrollView(scrollPos);
             foreach (var builder in types)
             {
-                GUILayout.BeginHorizontal();
+                GUILayout.BeginHorizontal("box");
                 {
                     //EditorGUILayout.ObjectField(builder, typeof(BuilderBase), false);
                     GUILayout.Label(builder.Name);
-                    if (GUILayout.Button("Build"))
+                    if (GUILayout.Button("Build", GUILayout.Width(100)))
                     {
                         try
                         {

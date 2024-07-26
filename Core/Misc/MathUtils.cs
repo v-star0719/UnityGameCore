@@ -247,17 +247,7 @@ namespace Kernel.Core
         {
             return new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
         }
-
-        public static void MinFirst(ref int a, ref int b)
-        {
-            if (a > b)
-            {
-                a = a ^ b;
-                b = a ^ b;
-                a = a ^ b;
-            }
-        }
-
+        
         //   p1  i      p2
         //    ------------
         //     - |     -
@@ -441,6 +431,23 @@ namespace Kernel.Core
         public static Vector3 RotateAroundPoint(Vector3 point, Vector3 pivot, Quaternion angle)
         {
             return angle * (point - pivot) + pivot;
+        }
+
+        // 计算点到直线的距离
+        public static float PointToLineDistance2(Vector3 point, Vector3 linePoint1, Vector3 linePoint2)
+        {
+            return PointToLineDistance1(point, linePoint1, (linePoint1 - linePoint2).normalized);
+        }
+
+        /// 计算点到直线的距离
+        /// lineDirection是归一化的方向向量
+        public static float PointToLineDistance1(Vector3 point, Vector3 linePoint, Vector3 lineDirection)
+        {
+            Vector3 pointToLinePoint = point - linePoint;
+            float projectionLength = Vector3.Dot(pointToLinePoint, lineDirection);
+            Vector3 projectionPoint = linePoint + projectionLength * lineDirection;
+            Gizmos.DrawLine(point, projectionPoint);
+            return (point - projectionPoint).magnitude;
         }
     }
 }
