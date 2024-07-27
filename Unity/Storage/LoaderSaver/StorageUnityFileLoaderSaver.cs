@@ -48,7 +48,6 @@ namespace GameCore.Unity
             try
             {
                 File.WriteAllBytes(filePath, obj as byte[]);
-                LoggerX.Info("save thread save file");
             }
             catch (Exception e)
             {
