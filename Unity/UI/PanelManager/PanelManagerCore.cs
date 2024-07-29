@@ -125,9 +125,7 @@ namespace Kernel.Unity
         {
             if (panels.Count > 0)
             {
-                var p = panels[panels.Count - 1];
-                panels.RemoveAt(panels.Count - 1);
-                p.Close(true);
+                ClosePanel(panels[panels.Count - 1]);
             }
         }
 

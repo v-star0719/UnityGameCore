@@ -1,3 +1,4 @@
+using GameCore.Unity;
 using UI;
 using UnityEngine;
 
@@ -94,7 +95,7 @@ public class TipMessageBoxBase : UIPanelBase
             return;
         }
 
-        var topPanel = PanelManagerNormal.Instance.GetTopPanel() as TipMessageBoxBase;
+        var topPanel = PanelManager.Normal.GetTopPanel() as TipMessageBoxBase;
         if (topPanel == null)
         {
             return;

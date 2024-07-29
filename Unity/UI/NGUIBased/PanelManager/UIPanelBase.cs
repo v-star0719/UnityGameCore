@@ -1,5 +1,6 @@
 using Kernel.Core;
 using Kernel.Unity;
+using UnityEngine;
 
 public class UIPanelBase : PanelBaseCore
 {

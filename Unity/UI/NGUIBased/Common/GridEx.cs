@@ -72,6 +72,7 @@ namespace UI
 
             RecycleAllItems();
 
+            UIKeyNavigation preKn = null;
             for (int i = 0; i < dataCount; i++)
             {
                 var item = GetAvailableItem();
@@ -80,6 +81,33 @@ namespace UI
                 item.SetData(datas[i]);
                 item.SetSelect(false);
                 items.Add(item);
+
+                var kn = item.GetComponent<UIKeyNavigation>();
+                if (kn != null)
+                {
+                    if (IsHorizontal())
+                    {
+                        if (preKn != null)
+                        {
+                            preKn.onLeft = kn.gameObject;
+                            kn.onRight = preKn.gameObject;
+                        }
+                    }
+                    else
+                    {
+                        if (preKn != null)
+                        {
+                            preKn.onDown = kn.gameObject;
+                            kn.onUp = preKn.gameObject;
+                        }
+                    }
+
+                    if (kn.startsSelected)
+                    {
+                        kn.startsSelected = i == 0;
+                    }
+                    preKn = kn;
+                }
             }
 
             arrangeFunc?.Invoke();
@@ -453,7 +481,7 @@ namespace UI
             return;
         }
 
-        public bool IsHorizontal()
+        public virtual bool IsHorizontal()
         {
             return scrollView.movement == UIScrollView.Movement.Horizontal;
         }
