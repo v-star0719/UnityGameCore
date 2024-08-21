@@ -8,6 +8,11 @@ namespace Kernel.Core
 {
     public class MathUtils
     {
+        public static float Cross(Vector2 a, Vector2 b)
+        {
+            return a.x * b.y - b.x * a.y;
+        }
+
         public static Vector2 Bezier2(Vector2 p0, Vector2 p1, Vector2 p2, float t)
         {
             var t1 = 1 - t;
@@ -38,6 +43,7 @@ namespace Kernel.Core
             {
                 pos += Combination(n, i) * Mathf.Pow(1 - f, n - i) * Mathf.Pow(f, i) * points[i];
             }
+
             return pos;
 
             //两两差值
@@ -69,6 +75,7 @@ namespace Kernel.Core
                 n--;
                 c--;
             }
+
             return a / b;
         }
 
@@ -83,8 +90,8 @@ namespace Kernel.Core
             Vector3 c = pathPoints[p + 2];
             Vector3 d = pathPoints[p + 3];
 
-            return 0.5f * ((-a + 3f * b - 3f * c + d) * 
-                (u * u * u) + (2f * a - 5f * b + 4f * c - d) * 
+            return 0.5f * ((-a + 3f * b - 3f * c + d) *
+                (u * u * u) + (2f * a - 5f * b + 4f * c - d) *
                 (u * u) + (-a + c) * u + 2f * b);
         }
 
@@ -95,6 +102,7 @@ namespace Kernel.Core
             {
                 pos += Cox_deBoor(i, p, t, uArray) * pathPoints[i]; //Combination(n, i) * 
             }
+
             return pos;
         }
 
@@ -134,8 +142,10 @@ namespace Kernel.Core
                     {
                         b1 = b1 / b2;
                     }
+
                     b2 = Cox_deBoor(i + 1, p - 1, u, uArray);
                 }
+
                 return a1 * a2 + b1 * b2;
             }
         }
@@ -149,15 +159,16 @@ namespace Kernel.Core
                 return y > 0 ? Mathf.PI * 0.5f : Mathf.PI * 1.5f;
             }
 
-            var angle = Mathf.Atan(y / x);//值是-0.5pi ~ 0.5pi
+            var angle = Mathf.Atan(y / x); //值是-0.5pi ~ 0.5pi
             if (x < 0)
             {
                 angle += Mathf.PI;
             }
             else if (angle < 0)
             {
-                angle += Mathf.PI * 2;//让返回值处于1.5PI~2pi
+                angle += Mathf.PI * 2; //让返回值处于1.5PI~2pi
             }
+
             return angle;
         }
 
@@ -170,6 +181,7 @@ namespace Kernel.Core
             {
                 angle = 360 - angle;
             }
+
             return angle;
         }
 
@@ -247,14 +259,15 @@ namespace Kernel.Core
         {
             return new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
         }
-        
+
         //   p1  i      p2
         //    ------------
         //     - |     -
         //      -   -   
         //       -
         //       a
-        public static float PointToSegmentDistance(Vector3 a, Vector3 segP1, Vector3 segP2, out Vector3 pos, out bool on)
+        public static float PointToSegmentDistance(Vector3 a, Vector3 segP1, Vector3 segP2, out Vector3 pos,
+            out bool on)
         {
             var dP1P2 = Vector3.Distance(segP1, segP2);
             if (dP1P2 < 0.0001f)
@@ -271,10 +284,10 @@ namespace Kernel.Core
 
             var dP1I = Vector3.Dot(vP1P2, vP1A) / dP1P2;
             on = dP1I >= 0 && dP1I <= dP1P2;
-            pos = segP1 + vP1P2.normalized * dP1I;//交点
+            pos = segP1 + vP1P2.normalized * dP1I; //交点
             return Mathf.Sqrt(vP1A.sqrMagnitude - dP1I * dP1I);
         }
-        
+
 
         //用三角形面积求高
         //   1    c     2
@@ -286,29 +299,29 @@ namespace Kernel.Core
         public static float PointToSegmentDistance(Vector3 p, Vector3 segP1, Vector3 segP2)
         {
             var a = Vector3.Distance(p, segP1);
-            if(a < 0.0001f)
+            if (a < 0.0001f)
             {
                 return a;
             }
 
             var b = Vector3.Distance(p, segP2);
-            if(b < 0.0001f)
+            if (b < 0.0001f)
             {
                 return b;
             }
 
             var c = Vector3.Distance(segP1, segP2);
-            if(c < 0.0001f)
+            if (c < 0.0001f)
             {
                 return a;
             }
 
-            if(a * a >= b * b + c * c)
+            if (a * a >= b * b + c * c)
             {
                 return b;
             }
 
-            if(b * b >= a * a + c * c)
+            if (b * b >= a * a + c * c)
             {
                 return a;
             }
@@ -319,7 +332,9 @@ namespace Kernel.Core
         }
 
         private const float EPS = 0.0001f;
-        public static int SegmentIntersectCircle(Vector2 ptStart, Vector2 ptEnd, Vector2 ptCenter, float radius, Vector2[] result)
+
+        public static int SegmentIntersectCircle(Vector2 ptStart, Vector2 ptEnd, Vector2 ptCenter, float radius,
+            Vector2[] result)
         {
             var fDis = Vector2.Distance(ptStart, ptEnd);
 
@@ -338,7 +353,7 @@ namespace Kernel.Core
 
             var r2 = radius * radius;
 
-            if((r2 - e2 + a2) < 0)
+            if ((r2 - e2 + a2) < 0)
             {
                 return 0;
             }
@@ -348,13 +363,13 @@ namespace Kernel.Core
                 var f = Mathf.Sqrt(r2 - e2 + a2);
                 var t = a - f;
 
-                if((t - 0.0) > -EPS && (t - fDis) < EPS)
+                if ((t - 0.0) > -EPS && (t - fDis) < EPS)
                 {
                     result[n++] = new Vector2(ptStart.x + t * d.x, ptStart.y + t * d.y);
                 }
 
                 t = a + f;
-                if((t - 0.0) > -EPS && (t - fDis) < EPS)
+                if ((t - 0.0) > -EPS && (t - fDis) < EPS)
                 {
                     result[n++] = new Vector2(ptStart.x + t * d.x, ptStart.y + t * d.y);
                 }
@@ -370,7 +385,8 @@ namespace Kernel.Core
         //      -         |        -
         //        -       |       -
         //                O
-        public static int SegmentIntersectSphere(Vector3 ptStart, Vector3 ptEnd, Vector3 center, float radius, out float disance, Vector3[] inserts)
+        public static int SegmentIntersectSphere(Vector3 ptStart, Vector3 ptEnd, Vector3 center, float radius,
+            out float disance, Vector3[] inserts)
         {
             Vector3 vSO = center - ptStart;
             Vector3 vEO = center - ptEnd;
@@ -380,7 +396,7 @@ namespace Kernel.Core
 
             var dSO = vSO.magnitude;
             var dEO = vEO.magnitude;
-            if(dSO < radius || dEO < radius)
+            if (dSO < radius || dEO < radius)
             {
                 //两个点都在球内，计算到直线的距离
                 dSE = vSE.magnitude;
@@ -396,19 +412,19 @@ namespace Kernel.Core
             disance = Mathf.Sqrt(dSO * dSO - dSC * dSC);
 
             //直线和圆不相交
-            if(disance > radius)
+            if (disance > radius)
             {
                 return 0;
             }
 
             //直线和圆相交。由于两个点都不在求内，所以只需要判断两个点是否位于OC的两侧即可
             var b = Vector3.Dot(vEO, vSE) * dSC <= 0;
-            if(inserts == null || !b)
+            if (inserts == null || !b)
             {
                 return 0;
             }
 
-            var dDC = Mathf.Sqrt(radius * radius - disance* disance);
+            var dDC = Mathf.Sqrt(radius * radius - disance * disance);
             var dSD = dSC - dDC;
 
             //todo 这里应该有两个交点
@@ -449,5 +465,49 @@ namespace Kernel.Core
             Gizmos.DrawLine(point, projectionPoint);
             return (point - projectionPoint).magnitude;
         }
-    }
+
+        public static bool LineIntersect(Vector2 lineA1, Vector2 lineA2, Vector2 lineB1, Vector2 lineB2, out Vector2 intersectionPoint)
+        {
+            GetLineParams(lineA1, lineA2, out var a1, out var b1, out var c1);
+            GetLineParams(lineB1, lineB2, out var a2, out var b2, out var c2);
+            var o = b1 * a2 - b2 * a1;
+            if (o < 0.00001 && o > -0.00001)
+            {
+                intersectionPoint = Vector2.zero;
+                return false; //认为不相交
+            }
+
+            o = 1 / o;
+
+            intersectionPoint = new Vector2(
+                (c2 * b1 - c1 * b2) * o,
+                (c1 * a2 - c2 * a1) * o);
+            return true;
+        }
+
+        //ax + by + c = 0
+        public static void GetLineParams(Vector2 p1, Vector2 p2, out float a, out float b, out float c)
+        {
+            a = p1.y - p2.y;
+            b = p2.x - p1.x;
+            c = p1.y * p2.x - p1.x * p2.y;
+        }
+
+        //判断线段B的两个点是否在线段A的同一层
+        public static bool SegmentSide(Vector2 sA1, Vector2 sA2, Vector2 sB1, Vector2 sB2)
+        {
+            var a = sA2- sA1;
+            return Cross(a, sB1 - sA1) * Cross(a, sB2 - sA1) > 0;
+        }
+
+        public static bool SegmentIntersect(Vector2 sA1, Vector2 sA2, Vector2 sB1, Vector2 sB2, out Vector2 intersectionPoint)
+        {
+            if( SegmentSide(sA1, sA2, sB1, sB2) || SegmentSide(sB1, sB2, sA1, sA2))
+            {
+                intersectionPoint = Vector2.zero;
+                return false; //不相交
+            }
+            return LineIntersect(sA1, sA2, sB1, sB2, out intersectionPoint);
+        }
+}
 }

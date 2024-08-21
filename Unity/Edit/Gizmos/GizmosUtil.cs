@@ -7,24 +7,20 @@ namespace Kernel.Edit
 	{
 		public static void DrawPlane(Vector3 position, Quaternion rotation, Vector2 size, Color color, Color colorInner)
 		{
-			using(GizmosMatrix())
+			using(GizmosMatrix(Matrix4x4.TRS(position, rotation, UnityEngine.Vector3.one)))
 			{
-				Gizmos.matrix = Matrix4x4.TRS(position, rotation, UnityEngine.Vector3.one);
-				using(GizmosColor())
+				// 画四条线
+                using(GizmosColor(color))
 				{
-					// 画四条线
-					{
-						Gizmos.color = color;
-						Gizmos.DrawLine(new UnityEngine.Vector3(size.x / 2, 0, size.y / 2), new UnityEngine.Vector3(size.x / 2, 0, -size.y / 2));
-						Gizmos.DrawLine(new UnityEngine.Vector3(size.x / 2, 0, -size.y / 2), new UnityEngine.Vector3(-size.x / 2, 0, -size.y / 2));
-						Gizmos.DrawLine(new UnityEngine.Vector3(-size.x / 2, 0, -size.y / 2), new UnityEngine.Vector3(-size.x / 2, 0, size.y / 2));
-						Gizmos.DrawLine(new UnityEngine.Vector3(-size.x / 2, 0, size.y / 2), new UnityEngine.Vector3(size.x / 2, 0, size.y / 2));
-					}
-					// 画里面的
-					{
-						Gizmos.color = colorInner;
-						Gizmos.DrawCube(UnityEngine.Vector3.zero, new UnityEngine.Vector3(size.x, 0, size.y));
-					}
+                    Gizmos.DrawLine(new UnityEngine.Vector3(size.x / 2, 0, size.y / 2), new UnityEngine.Vector3(size.x / 2, 0, -size.y / 2));
+					Gizmos.DrawLine(new UnityEngine.Vector3(size.x / 2, 0, -size.y / 2), new UnityEngine.Vector3(-size.x / 2, 0, -size.y / 2));
+					Gizmos.DrawLine(new UnityEngine.Vector3(-size.x / 2, 0, -size.y / 2), new UnityEngine.Vector3(-size.x / 2, 0, size.y / 2));
+					Gizmos.DrawLine(new UnityEngine.Vector3(-size.x / 2, 0, size.y / 2), new UnityEngine.Vector3(size.x / 2, 0, size.y / 2));
+				}
+				// 画里面的
+                using(GizmosColor(colorInner))
+				{
+					Gizmos.DrawCube(UnityEngine.Vector3.zero, new UnityEngine.Vector3(size.x, 0, size.y));
 				}
 			}
 		}
@@ -56,13 +52,11 @@ namespace Kernel.Edit
 
 		public static void DrawCapsule(Vector3 position, Quaternion rotation, float height, float radius, Color color, Color colorInner)
 		{
-			using(GizmosMatrix())
+			using(GizmosMatrix(Matrix4x4.TRS(position, UnityEngine.Quaternion.identity, UnityEngine.Vector3.one)))
 			{
 				height = Mathf.Max(0, height - radius * 2);
-				Gizmos.matrix = Matrix4x4.TRS(position, UnityEngine.Quaternion.identity, UnityEngine.Vector3.one);
-				using(GizmosColor())
+				using(GizmosColor(color))
 				{
-					Gizmos.color = color;
 					var r = radius * 0.52532f;
 					// 画四条竖线
 					{
@@ -96,13 +90,11 @@ namespace Kernel.Edit
 
 		public static void DrawCylinder(Vector3 position, Quaternion rotation, float height, float radius, Color color, Color colorInner)
 		{
-			using(GizmosMatrix())
+			using(GizmosMatrix(Matrix4x4.TRS(position, UnityEngine.Quaternion.identity, UnityEngine.Vector3.one)))
 			{
-				Gizmos.matrix = Matrix4x4.TRS(position, UnityEngine.Quaternion.identity, UnityEngine.Vector3.one);
-				using(GizmosColor())
+				using(GizmosColor(color))
 				{
 					// 以下是画圆柱体的代码
-					Gizmos.color = color;
 					var r = radius * 0.52532f;
 					// 画四条竖线
 					{
@@ -132,14 +124,11 @@ namespace Kernel.Edit
 
 		public static void DrawCube(Vector3 position, Quaternion rotation, Vector3 size, Color color, Color colorInner)
 		{
-			using(GizmosMatrix())
+			using(GizmosMatrix(Matrix4x4.TRS(position, rotation, UnityEngine.Vector3.one)))
 			{
-				Gizmos.matrix = Matrix4x4.TRS(position, rotation, UnityEngine.Vector3.one);
-				using(GizmosColor())
+				using(GizmosColor(color))
 				{
-					Gizmos.color = color;
 					Gizmos.DrawWireCube(UnityEngine.Vector3.zero, size);
-					Gizmos.color = colorInner;
 					Gizmos.DrawCube(UnityEngine.Vector3.zero, size);
 				}
 			}
@@ -147,38 +136,35 @@ namespace Kernel.Edit
 
 		public static void DrawBall(Vector3 position, Quaternion rotation, float radius, Color color, Color colorInner)
 		{
-			using(GizmosMatrix())
+			using(GizmosMatrix(Matrix4x4.TRS(position, rotation, UnityEngine.Vector3.one)))
 			{
-				Gizmos.matrix = Matrix4x4.TRS(position, rotation, UnityEngine.Vector3.one);
-				using(GizmosColor())
+				using(GizmosColor(color))
 				{
-					Gizmos.color = color;
 					Gizmos.DrawWireSphere(UnityEngine.Vector3.zero, radius);
-					Gizmos.color = colorInner;
 					Gizmos.DrawSphere(UnityEngine.Vector3.zero, radius);
 				}
 			}
 		}
 
-		public static IDisposable GizmosMatrix()
+		public static IDisposable GizmosMatrix(Matrix4x4 mtr)
 		{
-			return new GizmosDrawMatrix();
+			return new GizmosDrawMatrix(mtr);
 		}
 
-		public static IDisposable GizmosColor()
+		public static IDisposable GizmosColor(Color clr)
 		{
-			return new GizmosDrawColor();
+			return new GizmosDrawColor(clr);
 		}
 
 		private class GizmosDrawMatrix : IDisposable
 		{
 			private readonly Matrix4x4 matrixGizmos;
-			private readonly Matrix4x4 matrixHandles;
 
-			public GizmosDrawMatrix()
+			public GizmosDrawMatrix(Matrix4x4 mtr)
 			{
 				matrixGizmos = Gizmos.matrix;
-			}
+                Gizmos.matrix = mtr;
+            }
 
 			public void Dispose()
 			{
@@ -188,14 +174,15 @@ namespace Kernel.Edit
 
 		private class GizmosDrawColor : IDisposable
 		{
-			private readonly Color colorGizmos;
-			public GizmosDrawColor()
+			private readonly Color gizmosClr;
+			public GizmosDrawColor(Color clr)
 			{
-				colorGizmos = Gizmos.color;
+				gizmosClr = Gizmos.color;
+				Gizmos.color = clr;
 			}
 			public void Dispose()
 			{
-				Gizmos.color = colorGizmos;
+				Gizmos.color = gizmosClr;
 			}
 		}
 	}
