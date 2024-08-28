@@ -491,9 +491,19 @@ namespace UI
             return items[index];
         }
 
+        public T GetItem<T>(int index) where T : GridExItem
+        {
+            return GetItem(index) as T;
+        }
+
         public GridExItem GetItemById(int id)
         {
             return GetItem(GetItemIndexById(id));
+        }
+
+        public T GetItemById<T>(int id) where T : GridExItem
+        {
+            return GetItemById(id) as T;
         }
 
         public GridExItem GetItemByGo(GameObject go)
