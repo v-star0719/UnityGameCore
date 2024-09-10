@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEditor;
 using UnityEngine;
 
@@ -21,8 +21,9 @@ namespace Kernel.Unity
             }
         }
 
-        public EditDataFloatField(string key, EditDataFieldBundle editData) : base(key, editData)
+        public EditDataFloatField(string key, float defaultValue, EditorWindowBase wnd) : base(key, wnd.EditDataFields)
         {
+            value = defaultValue;
         }
 
         public override void Load()
@@ -54,8 +55,9 @@ namespace Kernel.Unity
             }
         }
 
-        public EditDataIntField(string key, EditDataFieldBundle editData) : base(key, editData)
+        public EditDataIntField(string key, int defaultValue, EditorWindowBase wnd) : base(key, wnd.EditDataFields)
         {
+            value = defaultValue;
         }
 
         public override void Load()
@@ -87,8 +89,9 @@ namespace Kernel.Unity
             }
         }
 
-        public EditDataStringField(string key, EditDataFieldBundle editData) : base(key, editData)
+        public EditDataStringField(string key, string defaultValue, EditorWindowBase wnd) : base(key, wnd.EditDataFields)
         {
+            value = defaultValue;
         }
 
         public override void Load()
@@ -120,8 +123,9 @@ namespace Kernel.Unity
             }
         }
 
-        public EditDataBoolField(string key, EditDataFieldBundle editData) : base(key, editData)
+        public EditDataBoolField(string key, bool defaultValue, EditorWindowBase wnd) : base(key, wnd.EditDataFields)
         {
+            value = defaultValue;
         }
 
         public override void Load()
