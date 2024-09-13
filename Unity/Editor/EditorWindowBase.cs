@@ -27,6 +27,7 @@ namespace Kernel.Unity
 
         protected virtual void InitEditDataFields()
         {
+            EditDataFields ??= new EditDataFieldBundle();
             //Init edit data fields here
             //a = new EditDataFloatField("a", 0, this);
         }
