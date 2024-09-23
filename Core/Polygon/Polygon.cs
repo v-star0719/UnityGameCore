@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Kernel.Edit;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 namespace GameCore.Common

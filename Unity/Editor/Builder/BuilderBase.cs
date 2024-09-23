@@ -20,7 +20,7 @@ namespace Kernel.Unity
         protected BuildReport buildReport;
 
         protected bool IsSucceed => buildReport.summary.result == BuildResult.Succeeded;
-        protected string OutputPath => buildReport.summary.outputPath;
+        protected string OutputPath => buildReport.summary.outputPath;//windows下就是生成的exe的路径。最后是xxx.exe
 
         //如果需要增加步骤，在这里面加
         public void Build()
@@ -35,7 +35,7 @@ namespace Kernel.Unity
             SetScriptingDefineSymbols();
             DoBuild();
 
-            if (IsSucceed)
+            if(IsSucceed)
             {
                 CopyStreamingAssets();
             }
