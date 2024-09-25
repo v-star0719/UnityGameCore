@@ -1,5 +1,5 @@
 //#define STORAGE_DEBUG
-//#define ENCRYPT
+//#define STORAGE_ENCRYPT
 
 using System;
 using System.Diagnostics;
@@ -63,7 +63,7 @@ namespace Kernel.Storage
             try
             {
                 bytes = loaderSaver.Load();
-#if !UNITY_EDITOR || ENCRYPT
+#if !UNITY_EDITOR || STORAGE_ENCRYPT
                 Decode(bytes);
 #endif
             }
@@ -96,7 +96,7 @@ namespace Kernel.Storage
 
             try
             {
-#if !UNITY_EDITOR || ENCRYPT
+#if !UNITY_EDITOR || STORAGE_ENCRYPT
                 Encode(bytes);
 #endif
                 loaderSaver.Save(bytes);
