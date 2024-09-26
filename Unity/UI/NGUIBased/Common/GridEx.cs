@@ -89,8 +89,8 @@ namespace UI
                     {
                         if (preKn != null)
                         {
-                            preKn.onLeft = kn.gameObject;
-                            kn.onRight = preKn.gameObject;
+                            preKn.onRight = kn.gameObject;
+                            kn.onLeft = preKn.gameObject;
                         }
                     }
                     else
@@ -483,7 +483,7 @@ namespace UI
 
         public virtual bool IsHorizontal()
         {
-            return scrollView.movement == UIScrollView.Movement.Horizontal;
+            return scrollView == null || scrollView.movement == UIScrollView.Movement.Horizontal;
         }
 
         public GridExItem GetItem(int index)
