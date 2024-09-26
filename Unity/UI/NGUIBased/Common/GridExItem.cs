@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace UI
 {
@@ -16,6 +16,11 @@ namespace UI
         public virtual void SetData(IGridExData data)
         {
             this.baseData = data;
+        }
+
+        public virtual void Refresh()
+        {
+
         }
 
         public virtual bool CanSelect()

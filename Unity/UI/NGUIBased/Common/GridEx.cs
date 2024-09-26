@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -311,9 +311,9 @@ namespace UI
 
         public void Refresh()
         {
-            for (var i = 0; i < datas.Count; i++)
+            foreach (var t in items)
             {
-                items[i].SetData(datas[i]);
+                t.Refresh();
             }
         }
 
