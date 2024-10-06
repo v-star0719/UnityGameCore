@@ -59,6 +59,7 @@ namespace Kernel.Storage
         public virtual void Load()
         {
             byte[] bytes = null;
+            OnBeforeLoad();
 
             try
             {
@@ -74,7 +75,7 @@ namespace Kernel.Storage
             finally
             {
                 data = serializer.Deserialize<T>(bytes);
-                OnLoad();
+                OnAfterLoad();
             }
         }
 
@@ -86,7 +87,7 @@ namespace Kernel.Storage
             }
 
             Changed = false;
-            OnSave();
+            OnBeforeSave();
 
             var bytes = serializer.Serialize(data);
             if (bytes == null)
@@ -100,6 +101,7 @@ namespace Kernel.Storage
                 Encode(bytes);
 #endif
                 loaderSaver.Save(bytes);
+                OnAfterSave();
             }
             catch (Exception e)
             {
@@ -112,16 +114,26 @@ namespace Kernel.Storage
         }
 
         //读取后调用
-        protected virtual void OnLoad()
+        protected virtual void OnBeforeLoad()
+        {
+        }
+
+        //读取后调用
+        protected virtual void OnAfterLoad()
         {
         }
 
         //保存前调用
-        protected virtual void OnSave()
+        protected virtual void OnBeforeSave()
+        {
+        }
+        
+        //保存前调用
+        protected virtual void OnAfterSave()
         {
         }
 
-    [Conditional("STORAGE_DEBUG")]
+        [Conditional("STORAGE_DEBUG")]
         protected void Log(string text)
         {
             LoggerX.Info(text);

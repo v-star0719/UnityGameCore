@@ -35,7 +35,7 @@ public class TipMessageBoxBase : UIPanelBase
     {
         if (arg.doNotAutoPlace)
         {
-            SetPosition(arg.pos);
+            SetPosition(arg.worldPos);
             isPlaced = true;
         }
         else
@@ -61,7 +61,7 @@ public class TipMessageBoxBase : UIPanelBase
             {
                 panel.alpha = 1;
                 var uiGo = transform.GetChild(0).gameObject;
-                NGUIUtils.AutoPlaceUI(gameObject, uiGo, arg.pos);
+                NGUIUtils.AutoPlaceUI(gameObject, uiGo, arg.worldPos);
                 NGUIUtils.ConstrainUIInScreen(uiGo);
                 isPlaced = true;
             }
@@ -115,13 +115,13 @@ public class TipMessageBoxBase : UIPanelBase
 public class TipMessageBoxBaseArg
 {
     public GameObject trigger;
-    public Vector3 pos; //提示位置。会自动放置在该位置周围
+    public Vector3 worldPos; //提示位置。会自动放置在该位置周围
     public bool doNotAutoPlace;//如果不需要自动摆放位置并限制在屏幕内，设置true
 
-    public TipMessageBoxBaseArg(GameObject t, Vector3 p, bool doNotAutoPlace = false)
+    public TipMessageBoxBaseArg(GameObject trigger, Vector3 worldPos, bool doNotAutoPlace = false)
     {
-        trigger = t;
-        pos = p;
+        this.trigger = trigger;
+        this.worldPos = worldPos;
         this.doNotAutoPlace = doNotAutoPlace;
     }
 }

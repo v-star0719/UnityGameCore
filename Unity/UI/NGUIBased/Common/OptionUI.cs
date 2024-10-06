@@ -8,6 +8,7 @@ namespace UI
     {
         public UILabel buttonLbl;
         public UITabCtrl tabCtrl;//使用第一个标签作为预设
+        public Transform bottomMark;
 
         private UITweener[] tweeners;//正向是展开
         private string[] options;
@@ -29,6 +30,7 @@ namespace UI
             }
             prefab.GetComponentInChildren<UILabel>().text = options[0];
             tabCtrl.transform.localScale = Vector3.one;//先恢复，计算位置
+            bottomMark.SetAsLastSibling();
             tabCtrl.GetComponent<UITable>().Reposition();
             tabCtrl.transform.localScale = new Vector3(1, 0, 1);//再变回
         }
