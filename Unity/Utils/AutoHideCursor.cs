@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace GameCore.Unity
 {
+    //鼠标静止一段时间后隐藏，移动了就显示
     public class AutoHideCursor : MonoBehaviour
     {
         private enum State
@@ -80,7 +81,7 @@ namespace GameCore.Unity
             state = s;
             timer = 0;
             Cursor.visible = s != State.Hidden;
-           Debug.Log($"to {s}");
+            //Debug.Log($"AutoHideCursor: {s}");
         }
     }
 }

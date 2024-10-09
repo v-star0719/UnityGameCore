@@ -101,7 +101,10 @@ namespace Kernel.Unity
             var rt = new List<string>();
             foreach (var scene in EditorBuildSettings.scenes)
             {
-                rt.Add(scene.path);
+                if (scene.enabled)
+                {
+                    rt.Add(scene.path);
+                }
             }
             return rt;
         }

@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace Kernel.Core
@@ -189,6 +190,15 @@ namespace Kernel.Core
                     string newDestinationDir = Path.Combine(destinationDir, subDir.Name);
                     CopyDirectory(subDir.FullName, newDestinationDir, true);
                 }
+            }
+        }
+
+        //通过通配符匹配文件，删除掉
+        public static void DeleteFileWithMath(string dir, string pattern, SearchOption option)
+        {
+            foreach(string filePath in Directory.GetFiles(dir, pattern, option))
+            {
+                File.Delete(filePath);
             }
         }
     }
