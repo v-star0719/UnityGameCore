@@ -9,6 +9,7 @@ namespace Kernel.Unity
     public class ScriptingDefineSymbolItem
     {
         public string value;
+        public string desc;
         public bool enabled;
     }
 
