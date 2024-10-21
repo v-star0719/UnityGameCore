@@ -7,7 +7,7 @@ namespace Kernel.Core
     {
         public static bool Contains(int n, int place)
         {
-            return (n & (1 << place)) == 1;
+            return (n & (1 << place)) != 0;
         }
 
         public static void Add(ref int n, int place)
