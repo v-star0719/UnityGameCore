@@ -54,6 +54,12 @@ namespace Kernel.Unity
             set => agent.isStopped = value;
         }
 
+        public override bool IsPaused
+        {
+            get => agent.enabled;
+            set => agent.enabled = value;
+        }
+
         private float stoppingDistanceSqr;
 
         public MoveByNavMeshAgent(NavMeshAgent agent) : base(agent.transform)

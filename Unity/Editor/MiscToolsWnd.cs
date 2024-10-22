@@ -13,6 +13,9 @@ namespace Kernel.Unity
 {
     public class MiscToolsWnd : EditorWindow
     {
+        public string playerPrefersKey;
+        public int playerPrefersInt;
+        public int playerPrefersString;
         [MenuItem("Tools/Misc/MiniTools")]
         public static void Open()
         {
@@ -41,6 +44,19 @@ namespace Kernel.Unity
             if (GUIUtil.Button("BoxColliderFitToMesh"))
             {
                 BoxColliderFitToMesh();
+            }
+
+            using (Edit.GUIUtil.LayoutHorizontal())
+            {
+                GUILayout.Label("SetPlayerPrefers", GUILayout.ExpandWidth(false));
+                GUILayout.Label("key");
+                bool b = false;
+                playerPrefersKey = EditorGUIUtil.TextFieldCompact("key", playerPrefersKey, ref b, GUILayout.Width(100));
+                playerPrefersInt = EditorGUIUtil.IntFieldCompact("int", playerPrefersInt, ref b);
+                if (GUIUtil.Button("ok"))
+                {
+                    PlayerPrefs.SetInt(playerPrefersKey, playerPrefersInt);
+                }
             }
         }
 

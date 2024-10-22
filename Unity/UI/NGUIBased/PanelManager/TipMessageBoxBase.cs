@@ -31,7 +31,7 @@ public class TipMessageBoxBase : UIPanelBase
         trigger = arg.trigger;
     }
 
-    public void Start()
+    public virtual void Start()
     {
         if (arg.doNotAutoPlace)
         {
@@ -105,7 +105,7 @@ public class TipMessageBoxBase : UIPanelBase
         topPanel.Close();
     }
 
-    protected void OnDestroy()
+    public virtual void OnDestroy()
     {
         UICamera.onPress -= OnPress;
         this.trigger = null;

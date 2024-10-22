@@ -17,6 +17,7 @@ namespace Kernel.Unity
         public virtual bool IsArrived { get; protected set; }
 
         public virtual bool IsStopped { get; set; }
+        public virtual bool IsPaused { get; set; }
 
         public virtual int priority { get; set; }//Åö×²ÓÅÏÈ¼¶
 

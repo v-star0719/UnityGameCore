@@ -13,6 +13,7 @@ namespace Kernel.Unity
 
         public bool IsArrived { get; private set; }
         public bool IsStopped { get; set; }
+        public bool IsPaused { get; set; }
 
         public void Reset()
         {
@@ -32,7 +33,7 @@ namespace Kernel.Unity
 
         public void Tick(float deltaTime)
         {
-            if (IsArrived || IsStopped)
+            if (IsArrived || IsStopped || IsPaused)
             {
                 return;
             }

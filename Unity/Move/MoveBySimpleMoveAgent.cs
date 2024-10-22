@@ -54,6 +54,12 @@ namespace Kernel.Unity
             set { agent.IsStopped = value; }
         }
 
+        public override bool IsPaused
+        {
+            get => agent.IsPaused;
+            set => agent.IsPaused = value;
+        }
+
         public MoveBySimpleMoveAgent(SimpleMoveAgent agent) : base(agent.transform)
         {
             this.agent = agent;
