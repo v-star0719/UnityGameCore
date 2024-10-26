@@ -1,3 +1,4 @@
+using System;
 using GameCore;
 using System.Collections.Generic;
 using Kernel.Core;
@@ -14,6 +15,8 @@ namespace Kernel.Unity
 
         protected IResManager resManager;
         protected List<PanelBaseCore> panels = new List<PanelBaseCore>();
+        public Action<PanelBaseCore> onPanelOpen;
+        public Action<PanelBaseCore> onPanelClose;
 
         public PanelManagerCore(Transform root, IResManager resManager)
         {
@@ -64,6 +67,7 @@ namespace Kernel.Unity
             }
 
             panels.Add(panel);
+            onPanelOpen?.Invoke(panel);
             return panel;
         }
 

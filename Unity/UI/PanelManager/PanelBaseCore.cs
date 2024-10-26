@@ -54,6 +54,7 @@ namespace Kernel.Unity
                 OnClose();
                 IsClosed = true;
                 GameObject.Destroy(container);
+                manager.onPanelClose?.Invoke(this);
                 if (playCloseSound)
                 {
                     PlayCloseSound();

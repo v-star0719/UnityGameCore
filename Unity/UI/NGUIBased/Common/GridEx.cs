@@ -31,6 +31,7 @@ namespace UI
         public Action arrangeFunc; //自定义排列，不用UIGrid或者UITable
         public GridExItem SelectedItem { get; private set; }
         public Action<GridExItem> onItemSelect;
+        public bool autoScrollToHoverObj;
 
         private List<GridExItem> items;
         private List<GridExItem> recycledItems; //后创建的放在前面，先创建的放在后面，保证取出来的顺序和在gameObject下的排练顺序一样。每次取最后的
@@ -42,12 +43,30 @@ namespace UI
 
         private float dragError = 5f;
         private float dragCheckInterval = 0.2f;
+        private SpringPanel __springPanel;
+        private float autoScrollToHoverObjTimer = 0;
+
+        private SpringPanel SpringPanel
+        {
+            get
+            {
+                if (__springPanel == null)
+                {
+                    __springPanel = GetComponent<SpringPanel>();
+                }
+                if(__springPanel == null)
+                {
+                    __springPanel = gameObject.AddComponent<SpringPanel>();
+                }
+                return __springPanel;
+            }
+        }
 
         public int DataCount => datas.Count;
 
         private void Start()
         {
-            enabled = onDraggableChanged != null;
+            enabled = onDraggableChanged != null || autoScrollToHoverObj;
         }
 
         protected virtual void Init()
@@ -58,8 +77,8 @@ namespace UI
             itemScale = itemPrefab.transform.localScale.x;
             itemPrefab.gameObject.SetActive(false);
 
-            enabled = onDraggableChanged != null;
-            if (enabled)
+            enabled = onDraggableChanged != null || autoScrollToHoverObj;
+            if (onDraggableChanged != null)
             {
                 dragDirs = new ScrollViewDragDirs();
             }
@@ -562,12 +581,17 @@ namespace UI
 
         public void Update()
         {
-            dragCheckTimer = dragCheckTimer + Time.deltaTime;
-            if (dragCheckTimer > dragCheckInterval)
+            if (onDraggableChanged != null)
             {
-                dragCheckTimer = 0;
-                CheckDraggable();
+                dragCheckTimer = dragCheckTimer + Time.deltaTime;
+                if(dragCheckTimer > dragCheckInterval)
+                {
+                    dragCheckTimer = 0;
+                    CheckDraggable();
+                }
             }
+
+            AutoScrollToHoverObj();
         }
 
         public void OnDestroy()
@@ -603,6 +627,41 @@ namespace UI
         public bool CheckInClipArea(float t, float b, float l, float r)
         {
             return t >= 0 && b <= 0 && l <= 0 && r >= 0;
+        }
+
+        public void AutoScrollToHoverObj()
+        {
+            if(scrollView == null)
+            {
+                return;
+            }
+            autoScrollToHoverObjTimer += Time.deltaTime;
+            if (autoScrollToHoverObjTimer > 0.3f)
+            {
+                autoScrollToHoverObjTimer = 0;
+
+                var spri = SpringPanel;
+                if(spri.enabled)
+                {
+                    return;
+                }
+
+                var obj = UICamera.hoveredObject;
+                if (obj != null)
+                {
+                    foreach (var item in items)
+                    {
+                        if (item.gameObject == obj)
+                        {
+                            if (!IsItemVisible(item))
+                            {
+                                ScrollToItem(item.index, false);
+                            }
+                            return;
+                        }
+                    }
+                }
+            }
         }
     }
 }

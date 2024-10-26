@@ -18,6 +18,7 @@ namespace Kernel.Unity
         //对于Windows来说，打包出来是一个文件夹
         protected string packageName;
         protected BuildReport buildReport;
+        protected string channelName;//渠道名，主要用来生成包名或者目录名
 
         protected bool IsSucceed => buildReport.summary.result == BuildResult.Succeeded;
         protected string OutputPath => buildReport.summary.outputPath;//windows下就是生成的exe的路径。最后是xxx.exe
