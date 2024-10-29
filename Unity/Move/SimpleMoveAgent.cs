@@ -19,6 +19,7 @@ namespace Kernel.Unity
         {
             IsStopped = false;
             IsArrived = true;
+            IsPaused = false;
             if (stoppingDistance < 0)
             {
                 stoppingDistance = 0;//小于0会走过头
