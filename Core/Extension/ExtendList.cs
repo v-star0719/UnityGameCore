@@ -250,14 +250,19 @@ namespace Kernel.Lang.Extension
         ///a和b比较结果，小于0=a在左边，b在右边
         public static void BinarySearchInsert<T>(List<T> list, T n, Func<T, T, int> compare)
         {
+            if (list.Count == 0)
+            {
+                list.Add(n);
+                return;
+            }
+
             var left = 0;
             var right = list.Count - 1;
             var mid = 0;
             while(left <= right)
             {
-                mid = (left + right) >> 1;
-                var midValue = list[mid];
-                var c = compare(n, midValue);
+                mid = left + ((right - left) >> 1);
+                var c = compare(n, list[mid]);
                 if(c > 0)
                 {
                     left = mid + 1;//目标在中间值的右边
@@ -319,6 +324,61 @@ namespace Kernel.Lang.Extension
             //        }
             //    }
             //    Debug.Log(StringUtils.CollectionToString(array) + " " + r);
+            //}
+        }
+
+        //a和b比较结果，小于0=a在左边，b在右边
+        //获取在列表中的位置，如果没有找到，p表示对应的位置。-1表示最前面，数组长度表示最后面，其他表示[i]~[i+1]之间
+        public static bool BinarySearchGetPos<T>(List<T> list, T n, Func<T, T, int> compare, out int p)
+        {
+            if (list.Count == 0)
+            {
+                p = 0;
+                return false;
+            }
+
+            int left = 0;
+            int right = list.Count - 1;
+            while(left <= right)
+            {
+                int mid = left + ((right - left) >> 1);
+                var v = compare(list[mid], n);
+                if(v < 0)
+                {
+                    right = mid - 1;
+                }
+                else if(v > 0)
+                {
+                    left = mid + 1;
+                }
+                else
+                {
+                    p = mid;
+                    return true;
+                }
+            }
+
+            //如果left和right没有越界，则就在[right]和[left]之间。分析可参考上面那个函数。
+            p = right < 0 || left < list.Count ? right : left;
+            return false;
+
+            //test
+            //const int N = 600;
+            //float[] timings = new float[N];
+            //var random = new System.Random(N);
+            //for(int i = 0; i < timings.Length; i++)
+            //{
+            //    timings[i] = Random.Range(0, N);
+            //}
+            //for(int i = 0; i < N; i++)
+            //{
+            //    var b = BinarySearchGetPos(timings, i, (i1, i2) => i1 < i2 ? -1 : i1 > i2 ? 1 : 0, out var idx);
+            //    string t = "";
+            //    if(idx >= 0 && idx < timings.Length)
+            //    {
+            //        t = i >= timings[idx] && i <= timings[idx + 1] ? "R" : "W";
+            //    }
+            //    Debug.Log($"[{i}] {b} [{idx}] {timings[idx < 0 ? 0 : idx >= timings.Length ? timings.Length - 1 : idx]} {t}");
             //}
         }
     }
