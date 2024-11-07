@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Kernel.Unity
 {
-    public class BuilderWindow : EditorWindow
+    public class BuilderWindow : EditorWindowBase
     {
         private List<BuilderBase> builders = new List<BuilderBase>();
         private Vector2 scrollPos;
@@ -32,37 +32,42 @@ namespace Kernel.Unity
 
         public void Awake()
         {
-            CollectBuilders();
         }
 
-        public void OnEnable()
+        protected override void OnEnable()
         {
-            List<Type> list = new();
-            foreach (var typeInfo in Assembly.GetAssembly(typeof(BuilderWindow)).DefinedTypes)
+            CollectBuilders();
+            base.OnEnable();
+        }
+
+        protected override void InitEditDataFields()
+        {
+            base.InitEditDataFields();
+            foreach (var builder in builders)
             {
-                if (typeInfo.IsSubclassOf(typeof(BuilderBase)))
-                {
-                    list.Add(typeInfo);
-                }
+                builder.InitEditDataFields(this);
             }
-            types = list.ToArray();
         }
 
         public void OnGUI()
         {
             scrollPos = GUILayout.BeginScrollView(scrollPos);
-            foreach (var builder in types)
+            foreach (var builder in builders)
             {
                 GUILayout.BeginHorizontal("box");
                 {
                     //EditorGUILayout.ObjectField(builder, typeof(BuilderBase), false);
-                    GUILayout.Label(builder.Name);
+                    GUILayout.Label(builder.Desc);
+                    if (GUILayout.Button("✎", GUILayout.Width(30)))
+                    {
+                        GetWindow<BuilderEditorWnd>().Init(builder);
+                    }
+
                     if (GUILayout.Button("Build", GUILayout.Width(100)))
                     {
                         try
                         {
-                            var b = Activator.CreateInstance(builder) as BuilderBase;
-                            b?.Build();
+                            builder.Build();
                         }
                         catch(Exception e)
                         {
@@ -94,6 +99,19 @@ namespace Kernel.Unity
             //{
             //    builders.Add(AssetDatabase.LoadAssetAtPath<BuilderBase>(AssetDatabase.GUIDToAssetPath(guid)));
             //}
+
+            builders.Clear();
+            List<Type> list = new();
+            foreach(var t in Assembly.GetAssembly(typeof(BuilderWindow)).DefinedTypes)
+            {
+                if(t.IsSubclassOf(typeof(BuilderBase)))
+                {
+                    list.Add(t);
+                    var builder = Activator.CreateInstance(t, this) as BuilderBase;
+                    builders.Add(builder);
+                }
+            }
+            types = list.ToArray();
         }
     }
 }

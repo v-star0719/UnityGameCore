@@ -8,10 +8,12 @@ namespace Kernel.Unity
     {
         protected float refreshInterval = 0.2f;
         protected float refreshTimer;
+        protected bool autoRefresh = false;
 
         //编辑数据
-        protected float dataSaveCheckIntarval = 5f;
+        protected float dataSaveCheckIntarval = 1f;
         private float dataSaveTimer;
+
         //数据存储机制1：直接存EditorPrefs，只支持基本类型
         public EditDataFieldBundle EditDataFields { get; private set; }
         //数据存储机制2：使用IStorage，支持复杂类型
@@ -52,11 +54,14 @@ namespace Kernel.Unity
 
         protected virtual void Update()
         {
-            refreshTimer += Time.deltaTime;
-            if (refreshTimer > refreshInterval)
+            if (autoRefresh)
             {
-                refreshTimer = 0;
-                Repaint();
+                refreshTimer += Time.deltaTime;
+                if(refreshTimer > refreshInterval)
+                {
+                    refreshTimer = 0;
+                    Repaint();
+                }
             }
 
             if (EditDataFields != null || storage != null)

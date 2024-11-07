@@ -12,7 +12,7 @@ namespace Kernel.Unity
     public abstract class BuilderBase
     {
         public BuildTarget buildTarget;
-        public string outputDir;//存放打出来的包的目录，如果是../开头，则放进当前工程目录里
+        public EditDataStringField outputDir;//存放打出来的包的目录，末尾加不加/都行，绝对路径
         public List<string> scriptingDefineSymbols = new List<string>();
 
         //对于Windows来说，打包出来是一个文件夹
@@ -22,6 +22,13 @@ namespace Kernel.Unity
 
         protected bool IsSucceed => buildReport.summary.result == BuildResult.Succeeded;
         protected string OutputPath => buildReport.summary.outputPath;//windows下就是生成的exe的路径。最后是xxx.exe
+
+        public virtual string Desc => $"[{GetType().Name}] {outputDir.Value}";
+
+        public virtual void InitEditDataFields(BuilderWindow wnd)
+        {
+            outputDir = new EditDataStringField($"{GetType().Name}_outputDir", "", wnd);
+        }
 
         //如果需要增加步骤，在这里面加
         public void Build()
@@ -40,6 +47,11 @@ namespace Kernel.Unity
             {
                 CopyStreamingAssets();
             }
+        }
+
+        public virtual void OnGUI()
+        {
+            outputDir.Value = EditorGUILayout.TextField("OutputDir", outputDir.Value);
         }
 
         protected virtual void SetPackageName()
@@ -113,7 +125,7 @@ namespace Kernel.Unity
         //前缀还是PlayerSettings里的BundleVersion,自动增加日期后缀
         protected virtual string GetVersion()
         {
-            return $"{PlayerSettings.bundleVersion}.{DateTime.Now:yymmddhhmm}";
+            return $"{PlayerSettings.bundleVersion}.{DateTime.Now:yy-MM-dd-HHmmss}";
         }
 
         ///就是buildPlayerOptions.locationPathName这个字段的值
