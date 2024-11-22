@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Kernel.Unity;
 
 namespace UKernel.Unity
@@ -21,7 +21,10 @@ namespace UKernel.Unity
             if (timer > 0)
             {
                 timer -= deltaTime;
-                var f = TouchUtils.EaseOut(timer / SMOOTH_TIME);
+                //(1 - x) * (1 - x)
+                var f = timer / SMOOTH_TIME;
+                f = 1 - f;
+                f *= f;
                 callback(f * lastZoomDelta);
             }
         }

@@ -27,10 +27,10 @@ namespace Kernel.Unity
         private bool isDragging;
         private float lastZoomTime;
         private ITouchEventSource eventSource;
-        protected bool freeDrag;//×ÔÓÉÒÆ¶¯µÄ²»ÏŞÖÆÍ¬Ò»Ê±¼äÖ»ÄÜx»òÕßy·½ÏòÍÏ
-        protected float dragFactor;//ÍÏ¶¯Ê±£¬ÆÁÄ»Î»ÒÆ×ª»»³ÉÂß¼­Î»ÒÆ¡£
-        protected float zoomFactor = 1;//Ë«Ö¸Ëõ·ÅÊ±£¬ÆÁÄ»Î»ÒÆ×ª»»³ÉÂß¼­Î»ÒÆ
-        private float scrollFactor;//Êó±ê¹öÂÖµÄÎ»ÒÆ×ª»¯ÎªÆÁÄ»Î»ÒÆ
+        protected bool freeDrag;//è‡ªç”±ç§»åŠ¨çš„ä¸é™åˆ¶åŒä¸€æ—¶é—´åªèƒ½xæˆ–è€…yæ–¹å‘æ‹–
+        protected float dragFactor;//æ‹–åŠ¨æ—¶ï¼Œå±å¹•ä½ç§»è½¬æ¢æˆé€»è¾‘ä½ç§»ã€‚
+        protected float zoomFactor = 1;//åŒæŒ‡ç¼©æ”¾æ—¶ï¼Œå±å¹•ä½ç§»è½¬æ¢æˆé€»è¾‘ä½ç§»
+        private float scrollFactor;//é¼ æ ‡æ»šè½®çš„ä½ç§»è½¬åŒ–ä¸ºå±å¹•ä½ç§»
 
         public GameObject modelGo => modelObj;
         public string ResName => curResName;
@@ -44,8 +44,8 @@ namespace Kernel.Unity
         public void Init(ITouchEventSource source, float dragFactor = -1, float zoomFactor = -1, float scrollFactor = -1)
         {
             eventSource = source;
-            this.dragFactor = dragFactor > 0 ? dragFactor : 180f / Screen.width;//Î»ÒÆ1ÆÁ180¶È
-            this.zoomFactor = zoomFactor > 0 ? zoomFactor : 0.5f / Screen.width;//Î»ÒÆ1ÆÁËõ·Å1°ë
+            this.dragFactor = dragFactor > 0 ? dragFactor : 180f / Screen.width;//ä½ç§»1å±180åº¦
+            this.zoomFactor = zoomFactor > 0 ? zoomFactor : 0.5f / Screen.width;//ä½ç§»1å±ç¼©æ”¾1åŠ
             this.scrollFactor = scrollFactor > 0 ? scrollFactor : 100;
             smoothlyDrag = new Touch_SmoothlyDrag(OnSmoothlyDrag);
             smoothlyZoom = new Touch_SmoothlyZoom(OnSmoothlyZoom);
@@ -88,7 +88,7 @@ namespace Kernel.Unity
         {
             OnCameraUpdatedEvent();
 
-            //Æ»¹ûÊÖ»úÃşµ½µ×²¿µÄ´¥Ãş¸Ü»áµ¼ÖÂ¶ªÊ§ÍÏ×§ÏûÏ¢£¬UI²»ÏÔÊ¾
+            //è‹¹æœæ‰‹æœºæ‘¸åˆ°åº•éƒ¨çš„è§¦æ‘¸æ ä¼šå¯¼è‡´ä¸¢å¤±æ‹–æ‹½æ¶ˆæ¯ï¼ŒUIä¸æ˜¾ç¤º
             if (isDragging)
             {
                 var isTouchMissed = false;
@@ -113,12 +113,12 @@ namespace Kernel.Unity
 
         protected virtual void ZoomByDelta(float delta)
         {
-            Debug.Log("ÖØÔØ¸Ãº¯ÊıÊµÏÖÀ­Ô¶À­½üĞ§¹û");
+            Debug.Log("é‡è½½è¯¥å‡½æ•°å®ç°æ‹‰è¿œæ‹‰è¿‘æ•ˆæœ");
         }
 
         protected virtual void DragByDelta(float x, float y)
         {
-            Debug.Log("ÖØÔØ¸Ãº¯ÊıÊµÏÖÒÆ¶¯Ğ§¹û");
+            Debug.Log("é‡è½½è¯¥å‡½æ•°å®ç°ç§»åŠ¨æ•ˆæœ");
         }
 
         protected bool IsZooming()
@@ -136,16 +136,16 @@ namespace Kernel.Unity
             }
         }
 
-        public void OnDragStart()
+        public virtual void OnDragStart()
         {
             isDragging = true;
             missTouchTime = 0;
             smoothlyDrag.Stop();
         }
 
-        public void OnDrag(Vector2 dir)
+        public virtual void OnDrag(Vector2 dir)
         {
-            //Ë«ÊÖËõ·ÅºóÒ»¶¨Ê±¼äºó²ÅÄÜĞı×ª£¬²»È»Ë«ÊÖËõ·ÅËÉ¿ªºó£¬»áÁ¢Âí½øĞĞ»¬¶¯
+            //åŒæ‰‹ç¼©æ”¾åä¸€å®šæ—¶é—´åæ‰èƒ½æ—‹è½¬ï¼Œä¸ç„¶åŒæ‰‹ç¼©æ”¾æ¾å¼€åï¼Œä¼šç«‹é©¬è¿›è¡Œæ»‘åŠ¨
             if (IsZooming())
             {
                 return;
@@ -169,11 +169,11 @@ namespace Kernel.Unity
             smoothlyDrag.SetLastDragDelta(dir.x, dir.y);
         }
 
-        public void OnDragEnd()
+        public virtual void OnDragEnd()
         {
             missTouchTime = 0;
             isDragging = false;
-            //Ë«ÊÖËõ·ÅºóÒ»¶¨Ê±¼äºó²ÅÄÜĞı×ª
+            //åŒæ‰‹ç¼©æ”¾åä¸€å®šæ—¶é—´åæ‰èƒ½æ—‹è½¬
             if (IsZooming())
             {
                 return;
@@ -181,7 +181,7 @@ namespace Kernel.Unity
             smoothlyDrag.Start();
         }
 
-        public void OnZoom(float delta)
+        public virtual void OnZoom(float delta)
         {
             delta = -delta;
             smoothlyZoom.SetLastZoomDelta(delta);

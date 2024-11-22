@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 
@@ -159,7 +159,7 @@ namespace Kernel.Unity
                 return;
             }
 
-            info.zoom = info.zoom + delta * zoomFactor;
+            info.zoom += delta * zoomFactor;
 
             if (info.zoom > conf.zoomMax)
             {
