@@ -7,9 +7,8 @@
 		_MainTex_TexelSize ("Vector", Vector) = (0.1, 0.1, 0, 0)
     }
 	HLSLINCLUDE
+    #include "UnityCG.cginc"
 	
-	#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-
 	struct appdata
     {
 		float4 vertex: POSITION;
@@ -25,7 +24,7 @@
 	VaryingsDefault VertDefault(appdata v)
     {
          VaryingsDefault o;
-         o.pos = TransformObjectToHClip(v.vertex.xyz);
+         o.pos = UnityObjectToClipPos(v.vertex);
          o.uv = v.uv;
          return o;
     }

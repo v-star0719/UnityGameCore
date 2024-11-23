@@ -18,11 +18,6 @@ namespace Kernel.Unity
 
         private void Start()
         {
-            if (animator == null)
-            {
-                animator = GetComponentInChildren<Animator>();
-                applyRootMotion = animator.applyRootMotion;
-            }
         }
 
         private void Update()
@@ -52,6 +47,9 @@ namespace Kernel.Unity
             this.stateName = stateName;
             enabled = true;
             this.onFinish = onFinish;
+
+            animator = GetComponentInChildren<Animator>();
+            applyRootMotion = animator.applyRootMotion;
 
             if (rootMotion != null)
             {
