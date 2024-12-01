@@ -150,6 +150,10 @@ namespace Kernel.Storage
 
         protected virtual void Decode(byte[] bytes)
         {
+            if (bytes == null)
+            {
+                return;
+            }
             var key = (byte)bytes.Length;
             for (var i = 0; i < bytes.Length; i++)
             {

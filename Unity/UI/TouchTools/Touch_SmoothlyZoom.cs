@@ -23,8 +23,7 @@ namespace UKernel.Unity
                 timer -= deltaTime;
                 //(1 - x) * (1 - x)
                 var f = timer / SMOOTH_TIME;
-                f = 1 - f;
-                f *= f;
+                f = f * f * f * f;
                 callback(f * lastZoomDelta);
             }
         }
