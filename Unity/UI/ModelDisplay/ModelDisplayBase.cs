@@ -15,7 +15,7 @@ namespace Kernel.Unity
 
     public class ModelDisplayBase : MonoBehaviour
     {
-        public Camera camera;
+        public Camera myCamera;
         public Transform modelRoot;
 
         private Touch_SmoothlyDrag smoothlyDrag;
@@ -221,7 +221,7 @@ namespace Kernel.Unity
                 renderTex.Release();
             }
 
-            if (modelObj != null) ;
+            if (modelObj != null)
             {
                 //AssetManager.RecycleAsset(modelObj)
                 Destroy(modelObj);

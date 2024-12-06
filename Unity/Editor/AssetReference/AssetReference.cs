@@ -101,24 +101,6 @@ public class AssetReference
         return assetDict.Values;
     }
 
-    public static void IterateAssetsInFolder(string path, Action<string> action)
-    {
-        var paths = Directory.GetFiles(Application.dataPath + path, "*", SearchOption.AllDirectories);
-        for(int i = 0; i<paths.Length; i++)
-        {
-            string s = paths[i].Replace(@"\", @"/");
-            if(IsSkipped(s))
-            {
-                continue;
-            }
-
-            EditorUtility.DisplayProgressBar("", i + "/" + paths.Length, i*1f/paths.Length);
-            var index = s.IndexOf("Assets/");
-            action(s.Substring(index));
-        }
-        EditorUtility.ClearProgressBar();
-    }
-
     //不处理的文件
     public static bool IsSkipped(string s)
     {

@@ -15,36 +15,34 @@ namespace Kernel.Unity
         public static SoundManager Instance { get; private set; }
         public static Func<string, AudioClip> loader;
 
-        private float bgmVolumn = DEFAULT_BKVOLUMN;
-        private float soundVolumn = DEFAULT_SOUND_VOLUMN;
+        private float bgmVolume = DEFAULT_BKVOLUMN;
+        private float soundVolume = DEFAULT_SOUND_VOLUMN;
         private bool soundEnable = true;
         private bool bgmEnable = true;
-        private bool paused = false;
         private float pitch = 1;
         private int nextId = 0;
 
         private Dictionary<int, SoundFreeAudioSource> freeAudioSources = new Dictionary<int, SoundFreeAudioSource>();
         private Dictionary<string, AudioClip> clips = new Dictionary<string, AudioClip>();
         public SoundPlayer[] Players { get; private set; }
-        private SoundItemInfo playingTopSound;
         private SoundGlobalEffectBase globalEffect;
 
-        public float BgmVolumn
+        public float BgmVolume
         {
-            get => bgmVolumn;
+            get => bgmVolume;
             set
             {
-                bgmVolumn = value;
+                bgmVolume = value;
                 Players[(int) SoundLayer.bgm].Volume = value;
             }
         }
 
-        public float SoundVolumn
+        public float SoundVolume
         {
-            get => soundVolumn;
+            get => soundVolume;
             set
             {
-                soundVolumn = value;
+                soundVolume = value;
                 Players[(int) SoundLayer.normal].Volume = value;
             }
         }
@@ -151,7 +149,6 @@ namespace Kernel.Unity
 
             clips.Clear();
             globalEffect = null;
-            playingTopSound = null;
         }
 
         public void Pause()

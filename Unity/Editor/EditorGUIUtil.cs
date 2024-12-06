@@ -73,12 +73,12 @@ namespace Kernel.Unity
 			return EditorGUI.DelayedTextField(position, value, style);
 		}
 
-		///紧凑的，label宽度为文字宽度，options控制输入框部分
-		public static int IntFieldCompact(string label, int value, ref bool changed, string tip = null, params GUILayoutOption[] options)
+        ///紧凑的，label宽度为文字宽度，options控制输入框部分
+        public static int IntFieldCompact(string label, int value, ref bool changed, string tip = null, params GUILayoutOption[] options)
 		{
 			//GUILayout.BeginHorizontal();
 			GUILayout.Label(label, GUILayout.ExpandWidth(false));
-			var n = IntField("", value, ref changed, EditorStyles.numberField, options);
+			var n = IntField(null, value, ref changed, EditorStyles.numberField, options);
             if (tip != null)
             {
                 if (HelpBtn())
@@ -107,8 +107,8 @@ namespace Kernel.Unity
 			params GUILayoutOption[] options)
 		{
 			var o = value;
-            int n;
-			n = EditorGUILayout.IntField(GUIContent.none, value, style, options);
+            var n = label == null ? EditorGUILayout.IntField(value, style, options) : 
+                EditorGUILayout.IntField(label, value, style, options);
 			if (n != o)
 			{
 				changed = true;
@@ -117,11 +117,10 @@ namespace Kernel.Unity
 		}
 
         ///紧凑的，label宽度为文字宽度，options控制输入框部分
-		public static float FloatFieldCompact(string label, float value, ref bool changed, string tip = null,
-			params GUILayoutOption[] options)
+		public static float FloatFieldCompact(string label, float value, ref bool changed, string tip = null, params GUILayoutOption[] options)
         {
             GUILayout.Label(label, GUILayout.ExpandWidth(false));
-            var f = FloatField("", value, ref changed, EditorStyles.numberField, options);
+            var f = FloatField(null, value, ref changed, EditorStyles.numberField, options);
             if (tip != null)
             {
                 if (HelpBtn())
@@ -150,8 +149,9 @@ namespace Kernel.Unity
 			params GUILayoutOption[] options)
 		{
 			var o = value;
-			var n = EditorGUILayout.FloatField(label, value, style, options);
-			if(Math.Abs(n - 0) > 0.0001f)
+			var n = label != null ? EditorGUILayout.FloatField(label, value, style, options) :
+                EditorGUILayout.FloatField(value, style, options);
+			if(Math.Abs(n - o) > 0.0001f)
 			{
 				changed = true;
 			}
@@ -162,7 +162,7 @@ namespace Kernel.Unity
 		public static string TextFieldCompact(string label, string value, ref bool changed, params GUILayoutOption[] options)
 		{
 			GUILayout.Label(label, GUILayout.ExpandWidth(false));
-			var t = TextField("", value, ref changed, EditorStyles.textField, options);
+			var t = TextField(null, value, ref changed, EditorStyles.textField, options);
             return t;
         }
 
@@ -183,7 +183,8 @@ namespace Kernel.Unity
 			params GUILayoutOption[] options)
 		{
 			var o = value;
-			var n = EditorGUILayout.TextField(label, value, style, options);
+			var n = label != null ? EditorGUILayout.TextField(label, value, style, options) :
+                EditorGUILayout.TextField(value, style, options);
 			if(n != o)
 			{
 				changed = true;
@@ -194,7 +195,8 @@ namespace Kernel.Unity
 		public static Color ColorField(string label, Color value, ref bool changed, params GUILayoutOption[] options)
 		{
 			var o = value;
-			var n = EditorGUILayout.ColorField(label, value, options);
+			var n = label != null ? EditorGUILayout.ColorField(label, value, options) :
+                EditorGUILayout.ColorField(value, options);
 			if(n != o)
 			{
 				changed = true;
@@ -273,7 +275,7 @@ namespace Kernel.Unity
 		{
 			var o = value;
 			var n = EditorGUILayout.Slider(label, value, left, right, options);
-			if(Math.Abs(n - 0) > 0.0001f)
+			if(Math.Abs(n - o) > 0.0001f)
 			{
 				changed = true;
 			}

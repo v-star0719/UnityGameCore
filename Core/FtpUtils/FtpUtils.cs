@@ -401,7 +401,6 @@ namespace Kernel.Core
 
         private static long FtpGetFileSize(FtpData data)
         {
-            FtpDownloadDestString dest = null;
             long ret = 0;
             try
             {

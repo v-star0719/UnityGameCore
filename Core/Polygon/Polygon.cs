@@ -233,7 +233,6 @@ namespace GameCore.Common
             var points = this.vertices;
             var n = points.Count;
             var p0 = points[n - 1];
-            var c = 0f;
             for (int i = 0; i < n; i++)
             {
                 var p1 = points[i];

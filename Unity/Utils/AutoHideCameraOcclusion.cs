@@ -8,18 +8,18 @@ namespace Kernel.Unity
     public class AutoHideCameraOcclusion : MonoBehaviour
     {
         public Transform target;
-        public Transform camera;
+        public Transform myCamera;
 
         private List<MeshRenderer> hiddenMeshRenderers = new List<MeshRenderer>();
 
         public void LateUpdate()
         {
-            if (camera == null || target == null)
+            if (myCamera == null || target == null)
             {
                 return;
             }
 
-            var hit = Physics.RaycastAll(new Ray(camera.position, target.position - camera.position), 1000);
+            var hit = Physics.RaycastAll(new Ray(myCamera.position, target.position - myCamera.position), 1000);
             List<MeshRenderer> hitMeshRenderers = new List<MeshRenderer>();
             foreach (var h in hit)
             {

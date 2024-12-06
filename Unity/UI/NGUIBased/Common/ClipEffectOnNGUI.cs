@@ -9,7 +9,7 @@ public class ClipEffectOnNGUI : MonoBehaviour
 {
     private UIPanel panel;
 
-    private Renderer renderer;
+    private Renderer myRenderer;
 
     private Vector3 lastBL;
     private Vector3 lastTR;
@@ -20,7 +20,7 @@ public class ClipEffectOnNGUI : MonoBehaviour
         if (p.hasClipping)
         {
             panel = p;
-            renderer = GetComponentInChildren<Renderer>();
+            myRenderer = GetComponentInChildren<Renderer>();
         }
         else
         {
@@ -53,7 +53,7 @@ public class ClipEffectOnNGUI : MonoBehaviour
         tr.x = tr.x * w;
         tr.y = tr.y * h;
 
-        var matrls = renderer.materials;
+        var matrls = myRenderer.materials;
         for (int i = 0; i < matrls.Length; i++)
         {
             matrls[i].SetVector("_ScreenClip", new Vector4(bl.x, bl.y, tr.x, tr.y));

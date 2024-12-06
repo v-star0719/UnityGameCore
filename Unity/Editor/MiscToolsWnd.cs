@@ -46,6 +46,11 @@ namespace Kernel.Unity
                 BoxColliderFitToMesh();
             }
 
+            if (GUIUtil.Button("CreateTexture2DArray"))
+            {
+                CreateTexture2DArray.ShowWindow();
+            }
+
             using (Edit.GUIUtil.LayoutHorizontal())
             {
                 GUILayout.Label("SetPlayerPrefers", GUILayout.ExpandWidth(false));
