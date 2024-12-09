@@ -7,15 +7,17 @@ using Kernel.Core;
 public static class ShellUtils
 {
 
-#if UNITY_EDITOR_WIN
+#if UNITY_STANDALONE_WIN
     private static readonly string _SHELL_CODE_PATH = "./TempBat.bat";
-#elif UNITY_EDITOR_OSX
+#elif UNITY_STANDALONE_OSX
     private static readonly string _SHELL_CODE_PATH = "./TempBat.sh";
+#else
+    private static readonly string _SHELL_CODE_PATH = "";
 #endif
 
     public static string[] ExecuteShellCommand(string command, string path = "./", bool isRelative = true, bool outputResult = false, bool mayTimeout = false)
     {
-#if UNITY_EDITOR_WIN
+#if UNITY_STANDALONE_WIN
         File.WriteAllText(Path.GetFullPath(_SHELL_CODE_PATH), command);
 #else
         File.WriteAllText(Path.GetFullPath(_SHELL_CODE_PATH), $"#!/bin/bash\n{command}");
@@ -50,14 +52,14 @@ public static class ShellUtils
         psi.CreateNoWindow = true;
         psi.WorkingDirectory = workingDirectory;
 
-#if UNITY_EDITOR_WIN
+#if UNITY_STANDALONE_WIN
         psi.FileName = path;
-#elif UNITY_EDITOR_OSX
+#elif UNITY_STANDALONE_OSX
         psi.FileName = "/bin/bash";
         psi.Arguments = path;
 #endif
 
-        using (Process p = Process.Start(psi))
+        using(Process p = Process.Start(psi))
         using (StreamReader sout = p.StandardOutput)
         using (StreamReader eout = p.StandardError)
         {
@@ -89,9 +91,9 @@ public static class ShellUtils
         psi.CreateNoWindow = true;
         psi.WorkingDirectory = workingDirectory;
 
-#if UNITY_EDITOR_WIN
+#if UNITY_STANDALONE_WIN
         psi.FileName = path;
-#elif UNITY_EDITOR_OSX
+#elif UNITY_STANDALONE_OSX
         psi.FileName = "/bin/bash";
         psi.Arguments = path;
 #endif
