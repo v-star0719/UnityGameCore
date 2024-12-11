@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+#if NGUI
 namespace UI
 {
     public class GridExGrid : GridEx
@@ -43,3 +44,4 @@ namespace UI
         }
     }
 }
+#endif

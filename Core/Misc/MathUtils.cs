@@ -212,24 +212,34 @@ namespace Kernel.Core
 
         public static Vector3 GetPointOnRound(Vector3 center, float r, float angle)
         {
-            center.x += r * Mathf.Cos(angle * Mathf.Deg2Rad);
-            center.y += r * Mathf.Sin(angle * Mathf.Deg2Rad);
+            angle *= Mathf.Deg2Rad;
+            center.x += r * Mathf.Cos(angle);
+            center.y += r * Mathf.Sin(angle);
             return center;
         }
 
         public static Vector2 GetPointOnRound(Vector2 center, float r, float angle)
         {
-            center.x += r * Mathf.Cos(angle * Mathf.Deg2Rad);
-            center.y += r * Mathf.Sin(angle * Mathf.Deg2Rad);
+            angle *= Mathf.Deg2Rad;
+            center.x += r * Mathf.Cos(angle);
+            center.y += r * Mathf.Sin(angle);
+            return center;
+        }
+
+        public static Vector3 GetRandomPointOnRoundXZ(Vector3 center, float r)
+        {
+            float angle = RandomUtils.Random.Next(0, 360) * Mathf.Deg2Rad;
+            center.x += r * Mathf.Cos(angle);
+            center.z += r * Mathf.Sin(angle);
             return center;
         }
 
         public static Vector3 GetRandomPointInRoundXZ(Vector3 center, float r)
         {
-            float angle = RandomUtils.Random.Next(0, 360);
+            float angle = RandomUtils.Random.Next(0, 360) * Mathf.Deg2Rad;
             r = (float)RandomUtils.Random.NextDouble() * r;
-            center.x += r * Mathf.Cos(angle * Mathf.Deg2Rad);
-            center.z += r * Mathf.Sin(angle * Mathf.Deg2Rad);
+            center.x += r * Mathf.Cos(angle);
+            center.z += r * Mathf.Sin(angle);
             return center;
         }
 

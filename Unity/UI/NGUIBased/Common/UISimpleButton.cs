@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+#if NGUI
 namespace UI
 {
     public class UISimpleButton : MonoBehaviour
@@ -16,4 +17,4 @@ namespace UI
         }
     }
 }
-
+#endif

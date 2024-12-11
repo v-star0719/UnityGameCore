@@ -2,6 +2,7 @@ using Kernel.Core;
 using Kernel.Unity;
 using UnityEngine;
 
+#if NGUI
 public class UIPanelBase : PanelBaseCore
 {
     private UIPanel[] panels;
@@ -51,3 +52,4 @@ public class UIPanelBase : PanelBaseCore
         SoundManager.Instance.Play("Audio_PanelClose");
     }
 }
+#endif

@@ -2,6 +2,7 @@ using System;
 using UIControl;
 using UnityEngine;
 
+#if NGUI
 namespace UI
 {
     public class OptionUI : MonoBehaviour
@@ -71,3 +72,4 @@ namespace UI
         }
     }
 }
+#endif

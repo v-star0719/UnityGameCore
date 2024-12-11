@@ -1,4 +1,5 @@
-﻿namespace UI
+﻿#if NGUI
+namespace UI
 {
     public class GridExTable : GridEx
     {
@@ -17,3 +18,4 @@
         }
     }
 }
+#endif

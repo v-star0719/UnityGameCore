@@ -1,5 +1,6 @@
 using UnityEngine;
 
+#if NGUI
 namespace UI
 {
     public class GridExItem : MonoBehaviour
@@ -64,3 +65,5 @@ namespace UI
         }
     }
 }
+
+#endif

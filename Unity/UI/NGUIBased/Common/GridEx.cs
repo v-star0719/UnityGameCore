@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if NGUI
 namespace UI
 {
     public struct ScrollViewDragDirs
@@ -665,3 +666,4 @@ namespace UI
         }
     }
 }
+#endif

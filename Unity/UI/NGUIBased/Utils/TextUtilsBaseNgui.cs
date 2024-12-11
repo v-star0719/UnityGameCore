@@ -1,10 +1,18 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+#if NGUI
 namespace GameCore.Unity
 {
-    public class TextUtilsBaseNgui : TextUtilsBase
+    public class TextUtilsBaseNgui
     {
+        public static string[] romans = new[] { "-", "Ⅰ", "Ⅱ", "Ⅲ", "Ⅳ", "Ⅴ", "Ⅵ", "Ⅶ", "Ⅷ", "Ⅸ", "Ⅹ", "Ⅺ" };
+
+        public static string NumberToRoman(int n)
+        {
+            return n < romans.Length ? romans[n] : "-";
+        }
+
         public static string WrapColor(string str, Color clr)
         {
             return $"[{ColorUtility.ToHtmlStringRGB(clr)}]{str}[-]";
@@ -21,3 +29,4 @@ namespace GameCore.Unity
         }
     }
 }
+#endif

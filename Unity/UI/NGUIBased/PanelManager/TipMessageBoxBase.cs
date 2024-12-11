@@ -2,6 +2,7 @@ using GameCore.Unity;
 using UI;
 using UnityEngine;
 
+#if NGUI
 //（1）点击弹出，点击屏幕其他任意位置关闭
 //当点击弹窗本体关闭时，不会触发底部的点击，非常安全。点击弹窗本体不关闭。
 //
@@ -125,3 +126,4 @@ public class TipMessageBoxBaseArg
         this.doNotAutoPlace = doNotAutoPlace;
     }
 }
+#endif

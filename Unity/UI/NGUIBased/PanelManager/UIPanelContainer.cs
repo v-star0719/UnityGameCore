@@ -2,6 +2,7 @@ using Kernel.Core;
 using Kernel.Unity;
 using UnityEngine;
 
+#if NGUI
 public class UIPanelContainer : PanelContainerCore
 {
     public UITexture bgTexture;
@@ -16,3 +17,4 @@ public class UIPanelContainer : PanelContainerCore
         bgTexture.mainTexture = t;
     }
 }
+#endif

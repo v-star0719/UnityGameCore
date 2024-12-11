@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
+#if NGUI
 namespace GameCore.Unity
 {
     public class SpriteUtilsBaseNgui
@@ -41,3 +42,4 @@ namespace GameCore.Unity
 
     }
 }
+#endif
