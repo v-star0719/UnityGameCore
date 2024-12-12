@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Kernel.Unity.NguiEx
+namespace GameCore.Unity.NGUIEx
 {
     public class UIExGrid : MonoBehaviour
     {

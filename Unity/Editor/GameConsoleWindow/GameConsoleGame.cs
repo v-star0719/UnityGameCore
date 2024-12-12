@@ -1,7 +1,7 @@
-using Kernel.Edit;
+using GameCore.Edit;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     public class GameConsoleGame : GameConsoleFuncBase
     {

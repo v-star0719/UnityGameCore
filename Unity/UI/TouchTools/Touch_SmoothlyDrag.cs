@@ -1,6 +1,6 @@
 using System;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     public class Touch_SmoothlyDrag
     {

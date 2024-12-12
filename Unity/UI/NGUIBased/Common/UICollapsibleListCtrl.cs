@@ -15,7 +15,7 @@ using System.Collections.Generic;
  * （1）列表项控件分成了2个部分：titleBar和Content，content是进行伸缩的部分。这个两个部分都应该添加BoxCollider和UIDragScrollView以进行鼠标响应和拖拽
  */
 
-namespace Kernel.Unity.NguiEx
+namespace GameCore.Unity.NGUIEx
 {
     public class UICollapsibleListCtrl : MonoBehaviour
     {

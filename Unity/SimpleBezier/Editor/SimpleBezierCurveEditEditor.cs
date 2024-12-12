@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     [CustomEditor(typeof(SimpleBezierCurveEdit))]
     public class SimpleBezierCurveEditEditor : Editor

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Kernel.Core
+namespace GameCore.Core
 {
     class ParseUtils
     {

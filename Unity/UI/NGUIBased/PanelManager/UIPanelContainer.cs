@@ -1,20 +1,23 @@
-using Kernel.Core;
-using Kernel.Unity;
+using GameCore.Core;
+using GameCore.Unity;
 using UnityEngine;
 
 #if NGUI
-public class UIPanelContainer : PanelContainerCore
+namespace GameCore.Unity.NGUIEx
 {
-    public UITexture bgTexture;
-
-    protected override void EnableBgTexture(bool e)
+    public class UIPanelContainer : PanelContainerCore
     {
-        bgTexture.enabled = e;
-    }
+        public UITexture bgTexture;
 
-    protected override void SetBgTexture(Texture t)
-    {
-        bgTexture.mainTexture = t;
+        protected override void EnableBgTexture(bool e)
+        {
+            bgTexture.enabled = e;
+        }
+
+        protected override void SetBgTexture(Texture t)
+        {
+            bgTexture.mainTexture = t;
+        }
     }
 }
 #endif

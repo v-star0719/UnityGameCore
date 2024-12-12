@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Kernel.Core;
+using GameCore.Core;
 
-namespace Kernel.Core
+namespace GameCore.Core
 {
     public class FtpUploadSourceFile : FtpUploadSourceBase
     {

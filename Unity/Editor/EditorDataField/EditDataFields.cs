@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEditor;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     public class EditDataFloatField : EditDataFieldBase
     {

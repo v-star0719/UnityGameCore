@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using UnityEngine;
 
-namespace Kernel.Storage
+namespace GameCore.Storage
 {
     public class StorageUnityJsonSerializer : IStorageSerializer
     {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     public class EditDataFieldBundle
     {

@@ -1,12 +1,12 @@
 using System;
 using System.IO;
 using System.Reflection;
-using Kernel.Core;
+using GameCore.Core;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     public class EditorUtils
     {

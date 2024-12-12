@@ -1,6 +1,8 @@
 using UnityEngine;
 
-namespace UIControl
+#if NGUI
+
+namespace GameCore.Unity.NGUIEx
 {
     public class UITabPage : MonoBehaviour
     {
@@ -66,3 +68,5 @@ namespace UIControl
         }
     }
 }
+
+#endif

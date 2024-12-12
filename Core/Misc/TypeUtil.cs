@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
-using Kernel.Core;
+using GameCore.Core;
 
-namespace Kernel
+namespace GameCore
 {
 	public struct FieldAndAttribute<T> where T : Attribute
 	{

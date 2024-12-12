@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     public abstract class BuilderBase
     {

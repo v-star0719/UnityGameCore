@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Playables;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     //所有面板都会放到这个容器下。方便做通用的效果，比如动画、背景模糊
     public class PanelContainerCore : MonoBehaviour

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     //自动隐藏遮挡物
     public class AutoHideCameraOcclusion : MonoBehaviour

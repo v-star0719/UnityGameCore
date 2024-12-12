@@ -5,7 +5,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     public class BuilderEditorWnd : EditorWindow
     {

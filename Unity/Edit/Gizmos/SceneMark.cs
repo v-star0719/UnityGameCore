@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Kernel.Edit
+namespace GameCore.Edit
 {
     public class SceneMark : MonoBehaviour
     {

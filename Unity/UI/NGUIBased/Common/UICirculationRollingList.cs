@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Kernel.Unity.NguiEx
+namespace GameCore.Unity.NGUIEx
 {
     ///用于循环滚动列表，比如寻仙的记录
     [ExecuteInEditMode]

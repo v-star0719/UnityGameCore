@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace Kernel.Core
+namespace GameCore.Core
 {
     public class BitUtils
     {

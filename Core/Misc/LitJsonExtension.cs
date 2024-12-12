@@ -1,6 +1,6 @@
 using LitJson;
 
-namespace Kernel.Core
+namespace GameCore.Core
 {
     public static class LitJsonExtension
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kernel.Core
+namespace GameCore.Core
 {
     public class EatExpUtils
     {

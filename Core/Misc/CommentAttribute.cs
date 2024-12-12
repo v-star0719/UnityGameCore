@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kernel.Core
+namespace GameCore.Core
 {
     [AttributeUsage(AttributeTargets.Field)]
     public class CommentAttribute : System.Attribute

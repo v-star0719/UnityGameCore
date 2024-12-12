@@ -1,5 +1,5 @@
 ﻿
-namespace Kernel.Core
+namespace GameCore.Core
 {
     public class BTNodeInvert : BTNode
     {

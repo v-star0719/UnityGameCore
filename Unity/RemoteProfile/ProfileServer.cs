@@ -4,9 +4,9 @@ using System.Collections;
 using System.Threading;
 using System.Net;
 using System;
-using Kernel.Core;
+using GameCore.Core;
 
-namespace Kernel.Unity.RemoteProfile
+namespace GameCore.Unity.RemoteProfile
 {
     public class ProfileServer : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 
-namespace Kernel.Core
+namespace GameCore.Core
 {
     public class FtpData
     {

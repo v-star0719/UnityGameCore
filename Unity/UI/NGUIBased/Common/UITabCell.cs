@@ -1,7 +1,8 @@
-using Kernel.Scripts;
+using GameCore.Scripts;
 using UnityEngine;
 
-namespace UIControl
+#if NGUI
+namespace GameCore.Unity.NGUIEx
 {
     public class UITabCell : MonoBehaviour
     {
@@ -63,3 +64,4 @@ namespace UIControl
     }
 }
 
+#endif

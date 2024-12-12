@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 
 
-namespace Kernel.Unity.RemoteProfile
+namespace GameCore.Unity.RemoteProfile
 {
     public class ObjectCounter : ProfileBase
     {

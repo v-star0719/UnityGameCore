@@ -1,4 +1,4 @@
-﻿namespace Kernel.Scripts
+﻿namespace GameCore.Scripts
 {
     public interface IBooleanProvider : IProvider
     {

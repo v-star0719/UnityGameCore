@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Kernel.Core
+namespace GameCore.Core
 {
     public class FtpDownloadDestFile : FtpDownloadDestBase
     {

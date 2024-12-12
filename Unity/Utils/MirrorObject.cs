@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     [ExecuteInEditMode]
     public class MirrorObject : MonoBehaviour

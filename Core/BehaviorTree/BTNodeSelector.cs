@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Kernel.Core
+namespace GameCore.Core
 {
     //依次执行，直到出现一个成功的。效果就是依次尝试，直到成功。
     public class BTNodeSelector : BTNode

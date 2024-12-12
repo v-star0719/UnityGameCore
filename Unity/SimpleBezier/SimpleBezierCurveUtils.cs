@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     public class SimpleBezierCurveUtils
     {
@@ -30,7 +30,7 @@ namespace Kernel.Unity
             Vector3 ps = p1.position;
             for (float i = 0; i <= 1.001f; i += 0.01f)
             {
-                var pe = Kernel.Core.MathUtils.Bezier2(p1.position, p1.controller, p2.position, i);
+                var pe = Core.MathUtils.Bezier2(p1.position, p1.controller, p2.position, i);
                 d += Vector3.Distance(ps, pe);
                 ps = pe;
             }
@@ -40,7 +40,7 @@ namespace Kernel.Unity
 
         public static Vector3 Bezier(BezierPointData p1, BezierPointData p2, float t)
         {
-            return Kernel.Core.MathUtils.Bezier2(p1.position, p1.controller, p2.position, t);
+            return Core.MathUtils.Bezier2(p1.position, p1.controller, p2.position, t);
         }
 
         public static Quaternion BezierQuaternion(BezierPointData p1, BezierPointData p2, float t)

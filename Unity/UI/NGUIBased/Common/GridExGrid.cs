@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 #if NGUI
-namespace UI
+namespace GameCore.Unity.NGUIEx
 {
     public class GridExGrid : GridEx
     {

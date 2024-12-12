@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     public class ModelDisplayCinemachine : ModelDisplayBase
     {

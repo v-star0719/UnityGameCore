@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     //矩形安全区边界。目前不支持旋转
     //目标靠近边界后，边界透明度会变亮

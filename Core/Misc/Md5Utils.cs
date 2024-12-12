@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Kernel.Core
+namespace GameCore.Core
 {
     class Md5Utils
     {

@@ -7,7 +7,7 @@ using UnityEditor.Build;
 using UnityEditorInternal;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     [CustomEditor(typeof(ScriptingDefineSymbolSetting))]
     public class ScriptingDefineSymbolSettingEditor : Editor

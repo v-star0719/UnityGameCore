@@ -1,6 +1,8 @@
+#if NGUI
+
 //标签页控件
 //可以在标签上指定对应的页面
-namespace UIControl
+namespace GameCore.Unity.NGUIEx
 {
     using UnityEngine;
     using System.Collections.Generic;
@@ -84,3 +86,4 @@ namespace UIControl
         }
     }
 }
+#endif

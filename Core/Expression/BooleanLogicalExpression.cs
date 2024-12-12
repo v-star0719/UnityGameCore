@@ -1,4 +1,4 @@
-﻿namespace Kernel.Scripts
+﻿namespace GameCore.Scripts
 {
 	public class BooleanLogicalExpression : IBooleanExpression
 	{

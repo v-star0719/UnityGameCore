@@ -1,8 +1,8 @@
-using Kernel.Storage;
+using GameCore.Storage;
 using UnityEditor;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     public class EditorWindowBase : EditorWindow
     {

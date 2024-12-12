@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using Kernel.Core;
+using GameCore.Core;
 
 public class LogFile : ILogTarget
 {

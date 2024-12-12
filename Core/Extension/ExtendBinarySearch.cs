@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Kernel.FSM
+namespace GameCore.FSM
 {
 	public static class ExtendBinarySearch
 	{

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Kernel.Core
+namespace GameCore.Core
 {
     public interface ILogTarget
     {

@@ -6,10 +6,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using GameCore.Core;
-using Kernel.Core;
-using Kernel.Storage;
+using GameCore.Storage;
 
-namespace Kernel.Storage
+namespace GameCore.Storage
 {
     public interface IStorage
     {

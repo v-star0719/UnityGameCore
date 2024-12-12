@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
 //随机播放动画序列
     public class AnimatorBatchPlayer : MonoBehaviour

@@ -2,7 +2,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     class HandlesUtils
     {

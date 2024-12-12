@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Kernel.Edit
+namespace GameCore.Edit
 {
 	public static class GizmosUtils
 	{

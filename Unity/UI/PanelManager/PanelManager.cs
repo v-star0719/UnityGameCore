@@ -1,5 +1,5 @@
-﻿using GameCore;
-using Kernel.Unity;
+using GameCore;
+using GameCore.Unity;
 using System.Collections;
 using UnityEngine;
 

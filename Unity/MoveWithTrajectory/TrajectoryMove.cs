@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     //todo 角度有点问题，再优化吧
     //相比较于贝塞尔曲线，这个可以很容易的实现很多复杂的效果，比如飞远后，转n圈后再进攻目标。

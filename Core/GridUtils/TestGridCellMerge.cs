@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Kernel;
+using GameCore;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Kernel.Core
+namespace GameCore.Core
 {
     [ExecuteInEditMode]
     public class TestGridCellMerge : MonoBehaviour

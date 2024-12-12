@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 #if NGUI
-namespace UI
+namespace GameCore.Unity.NGUIEx
 {
     public class UISimpleButton : MonoBehaviour
     {

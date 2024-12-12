@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     //将碰撞体按球处理，当有重合时互相挤开。
     //抖动：

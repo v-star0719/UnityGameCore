@@ -1,10 +1,10 @@
 using System;
 using GameCore;
 using System.Collections.Generic;
-using Kernel.Core;
+using GameCore.Core;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     public class PanelManagerCore
     {

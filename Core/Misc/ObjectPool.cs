@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Kernel.Core;
+using GameCore.Core;
 
 namespace GameCore.Core
 {

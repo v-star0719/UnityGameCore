@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Kernel.Core
+namespace GameCore.Core
 {
     public static class FastMath
     {

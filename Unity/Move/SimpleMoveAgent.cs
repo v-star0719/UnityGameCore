@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     public class SimpleMoveAgent : MonoBehaviour
     {

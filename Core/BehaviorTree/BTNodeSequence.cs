@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Kernel.Core
+namespace GameCore.Core
 {
     //依次执行，直到失败。
     public class BTNodeSequence : BTNode

@@ -1,6 +1,6 @@
 using System;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     //把层级比top低的音效压低
     //timer在Press的时候是加，release的时候是减。这样press中途就开始release可以丝滑接上。反过来同理。

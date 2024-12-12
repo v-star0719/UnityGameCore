@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Kernel.Core;
-using Kernel.Edit;
+using GameCore.Core;
+using GameCore.Edit;
 using UnityEditor;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
 
 

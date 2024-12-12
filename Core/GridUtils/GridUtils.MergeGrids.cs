@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using Kernel.Core;
-using Kernel.Lang.Extension;
+using GameCore.Core;
+using GameCore.Lang.Extension;
 
-namespace Kernel.Core
+namespace GameCore.Core
 {
     //用左下角坐标，作为格子坐标，（0,0）是第一个格子
     public partial class GridUtils

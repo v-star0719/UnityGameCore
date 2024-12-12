@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using UnityEngine;
 
-namespace Kernel.Storage
+namespace GameCore.Storage
 {
     public class StorageXmlSerializer : IStorageSerializer
     {

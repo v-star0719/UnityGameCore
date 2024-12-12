@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Kernel.Core;
-using Kernel.Lang.Extension;
+using GameCore.Core;
+using GameCore.Lang.Extension;
 using UnityEngine;
 
 namespace Misc

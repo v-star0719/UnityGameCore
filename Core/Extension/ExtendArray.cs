@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Kernel.Lang.Extension
+namespace GameCore.Lang.Extension
 {
 	public static class ExtendArray
 	{

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     //将子节点按行列网格排列在3D空间中
     [ExecuteInEditMode]

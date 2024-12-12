@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Kernel.Scripts
+namespace GameCore.Scripts
 {
     public class BooleanExpressionParser : Parser
     {

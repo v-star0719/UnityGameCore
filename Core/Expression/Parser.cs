@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Kernel.Core;
+using GameCore.Core;
 
-namespace Kernel.Scripts
+namespace GameCore.Scripts
 {
 	public abstract class Parser
 	{

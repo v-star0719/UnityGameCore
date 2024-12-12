@@ -1,8 +1,8 @@
 using System;
 using System.IO;
-using Kernel.Storage;
+using GameCore.Storage;
 
-namespace Kernel.Core
+namespace GameCore.Core
 {
     public class ConfXmlLoaderSaver
     {

@@ -1,4 +1,4 @@
-﻿namespace Kernel.Core
+﻿namespace GameCore.Core
 {
     public class Singleton<T> where T : new()
     {

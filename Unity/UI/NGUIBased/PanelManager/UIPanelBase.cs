@@ -1,55 +1,59 @@
-using Kernel.Core;
-using Kernel.Unity;
+using GameCore.Core;
+using GameCore.Unity;
 using UnityEngine;
 
 #if NGUI
-public class UIPanelBase : PanelBaseCore
+namespace GameCore.Unity.NGUIEx
 {
-    private UIPanel[] panels;
-    private int[] orgPanelDepths;
-
-    public override int Depth
+    public class UIPanelBase : PanelBaseCore
     {
-        get => depth;
-        set
-        {
-            if(panels == null)
-            {
-                LoggerX.Error("panels 尚未初始化");
-                return;
-            }
+        private UIPanel[] panels;
+        private int[] orgPanelDepths;
 
-            for(var i = 0; i < panels.Length; i++)
+        public override int Depth
+        {
+            get => depth;
+            set
             {
-                panels[i].depth = orgPanelDepths[i] + value;
+                if (panels == null)
+                {
+                    LoggerX.Error("panels 尚未初始化");
+                    return;
+                }
+
+                for (var i = 0; i < panels.Length; i++)
+                {
+                    panels[i].depth = orgPanelDepths[i] + value;
+                }
             }
         }
-    }
 
-    public override void Open(PanelManagerCore mgr, params object[] args)
-    {
-        panels = container.GetComponentsInChildren<UIPanel>(true);
-        orgPanelDepths = new int[panels.Length];
-        for (var i = 0; i < panels.Length; i++)
+        public override void Open(PanelManagerCore mgr, params object[] args)
         {
-            orgPanelDepths[i] = panels[i].depth;
+            panels = container.GetComponentsInChildren<UIPanel>(true);
+            orgPanelDepths = new int[panels.Length];
+            for (var i = 0; i < panels.Length; i++)
+            {
+                orgPanelDepths[i] = panels[i].depth;
+            }
+
+            base.Open(mgr, args);
         }
-        base.Open(mgr, args);
-    }
 
-    public void OnBackBtnClick()
-    {
-        Close(false);
-    }
+        public void OnBackBtnClick()
+        {
+            Close(false);
+        }
 
-    protected override void PlayOpenSound()
-    {
-        SoundManager.Instance.Play("Audio_PanelOpen");
-    }
+        protected override void PlayOpenSound()
+        {
+            SoundManager.Instance.PlayNormalSound("Audio_PanelOpen");
+        }
 
-    protected override void PlayCloseSound()
-    {
-        SoundManager.Instance.Play("Audio_PanelClose");
+        protected override void PlayCloseSound()
+        {
+            SoundManager.Instance.PlayNormalSound("Audio_PanelClose");
+        }
     }
 }
 #endif

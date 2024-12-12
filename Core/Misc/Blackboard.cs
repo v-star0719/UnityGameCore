@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Kernel.Core
+namespace GameCore.Core
 {
     public class Blackboard
     {

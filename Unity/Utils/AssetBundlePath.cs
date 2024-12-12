@@ -1,8 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Kernel.Core;
-using Kernel.Unity;
+using GameCore.Core;
+using GameCore.Unity;
 
 #pragma warning disable 0162
 //public class PlatformManager

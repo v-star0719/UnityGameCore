@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Kernel.Core;
+using GameCore.Core;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     //[CreateAssetMenu(fileName = "Tigs", menuName = "ScriptableObjects/Tigs", order = 1)]
     public class ScriptableObjectConfigsBase<T> : ScriptableObject where T : ConfBase, new()

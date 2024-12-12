@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     public class MoveByNavMeshAgent : MoveBase
     {

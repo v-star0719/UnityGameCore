@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Kernel.Core
+namespace GameCore.Core
 {
     public partial class GridUtils
     {

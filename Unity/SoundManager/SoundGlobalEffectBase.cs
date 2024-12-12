@@ -1,4 +1,4 @@
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     public abstract class SoundGlobalEffectBase
     {

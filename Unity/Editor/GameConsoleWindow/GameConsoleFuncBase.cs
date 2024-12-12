@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 using UnityEditor;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     [Serializable]
     public class GameConsoleFuncBase

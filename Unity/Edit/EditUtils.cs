@@ -1,4 +1,4 @@
-using Kernel.Core;
+using GameCore.Core;
 using System.Reflection;
 using System;
 using UnityEngine;

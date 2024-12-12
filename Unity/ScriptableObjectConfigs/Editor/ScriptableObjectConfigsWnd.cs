@@ -1,4 +1,4 @@
-using Kernel.Unity;
+using GameCore.Unity;
 using System;
 using System.Collections.Generic;
 using UnityEditor;

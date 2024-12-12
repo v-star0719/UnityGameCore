@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Kernel.Core;
+using GameCore.Core;
 using UnityEngine;
 using UnityEditor;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
 	public partial class EditorGUIUtil
 	{

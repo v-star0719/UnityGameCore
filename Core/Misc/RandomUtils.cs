@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Kernel.Core.Misc
+namespace GameCore.Core.Misc
 {
     public class RandomUtils
     {

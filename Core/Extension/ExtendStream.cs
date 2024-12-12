@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Kernel.Lang.Extension
+namespace GameCore.Lang.Extension
 {
 	public static class ExtendStream
 	{

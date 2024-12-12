@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Kernel.Core
+namespace GameCore.Core
 {
     public interface IConfCollection<T> where T : ConfBase
     {

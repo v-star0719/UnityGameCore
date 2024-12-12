@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Kernel.Core;
-using Kernel.Core.Misc;
+using GameCore.Core.Misc;
+using GameCore.Core;
 
-namespace Kernel.Lang.Extension
+namespace GameCore.Lang.Extension
 {
 	public static class ExtendList
 	{

@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Kernel.Lang.Extension
+namespace GameCore.Lang.Extension
 {
 	public static class ExtendString
 	{

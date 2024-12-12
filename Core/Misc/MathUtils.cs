@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Kernel.Core.Misc;
+using GameCore.Core.Misc;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Kernel.Core
+namespace GameCore.Core
 {
     public class MathUtils
     {

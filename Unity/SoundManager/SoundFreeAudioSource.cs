@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     //满世界跑的挂上这个脚本，方便进行声音的禁用、调大小
     public class SoundFreeAudioSource : MonoBehaviour

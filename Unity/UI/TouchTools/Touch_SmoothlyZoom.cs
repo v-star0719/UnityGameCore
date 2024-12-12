@@ -1,5 +1,5 @@
 using System;
-using Kernel.Unity;
+using GameCore.Unity;
 
 namespace UKernel.Unity
 {

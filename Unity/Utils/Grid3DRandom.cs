@@ -1,9 +1,9 @@
 ﻿using System.Collections;
-using Kernel.Core;
+using GameCore.Core;
 using UnityEngine;
 using Random = System.Random;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     //将子节点按网格排列在3D空间中，每个节点占用一个格子，节点放在格子的随机位置里
     [ExecuteInEditMode]

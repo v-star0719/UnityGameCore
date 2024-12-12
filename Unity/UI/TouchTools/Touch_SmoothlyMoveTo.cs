@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     //这个和触摸操作一般没啥关系，但是一般会同时实现这个功能，就放这一堆吧
     public class Touch_SmoothlyMoveTo

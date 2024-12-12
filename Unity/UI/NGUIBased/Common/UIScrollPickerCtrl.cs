@@ -8,7 +8,7 @@ using System.Collections.Generic;
 //(1)目前没有做循环滚动，循环很麻烦
 //(2)水平形式：从左到右依次对应数组的01234...索引
 //   竖直形式：从上到下依次对应数组的01234...索引
-namespace Kernel.Unity.NguiEx
+namespace GameCore.Unity.NGUIEx
 {
     public delegate void OnScrollPickerSelectChanged(UIScrollPickerItemCtrlBase item, int itemIndex);
 

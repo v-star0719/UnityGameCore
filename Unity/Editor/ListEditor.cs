@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Kernel.Edit;
+using GameCore.Edit;
 using UnityEditor;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     public class ListEditor<T>
     {

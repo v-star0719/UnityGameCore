@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
 
 public class CustomVideoPlayer : MonoBehaviour

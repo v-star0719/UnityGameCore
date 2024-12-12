@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     //将声音分层，每层一个sound player。这样就可以做出一个声音压过其他所有声音的效果了
     //支持AudioClip后台加载。

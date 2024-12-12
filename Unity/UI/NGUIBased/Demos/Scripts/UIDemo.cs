@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-namespace Kernel.Unity.NguiEx
+namespace GameCore.Unity.NGUIEx
 {
     public class UIDemo : MonoBehaviour
     {

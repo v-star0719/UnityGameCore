@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     //在一定范围内随机分布
     [ExecuteInEditMode]

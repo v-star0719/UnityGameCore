@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Net;
 
-namespace Kernel.Unity.RemoteProfile
+namespace GameCore.Unity.RemoteProfile
 {
     public class ProfileBase
     {

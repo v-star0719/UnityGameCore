@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     public class SimpleBezierCurveData : ScriptableObject
     {   //两个一组，分别是位置和旋转。012,234,456这样是表示一个曲线，中间那个是控制点

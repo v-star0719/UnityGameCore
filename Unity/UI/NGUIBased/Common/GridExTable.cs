@@ -1,5 +1,5 @@
-﻿#if NGUI
-namespace UI
+#if NGUI
+namespace GameCore.Unity.NGUIEx
 {
     public class GridExTable : GridEx
     {

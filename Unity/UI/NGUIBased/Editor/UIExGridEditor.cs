@@ -5,7 +5,7 @@ using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Kernel.Unity.NguiEx
+namespace GameCore.Unity.NguiEx
 {
     [CustomEditor(typeof(UIExGrid))]
     public class UIExGridEditor : Editor

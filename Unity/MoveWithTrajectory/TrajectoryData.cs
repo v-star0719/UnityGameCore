@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     //给子弹施加的速度偏移，实现各种神奇的弹道。
     //偏移方向在椎体表面上，从锥顶射出。

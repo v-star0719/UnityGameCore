@@ -3,7 +3,7 @@
 using UnityEngine;
 using System.Collections;
 
-namespace Kernel.Unity.NguiEx
+namespace GameCore.Unity.NGUIEx
 {
     //方向定义
     public enum EmSlideDirection

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     public class PanelBaseCore : MonoBehaviour
     {

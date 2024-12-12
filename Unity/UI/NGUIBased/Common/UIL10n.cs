@@ -1,7 +1,7 @@
-﻿using Misc;
+using Misc;
 using UnityEngine;
 
-namespace UI
+namespace GameCore.Unity.NGUIEx
 {
     public class UIL10n : MonoBehaviour, IL10nMsgReceiver
     {

@@ -4,12 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Kernel.Edit;
-using Kernel.Unity;
+using GameCore.Edit;
+using GameCore.Unity;
 using UnityEditor;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Unity
 {
     public class MiscToolsWnd : EditorWindow
     {

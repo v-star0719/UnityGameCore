@@ -3,7 +3,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-namespace Kernel.Core
+namespace GameCore.Core
 {
     public class FileUtils
     {

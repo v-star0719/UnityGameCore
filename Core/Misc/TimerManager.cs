@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Kernel.Lang.Extension;
+using GameCore.Lang.Extension;
 using UnityEngine;
 
-namespace Kernel.Core
+namespace GameCore.Core
 {
     public class TimerManager : Singleton<TimerManager>
     {

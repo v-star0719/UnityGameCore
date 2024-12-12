@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Kernel.Edit
+namespace GameCore.Edit
 {
 	public interface ISelectFromListData
     {
