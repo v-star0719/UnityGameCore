@@ -4,16 +4,20 @@ using GameCore.Unity;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(MirrorPlane))]
-public class MirrorPlaneEditor : Editor
+namespace GameCore.Unity
 {
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(MirrorPlane))]
+    public class MirrorPlaneEditor : Editor
     {
-        base.OnInspectorGUI();
-        var mp = target as MirrorPlane;
-        if (GUILayout.Button("Reset"))
+        public override void OnInspectorGUI()
         {
-            mp.Reset();
+            base.OnInspectorGUI();
+            var mp = target as MirrorPlane;
+            if(GUILayout.Button("Reset"))
+            {
+                mp.Reset();
+            }
         }
     }
 }
+

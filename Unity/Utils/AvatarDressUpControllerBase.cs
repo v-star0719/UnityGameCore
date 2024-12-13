@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using Config;
 using UnityEngine;
@@ -8,22 +8,23 @@ namespace Kernel.Unity
     public class AvatarDressUpControllerBase : MonoBehaviour
     {
         public SkinnedMeshRenderer body;
-        public SkinnedMeshRenderer testObj;
-        public bool test;
 
-        public virtual void AddDressUp(GameObject go)
+        public virtual void AddDressUp(AvatarDressUpBase dressUp)
         {
-            GameObjectUtils.SetLayer(go.transform, gameObject.layer);
-            go.transform.SetParent(transform, false);
-            CombineSkinnedMesh(go.GetComponent<AvatarDressUpBase>().skin);
+            GameObjectUtils.SetLayer(dressUp.transform, gameObject.layer);
+            dressUp.transform.SetParent(transform, false);
+            foreach (var skin in dressUp.skins)
+            {
+                CombineSkinnedMesh(skin);
+            }
         }
 
         public virtual void RemoveDressUp(GameObject go)
         {
             Destroy(go);
         }
-
-        private void CombineSkinnedMesh(SkinnedMeshRenderer mesh)
+        
+        public void CombineSkinnedMesh(SkinnedMeshRenderer mesh)
         {
             List<Transform> bones = new List<Transform>();
             foreach (var clothBone in mesh.bones)
@@ -46,20 +47,6 @@ namespace Kernel.Unity
                 }
             }
             mesh.bones = bones.ToArray();
-        }
-
-        public void Update()
-        {
-            if (test)
-            {
-                test = false;
-                TestBtn();
-            }
-        }
-
-        public void TestBtn()
-        {
-            CombineSkinnedMesh(testObj);
         }
     }
 }
