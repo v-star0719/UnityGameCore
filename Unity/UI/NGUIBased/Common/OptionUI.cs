@@ -1,5 +1,4 @@
 using System;
-using UIControl;
 using UnityEngine;
 
 #if NGUI

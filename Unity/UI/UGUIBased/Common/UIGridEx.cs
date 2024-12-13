@@ -40,9 +40,9 @@ namespace GameCore.Unity.UGUIEx
         private float itemScale = 1;
         private float itemTotalCount;
         private float dragCheckTimer;
-        private ScrollViewDragDirs dragDirs; //左右上下四个方向是不是可以拖动
+        //private ScrollViewDragDirs dragDirs; //左右上下四个方向是不是可以拖动
 
-        private float dragError = 5f;
+        //private float dragError = 5f;
         private float dragCheckInterval = 0.2f;
         private SpringPanel __springPanel;
         private float autoScrollToHoverObjTimer = 0;
@@ -79,10 +79,10 @@ namespace GameCore.Unity.UGUIEx
             itemPrefab.gameObject.SetActive(false);
 
             enabled = onDraggableChanged != null || autoScrollToHoverObj;
-            if (onDraggableChanged != null)
-            {
-                dragDirs = new ScrollViewDragDirs();
-            }
+            //if (onDraggableChanged != null)
+            //{
+            //    dragDirs = new ScrollViewDragDirs();
+            //}
         }
 
         private void Set(List<IGridExData> datas)

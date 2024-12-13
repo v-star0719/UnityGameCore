@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Diagnostics;
 using System.Text;
-using Kernel.Core;
+using GameCore.Core;
 
 public static class ShellUtils
 {

@@ -30,7 +30,7 @@ namespace GameCore.Unity
             var go = resManager.GetGameObject(name);
             if(go != null)
             {
-                return go.GetComponent<UIPanelBase>();
+                return go.GetComponent<PanelBaseCore>();
             }
             LoggerX.Error($"Panel is not found {name}");
             return null;

@@ -66,7 +66,7 @@ namespace GameCore.Unity.UGUIEx
 
         public void OnCellClicked(UITabCell cell)
         {
-            SoundManager.Instance.Play("Audio_ClickNormal");
+            SoundManager.Instance.PlayNormalSound("Audio_ClickNormal");
             SelectTab(cell.Index);
         }
 
