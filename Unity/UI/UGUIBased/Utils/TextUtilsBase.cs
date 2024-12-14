@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.UGUIEx
 {
     public class TextUtilsBase
     {

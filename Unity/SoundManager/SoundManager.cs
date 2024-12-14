@@ -200,6 +200,11 @@ namespace GameCore.Unity
             Players[(int)sound.layer].Stop(sound.id);
         }
 
+        public void PlayBgm(string name, float volume = 1, float fadeIn = 2f, float fadeOut = 2f)
+        {
+            PlayBgm(new []{name}, volume, fadeIn, fadeOut);
+        }
+
         public void PlayBgm(string[] names, float volume = 1, float fadeIn = 2f, float fadeOut = 2f)
         {
             var player = Players[(int)SoundLayer.bgm] as SoundPlayerBgm;

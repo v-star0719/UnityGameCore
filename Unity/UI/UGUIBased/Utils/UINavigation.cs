@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Kernel.Unity.UI
+namespace GameCore.Unity.UGUIEx
 {
     public class UINavigation : MonoBehaviour
     {

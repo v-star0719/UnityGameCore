@@ -8,18 +8,20 @@ namespace GameCore.Unity
 {
     public class PanelManagerCore
     {
-        private const int DEPTH_GAP = 20;
-
         public Transform UIRoot { get; private set; }
         public Camera Camera { get; private set; }
+        public int DepthGap { get; private set; } = 10;
+        public int StartDepth { get; private set; } = 0;
 
         protected IResManager resManager;
         protected List<PanelBaseCore> panels = new List<PanelBaseCore>();
         public Action<PanelBaseCore> onPanelOpen;
         public Action<PanelBaseCore> onPanelClose;
 
-        public PanelManagerCore(Transform root, IResManager resManager)
+        public PanelManagerCore(Transform root, IResManager resManager, int startDepth = 0, int depthGap = 10)
         {
+            StartDepth = startDepth;
+            DepthGap = depthGap;
             UIRoot = root;
             this.resManager = resManager;
             Camera = root.GetComponentInChildren<Camera>();
@@ -51,7 +53,7 @@ namespace GameCore.Unity
             GameObjectUtils.SetLayer(container.transform, UIRoot.gameObject.layer);
 
             panel.Open(this, args);
-            panel.Depth = panels.Count * DEPTH_GAP;
+            panel.Depth = StartDepth + panels.Count * DepthGap;
 
             if (panel.isFullPanel)
             {

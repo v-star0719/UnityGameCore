@@ -5,16 +5,31 @@ namespace GameCore.Unity
 {
     public class PanelBaseCore : MonoBehaviour
     {
+        [Serializable]
+        public class Settings
+        {
+            public bool isFullPanel; //全屏界面会遮挡主底部的UI
+            public bool blurBg = true;
+            public bool playPopUpAnimation = true;
+            public bool clickBgClose = true;
+
+            public bool playOpenSound = true;
+            public bool playCloseSound = true;
+        }
+
         protected int depth;
         protected PanelManagerCore manager;
-        protected GameObject container;
+        protected PanelContainerCore container;
+
+        public Settings settings;
+
+        public bool IsClosed { get; private set; }
         public string PanelName { get; set; }
+
         public bool isFullPanel; //全屏界面会遮挡主底部的UI
         public bool blurBg = true;
         public bool popUpAnimation = true;
         public bool clickBgClose = true;
-
-        public bool IsClosed { get; private set; }
         public bool playOpenSound = true;
         public bool playCloseSound = true;
 
@@ -24,7 +39,7 @@ namespace GameCore.Unity
             set => depth = value;
         }
 
-        public GameObject Container
+        public PanelContainerCore Container
         {
             get => container;
             set => container = value;
@@ -53,7 +68,7 @@ namespace GameCore.Unity
             {
                 OnClose();
                 IsClosed = true;
-                GameObject.Destroy(container);
+                GameObject.Destroy(container.gameObject);
                 manager.onPanelClose?.Invoke(this);
                 if (playCloseSound)
                 {
@@ -86,11 +101,11 @@ namespace GameCore.Unity
         {
             if (Container != null)
             {
-                Container.SetActive(true);
+                Container.gameObject.SetActive(true);
             }
             else
             {
-                gameObject.SetActive(true);
+                gameObject.gameObject.SetActive(true);
             }
         }
 
@@ -98,7 +113,7 @@ namespace GameCore.Unity
         {
             if (Container != null)
             {
-                Container.SetActive(false);
+                Container.gameObject.SetActive(false);
             }
             else
             {

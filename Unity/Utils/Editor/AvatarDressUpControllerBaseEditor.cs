@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace GameCore.Unity
 {
-    [CustomEditor(typeof(AvatarDressUpControllerBase))]
+    [CustomEditor(typeof(AvatarDressUpControllerBase), true)]
     public class AvatarDressUpControlBaseEditorEditor : Editor
     {
         private SkinnedMeshRenderer skin;

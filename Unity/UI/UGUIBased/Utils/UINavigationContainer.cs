@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Kernel.Unity.UI
+namespace GameCore.Unity.UGUIEx
 {
     //UGUI的自动导航非常准确，只需要满足几点应用需要就可以。
     //1.面板堆叠时，底部的UI导航不生效。这一点用Container实现。新Container激活时，旧的Container中的导航失活

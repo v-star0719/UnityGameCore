@@ -4,14 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GameCore.Unity
 {
     public class PanelCloseButton : MonoBehaviour
     {
-        public void OnClick()
+        private void Start()
         {
-            GetComponentInParent<PanelBaseCore>()?.Close();
+            GetComponent<Button>().onClick.AddListener(() =>
+            {
+                GetComponentInParent<PanelBaseCore>()?.Close();
+            });
         }
     }
 }

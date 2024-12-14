@@ -17,6 +17,10 @@ namespace GameCore.Unity
 
         public void Start()
         {
+            if (Panel == null)
+            {
+                Debug.LogError(TransformUtils.GetTransformPath(transform,  null));
+            }
             EnableBgTexture(Panel.blurBg);
             PlayableDirector.enabled = Panel.popUpAnimation;
             if (Panel.blurBg)
@@ -28,13 +32,14 @@ namespace GameCore.Unity
 
         public void AddPanel(PanelBaseCore panel)
         {
+            Debug.Log("AddPanel " + panel.PanelName);
             gameObject.name = $"{panel.PanelName}[Container]";
             Panel = panel;
-            panel.Container = gameObject;
+            panel.Container = this;
             panel.transform.SetParent(PlayableDirector.transform, false);
         }
 
-        public void OnClick()
+        public void OnBgClick()
         {
             Panel.OnBgClick();
         }

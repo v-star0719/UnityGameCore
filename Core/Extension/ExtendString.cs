@@ -192,6 +192,15 @@ namespace GameCore.Lang.Extension
 				return str.Substring(0, str.Length - left.Length);
 			}
 			return str;
-		}
-	}
+        }
+
+        public static string ToUpperFirst(this string s)
+        {
+            if(String.IsNullOrEmpty(s) || char.IsUpper(s[0]))
+            {
+                return s;
+            }
+            return char.ToUpper(s[0]) + s.Substring(1);
+        }
+}
 }

@@ -3,8 +3,9 @@ using UnityEngine.UI;
 
 namespace GameCore.Unity.UGUIEx
 {
-    public class UIPanelContainerUGUI : PanelContainerCore
+    public class UIPanelContainer: PanelContainerCore
     {
+        public Canvas canvas;
         public RawImage bgTexture;
 
         protected override void EnableBgTexture(bool e)
