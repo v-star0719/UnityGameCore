@@ -18,13 +18,13 @@ namespace GameCore.Unity
         public Action<PanelBaseCore> onPanelOpen;
         public Action<PanelBaseCore> onPanelClose;
 
-        public PanelManagerCore(Transform root, IResManager resManager, int startDepth = 0, int depthGap = 10)
+        public PanelManagerCore(Transform root, IResManager resManager, Camera cam, int startDepth = 0, int depthGap = 10)
         {
             StartDepth = startDepth;
             DepthGap = depthGap;
             UIRoot = root;
             this.resManager = resManager;
-            Camera = root.GetComponentInChildren<Camera>();
+            Camera = cam;
         }
 
         public virtual PanelBaseCore LoadPanel(string name)
@@ -55,13 +55,13 @@ namespace GameCore.Unity
             panel.Open(this, args);
             panel.Depth = StartDepth + panels.Count * DepthGap;
 
-            if (panel.isFullPanel)
+            if (panel.settings.isFullPanel)
             {
                 for (int i = panels.Count - 1; i >= 0; i--)
                 {
                     var p = panels[i];
                     p.Hide();
-                    if (p.isFullPanel)
+                    if (p.settings.isFullPanel)
                     {
                         break; //全面界面下面的UI都已经隐藏了。
                     }
@@ -82,13 +82,13 @@ namespace GameCore.Unity
                 {
                     panels.RemoveAt(i);
                     p.Close(true);
-                    if (p.isFullPanel)
+                    if (p.settings.isFullPanel)
                     {
                         //如果上面没有全屏界面，则把下面的UI打开
                         bool hasFullPanel = false;
                         for (int j = i; j < panels.Count; j++)
                         {
-                            if (panels[j].isFullPanel)
+                            if (panels[j].settings.isFullPanel)
                             {
                                 hasFullPanel = true;
                                 break;
@@ -100,7 +100,7 @@ namespace GameCore.Unity
                             for (int j = i - 1; j >= 0; j--)
                             {
                                 panels[j].Show();
-                                if (panels[j].isFullPanel)
+                                if (panels[j].settings.isFullPanel)
                                 {
                                     break;
                                 }

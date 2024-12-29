@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using GameCore.Core;
 using UnityEngine;
+using UnityEngine.U2D;
 
 namespace GameCore
 {
@@ -14,10 +16,9 @@ namespace GameCore
         {
             LoggerX.AddTarget(new LogToUnity());
         }
-
+        
         protected virtual void Start()
         {
-
         }
 
         protected virtual void Update()

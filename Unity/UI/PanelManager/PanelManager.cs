@@ -12,12 +12,12 @@ namespace GameCore.Unity
 
         public static void InitTop(Transform root, IResManager resManager, int startDepth = 0, int depthGap = 10)
         {
-            Top = new PanelManagerCore(root, resManager, startDepth, depthGap);
+            Top = new PanelManagerCore(root, resManager, Camera.main, startDepth, depthGap);
         }
 
         public static void InitNormal(Transform root, IResManager resManager, int startDepth = 0, int depthGap = 10)
         {
-            Normal = new PanelManagerCore(root, resManager, startDepth, depthGap);
+            Normal = new PanelManagerCore(root, resManager, Camera.main, startDepth, depthGap);
         }
     }
 }

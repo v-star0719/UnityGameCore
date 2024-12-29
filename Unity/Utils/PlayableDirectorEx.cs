@@ -11,7 +11,8 @@ namespace GameCore.Unity
     public class PlayableDirectorEx : MonoBehaviour
     {
         private PlayableDirector _director;
-        private float timer = 0;
+        private double timer = 0;
+        private bool reverse = false;
 
         public PlayableDirector Director
         {
@@ -28,34 +29,71 @@ namespace GameCore.Unity
 
         public void PlayForward()
         {
-            _director.Play();
+            Director.enabled = false;
+            timer = 0;
+            enabled = true;
+            reverse = false;
         }
 
         public void PlayReverse()
         {
-            timer = (float)Director.duration;
-            Director.time = timer;
-            Director.Play();
-            Director.playableGraph.GetRootPlayable(0).SetSpeed(0);
+            Director.enabled = false;
+            timer = Director.duration;
             enabled = true;
+            reverse = true;
         }
 
         private void Update()
         {
-            if (timer <= 0)
+            if (reverse)
             {
-                enabled = false;
-                return;
+                timer -= Time.deltaTime;
+                if(timer <= 0)
+                {
+                    timer = 0;
+                    enabled = false;
+                }
             }
-
-            timer -= Time.deltaTime;
-            if (timer <= 0)
+            else
             {
-                timer = 0;
-                enabled = false;
+                timer += Time.deltaTime;
+                if(timer >= Director.duration)
+                {
+                    timer = Director.duration;
+                    enabled = false;
+                }
             }
+            
             Director.time = timer;
-            Director.playableGraph.GetRootPlayable(0).SetSpeed(0);
+            Director.Evaluate();
+        }
+
+        public void SetToBegin()
+        {
+            Director.time = 0;
+            Director.Evaluate();
+            Director.enabled = false;
+            enabled = false;
+        }
+
+        public void SetToEnd()
+        {
+            Director.time = Director.duration;
+            Director.Evaluate();
+            Director.enabled = false;
+            enabled = false;
+        }
+
+        public void Play(bool forward)
+        {
+            if (forward)
+            {
+                PlayForward();
+            }
+            else
+            {
+                PlayReverse();
+            }
         }
     }
 }

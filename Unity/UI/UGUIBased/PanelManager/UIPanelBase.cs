@@ -25,6 +25,11 @@ namespace GameCore.Unity.UGUIEx
             Close(false);
         }
 
+        public override void SetPosition(Vector3 pos)
+        {
+            transform.position = pos;
+        }
+
         protected override void PlayOpenSound()
         {
             SoundManager.Instance.PlayNormalSound("Audio_PanelOpen");

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GameCore.Unity.UGUIEx
 {
@@ -15,6 +16,7 @@ namespace GameCore.Unity.UGUIEx
         {
             Index = index;
             TabCtrl = tabCtrl;
+            GetComponent<Button>().onClick.AddListener(OnClick);
             if (page != null)
             {
                 page.Init();

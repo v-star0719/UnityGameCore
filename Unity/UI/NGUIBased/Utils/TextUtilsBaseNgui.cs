@@ -2,9 +2,9 @@
 using UnityEngine;
 
 #if NGUI
-namespace GameCore.Unity
+namespace GameCore.Unity.NGUIEx
 {
-    public class TextUtilsBaseNgui
+    public class TextUtilsBase
     {
         public static string[] romans = new[] { "-", "Ⅰ", "Ⅱ", "Ⅲ", "Ⅳ", "Ⅴ", "Ⅵ", "Ⅶ", "Ⅷ", "Ⅸ", "Ⅹ", "Ⅺ" };
 

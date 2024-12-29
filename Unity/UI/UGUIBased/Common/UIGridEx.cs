@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using static UISpriteCollection;
 
 namespace GameCore.Unity.UGUIEx
 {
@@ -143,6 +145,11 @@ namespace GameCore.Unity.UGUIEx
                 go.transform.localScale = new Vector3(itemScale, itemScale, itemScale);
                 item = go.GetComponent<UIGridExItem>();
                 item.grid = this;
+                var button = item.GetComponent<Button>();
+                if (button != null)
+                {
+                    button.onClick.AddListener(item.OnClick);
+                }
                 //Debug.Log($"GetAvailableItem. no recycled items, create new. total {itemTotalCount}");
             }
             else

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,12 +11,19 @@ namespace GameCore.Unity.UGUIEx
 
         protected override void EnableBgTexture(bool e)
         {
-            bgTexture.enabled = e;
+            var c = bgTexture.color;
+            c.a = e ? 1 : 0;
+            bgTexture.color = c;
         }
 
         protected override void SetBgTexture(Texture t)
         {
             bgTexture.texture = t;
+        }
+
+        protected override void HideBgTexture(bool b)
+        {
+            bgTexture.gameObject.SetActive(!b);
         }
     }
 }

@@ -1,6 +1,8 @@
 using GameCore.Core;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
+using UnityEngine.UI;
 
 namespace GameCore.Unity.UGUIEx
 {
@@ -32,6 +34,42 @@ namespace GameCore.Unity.UGUIEx
                     min = Vector3.Min(min, corner);
                     max = Vector3.Max(max, corner);
                 }
+            }
+        }
+
+        public static Bounds CalculateBounding(RectTransform trans, Space space = Space.World)
+        {
+            var min = new Vector3(float.MaxValue, float.MaxValue);
+            var max = new Vector3(float.MinValue, float.MinValue);
+            CalculateBoundingRectInner(trans, ref min, ref max);
+            if (space == Space.Self)
+            {
+                min = trans.InverseTransformPoint(min);
+                max = trans.InverseTransformPoint(max);
+            }
+            return new Bounds((min + max) * 0.5f, max - min);
+        }
+
+        private static void CalculateBoundingRectInner(RectTransform trans, ref Vector3 min, ref Vector3 max)
+        {
+            if(trans == null)
+            {
+                min = Vector3.zero;
+                max = Vector3.zero;
+                return;
+            }
+
+            var corners = new Vector3[4];
+            trans.GetWorldCorners(corners);
+            foreach(Vector3 corner in corners)
+            {
+                min = Vector3.Min(min, corner);
+                max = Vector3.Max(max, corner);
+            }
+
+            for (int i = 0; i < trans.childCount; i++)
+            {
+                CalculateBoundingRectInner(trans.GetChild(i) as RectTransform, ref min, ref max);
             }
         }
     }

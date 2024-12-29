@@ -5,13 +5,21 @@ namespace GameCore.Unity
 {
     public class PanelBaseCore : MonoBehaviour
     {
+        public enum BgType
+        {
+            None,
+            Gray,
+            Blur,
+        }
+
         [Serializable]
         public class Settings
         {
             public bool isFullPanel; //全屏界面会遮挡主底部的UI
-            public bool blurBg = true;
+            public bool blurBg = true;//显示模糊被背景，否则隐藏背景
             public bool playPopUpAnimation = true;
             public bool clickBgClose = true;
+            public BgType bgType = BgType.Blur;
 
             public bool playOpenSound = true;
             public bool playCloseSound = true;
@@ -25,13 +33,6 @@ namespace GameCore.Unity
 
         public bool IsClosed { get; private set; }
         public string PanelName { get; set; }
-
-        public bool isFullPanel; //全屏界面会遮挡主底部的UI
-        public bool blurBg = true;
-        public bool popUpAnimation = true;
-        public bool clickBgClose = true;
-        public bool playOpenSound = true;
-        public bool playCloseSound = true;
 
         public virtual int Depth
         {
@@ -51,7 +52,7 @@ namespace GameCore.Unity
             try
             {
                 OnOpen(args);
-                if (playOpenSound)
+                if (settings.playOpenSound)
                 {
                     PlayOpenSound();
                 }
@@ -70,7 +71,7 @@ namespace GameCore.Unity
                 IsClosed = true;
                 GameObject.Destroy(container.gameObject);
                 manager.onPanelClose?.Invoke(this);
-                if (playCloseSound)
+                if (settings.playCloseSound)
                 {
                     PlayCloseSound();
                 }
@@ -121,14 +122,14 @@ namespace GameCore.Unity
             }
         }
 
-        public void SetPosition(Vector3 pos)
+        public virtual void SetPosition(Vector3 pos)
         {
             container.transform.position = pos;
         }
 
         public virtual void OnBgClick()
         {
-            if (clickBgClose)
+            if (settings.clickBgClose)
             {
                 Close(false);
             }

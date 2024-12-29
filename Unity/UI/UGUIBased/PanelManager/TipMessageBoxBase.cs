@@ -1,5 +1,6 @@
 using GameCore.Unity;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace GameCore.Unity.UGUIEx
 {
@@ -7,7 +8,7 @@ namespace GameCore.Unity.UGUIEx
     //当点击弹窗本体关闭时，不会触发底部的点击，非常安全。点击弹窗本体不关闭。
     //
     //（2）自动放置在指定的位置周围，并确保UI在屏幕内
-    public class TipMessageBoxBase : UIPanelBase
+    public class TipMessageBoxBase : UIPanelBase, IPointerClickHandler
     {
         //点击屏幕其他任意位置关闭
         [HideInInspector]
@@ -17,7 +18,7 @@ namespace GameCore.Unity.UGUIEx
 
         //自动放置在指定的位置周围
         private bool isPlaced;//是否处理了
-        private UIPanel panel;
+        private CanvasGroup canvasGroup;
         private bool waitPlace;//有时候需要等界面排列完毕
 
         protected override void OnOpen(params object[] args)
@@ -41,17 +42,15 @@ namespace GameCore.Unity.UGUIEx
             }
             else
             {
-                panel = gameObject.GetComponentInParent<UIPanel>();
-                if(panel == null)
+                canvasGroup = gameObject.GetComponentInChildren<CanvasGroup>();
+                if(canvasGroup == null)
                 {
-                    Debug.LogError("UIPanel is required to fade in");
+                    Debug.LogError("CanvasGroup is required to fade in");
                     isPlaced = true;
                     return;
                 }
-                panel.alpha = 0;
+                canvasGroup.alpha = 0;
             }
-
-            UICamera.onPress += OnPress;
         }
 
         public void Update()
@@ -60,10 +59,10 @@ namespace GameCore.Unity.UGUIEx
             {
                 if(!waitPlace)
                 {
-                    panel.alpha = 1;
-                    var uiGo = transform.GetChild(0).gameObject;
-                    //NGUIUtils.AutoPlaceUI(gameObject, uiGo, arg.worldPos);
-                    //NGUIUtils.ConstrainUIInScreen(uiGo);
+                    canvasGroup.alpha = 1;
+                    var ui = transform.GetChild(0) as RectTransform;
+                    UGUIUtils.AutoPlaceUI(ui, arg.worldPos);
+                    UGUIUtils.ConstrainUIInScreen(ui);
                     isPlaced = true;
                 }
             }
@@ -105,8 +104,12 @@ namespace GameCore.Unity.UGUIEx
 
         public virtual void OnDestroy()
         {
-            UICamera.onPress -= OnPress;
             this.trigger = null;
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            Debug.Log(eventData.pointerClick);
         }
     }
 

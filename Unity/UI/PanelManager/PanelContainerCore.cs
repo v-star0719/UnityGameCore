@@ -21,18 +21,26 @@ namespace GameCore.Unity
             {
                 Debug.LogError(TransformUtils.GetTransformPath(transform,  null));
             }
-            EnableBgTexture(Panel.blurBg);
-            PlayableDirector.enabled = Panel.popUpAnimation;
-            if (Panel.blurBg)
+
+            if (Panel.settings.bgType == PanelBaseCore.BgType.None)
             {
-                PlayableDirector.gameObject.SetActive(false);
-                StartCoroutine(MakeBlurBg());
+                HideBgTexture(true);
             }
+            else
+            {
+                HideBgTexture(false);
+                EnableBgTexture(false);//先隐藏，ugui中没有图的时候是白的，影响截图
+                if(Panel.settings.blurBg)
+                {
+                    PlayableDirector.gameObject.SetActive(false);
+                    StartCoroutine(MakeBlurBg());
+                }
+            }
+            PlayableDirector.enabled = Panel.settings.playPopUpAnimation;
         }
 
         public void AddPanel(PanelBaseCore panel)
         {
-            Debug.Log("AddPanel " + panel.PanelName);
             gameObject.name = $"{panel.PanelName}[Container]";
             Panel = panel;
             panel.Container = this;
@@ -48,6 +56,10 @@ namespace GameCore.Unity
         {
         }
 
+        protected virtual void HideBgTexture(bool b)
+        {
+        }
+
         protected virtual void SetBgTexture(Texture t)
         {
         }
@@ -57,6 +69,7 @@ namespace GameCore.Unity
             yield return new WaitForEndOfFrame(); //截屏需要等一帧
             screenCapture = ScreenCapture.CaptureScreenshotAsTexture();
             SetBgTexture(screenCapture);
+            EnableBgTexture(Panel.settings.blurBg);
             makingData = BlurTextureMaker.Blur(screenCapture);
             PlayableDirector.gameObject.SetActive(true);
         }

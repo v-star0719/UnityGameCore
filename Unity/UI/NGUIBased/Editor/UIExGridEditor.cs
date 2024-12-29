@@ -4,9 +4,8 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
-using GameCore.Unity.NGUIEx;
 
-namespace GameCore.Unity.NguiEx
+namespace GameCore.Unity.NGUIEx
 {
     [CustomEditor(typeof(UIExGrid))]
     public class UIExGridEditor : Editor
