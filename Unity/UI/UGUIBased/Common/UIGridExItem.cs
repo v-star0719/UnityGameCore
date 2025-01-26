@@ -6,8 +6,8 @@ namespace GameCore.Unity.UGUIEx
     {
         public GameObject selectedMark;
 
-        [HideInInspector] public UIGridEx grid;
-        [HideInInspector] public int index;
+        [ReadOnly] public UIGridEx grid;
+        [ReadOnly] public int index;
 
         public IGridExData baseData;
 

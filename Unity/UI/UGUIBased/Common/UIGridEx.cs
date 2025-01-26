@@ -74,6 +74,11 @@ namespace GameCore.Unity.UGUIEx
 
         protected virtual void Init()
         {
+            if (itemPrefab == null)
+            {
+                Debug.LogError("itemPrefab has not been set");
+                return;
+            }
             items = new List<UIGridExItem>();
             recycledItems = new List<UIGridExItem>();
             itemTotalCount = 0;

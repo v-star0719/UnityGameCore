@@ -1,3 +1,5 @@
+using System;
+using GameCore.Core;
 using GameCore.Scripts;
 using UnityEngine;
 
@@ -43,13 +45,20 @@ namespace GameCore.Unity.NGUIEx
 
             if(page != null)
             {
-                if (sel)
+                try
                 {
-                    page.Show();
+                    if(sel)
+                    {
+                        page.Show();
+                    }
+                    else
+                    {
+                        page.Hide();
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    page.Hide();
+                    LoggerX.Error(e.ToString());
                 }
             }
         }

@@ -20,6 +20,15 @@ namespace GameCore.Unity.UGUIEx
             if (page != null)
             {
                 page.Init();
+                page.gameObject.SetActive(false);
+            }
+            if(normalGo != null)
+            {
+                normalGo.SetActive(false);
+            }
+            if(selectGo != null)
+            {
+                selectGo.SetActive(false);
             }
         }
 

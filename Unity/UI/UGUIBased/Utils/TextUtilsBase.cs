@@ -5,7 +5,8 @@ namespace GameCore.Unity.UGUIEx
 {
     public class TextUtilsBase
     {
-        public static string[] romans = new[] { "-", "¢ñ", "¢ò", "¢ó", "¢ô", "¢õ", "¢ö", "¢÷", "¢ø", "¢ù", "¢ú", "¢û" };
+        //
+        public static string[] romans = new[] { "-", "¢ñ", "¢ò", "¢ó", "¢ô", "¢õ", "¢ö", "¢÷", "¢ø", "¢ù", "¢ú", "¢û", "¢ü" };
 
         public static string NumberToRoman(int n)
         {

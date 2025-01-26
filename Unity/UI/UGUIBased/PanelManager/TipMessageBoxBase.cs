@@ -13,7 +13,7 @@ namespace GameCore.Unity.UGUIEx
         //点击屏幕其他任意位置关闭
         [HideInInspector]
         public GameObject trigger;//点在trigger上不会触发关闭
-        public TipMessageBoxBaseArg arg;
+        public Argument arg;
         private static int lastTipCloseFrame = 0;
 
         //自动放置在指定的位置周围
@@ -29,7 +29,7 @@ namespace GameCore.Unity.UGUIEx
                 return;
             }
 
-            arg = args[0] as TipMessageBoxBaseArg;
+            arg = args[0] as Argument;
             trigger = arg.trigger;
         }
 
@@ -111,19 +111,19 @@ namespace GameCore.Unity.UGUIEx
         {
             Debug.Log(eventData.pointerClick);
         }
-    }
 
-    public class TipMessageBoxBaseArg
-    {
-        public GameObject trigger;
-        public Vector3 worldPos; //提示位置。会自动放置在该位置周围
-        public bool doNotAutoPlace;//如果不需要自动摆放位置并限制在屏幕内，设置true
-
-        public TipMessageBoxBaseArg(GameObject trigger, Vector3 worldPos, bool doNotAutoPlace = false)
+        public class Argument
         {
-            this.trigger = trigger;
-            this.worldPos = worldPos;
-            this.doNotAutoPlace = doNotAutoPlace;
+            public GameObject trigger;
+            public Vector3 worldPos; //提示位置。会自动放置在该位置周围
+            public bool doNotAutoPlace;//如果不需要自动摆放位置并限制在屏幕内，设置true
+
+            public Argument(GameObject trigger, Vector3 worldPos, bool doNotAutoPlace = false)
+            {
+                this.trigger = trigger;
+                this.worldPos = worldPos;
+                this.doNotAutoPlace = doNotAutoPlace;
+            }
         }
     }
 }

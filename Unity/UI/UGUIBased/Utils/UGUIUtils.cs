@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace GameCore.Unity.UGUIEx
 {
-    public class UGUIUtils
+    public static class UGUIUtils
     {
         //     ¡õ
         //     ¡ü
@@ -141,6 +141,13 @@ namespace GameCore.Unity.UGUIEx
         public static Vector2 GetViewSize(RectTransform trans)
         {
             return trans.GetComponentInParent<CanvasScaler>().GetComponent<RectTransform>().sizeDelta;
+        }
+
+        public static void SetAlpha(this Image image, float alpha)
+        {
+            var clr = image.color;
+            clr.a = alpha;
+            image.color = clr;
         }
     }
 }

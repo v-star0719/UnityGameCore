@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 //标签页控件
 //可以在标签上指定对应的页面
@@ -10,7 +11,7 @@ namespace GameCore.Unity.UGUIEx
     public class UITabCtrl : MonoBehaviour
     {
         private List<UITabCell> cellList = new List<UITabCell>();
-        public List<EventDelegate> onSelect = new List<EventDelegate>();
+        public List<UnityEvent> onSelect = new List<UnityEvent>();
         public bool initOnAwake = true;
 
         private int curSelect = -1;
@@ -41,7 +42,6 @@ namespace GameCore.Unity.UGUIEx
             {
                 var cell = cellList[i];
                 cell.Init(i, this);
-                cell.Select(false);
             }
         }
 
@@ -60,7 +60,10 @@ namespace GameCore.Unity.UGUIEx
                     cellList[index].Select(true);
                 }
                 curSelect = index;
-                EventDelegate.Execute(onSelect);
+                foreach (var ue in onSelect)
+                {
+                    ue.Invoke();
+                }
             }
         }
 
@@ -81,6 +84,18 @@ namespace GameCore.Unity.UGUIEx
         public UITabPage GetPage(int index)
         {
             return cellList[index].page;
+        }
+
+        public T GetPage<T>() where T : UITabPage
+        {
+            foreach (var cell in cellList)
+            {
+                if (cell.page is T page)
+                {
+                    return page;
+                }
+            }
+            return null;
         }
     }
 }

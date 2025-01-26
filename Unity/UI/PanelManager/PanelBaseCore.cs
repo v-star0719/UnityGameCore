@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using GameCore.Core;
 using UnityEngine;
 
 namespace GameCore.Unity
@@ -16,7 +18,7 @@ namespace GameCore.Unity
         public class Settings
         {
             public bool isFullPanel; //全屏界面会遮挡主底部的UI
-            public bool blurBg = true;//显示模糊被背景，否则隐藏背景
+            public bool blurBg = true; //显示模糊被背景，否则隐藏背景
             public bool playPopUpAnimation = true;
             public bool clickBgClose = true;
             public BgType bgType = BgType.Blur;
@@ -33,6 +35,8 @@ namespace GameCore.Unity
 
         public bool IsClosed { get; private set; }
         public string PanelName { get; set; }
+
+        private Dictionary<Enum, Action<object>> events = new();
 
         public virtual int Depth
         {
@@ -75,6 +79,12 @@ namespace GameCore.Unity
                 {
                     PlayCloseSound();
                 }
+
+                foreach (var ev in events)
+                {
+                    EventManager.Inst.UnsubscribeEvent(ev.Key, ev.Value);
+                }
+                events.Clear();
             }
             else
             {
@@ -133,6 +143,12 @@ namespace GameCore.Unity
             {
                 Close(false);
             }
+        }
+
+        public void SubscribeEvent(Enum e, Action<object> action)
+        {
+            EventManager.Inst.SubscribeEvent(e, action);
+            events.Add(e, action);
         }
     }
 }
