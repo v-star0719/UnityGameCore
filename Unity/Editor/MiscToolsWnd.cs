@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace GameCore.Unity
 {
-    public class MiscToolsWnd : EditorWindow
+    public partial class MiscToolsWnd : EditorWindow
     {
         public string playerPrefersKey;
         public int playerPrefersInt;
@@ -51,7 +51,7 @@ namespace GameCore.Unity
                 CreateTexture2DArray.ShowWindow();
             }
 
-            using (Edit.GUIUtil.LayoutHorizontal())
+            using (Edit.GUIUtil.LayoutHorizontal(EditorGUIUtil.StyleBox))
             {
                 GUILayout.Label("SetPlayerPrefers", GUILayout.ExpandWidth(false));
                 GUILayout.Label("key");
@@ -63,35 +63,8 @@ namespace GameCore.Unity
                     PlayerPrefs.SetInt(playerPrefersKey, playerPrefersInt);
                 }
             }
-        }
 
-        public static void BoxColliderFitToMesh()
-        {
-            if (Selection.transforms.Length == 0)
-            {
-                return;
-            }
-
-            for (int i = 0; i < Selection.transforms.Length; i++)
-            {
-                var trans = Selection.transforms[i];
-                BoxCollider collider = trans.GetComponentInChildren<BoxCollider>();
-                if (collider == null)
-                {
-                    Debug.LogError(trans + "no collider");
-                    return;
-                }
-
-                MeshRenderer renderer = trans.GetComponentInChildren<MeshRenderer>();
-                if (renderer == null)
-                {
-                    Debug.LogError(trans + "no mesh renderer");
-                    return;
-                }
-
-                collider.center = renderer.bounds.center - trans.position;
-                collider.size = renderer.bounds.size;
-            }
+            GUIPivotAndCenterOffset();
         }
     }
 }

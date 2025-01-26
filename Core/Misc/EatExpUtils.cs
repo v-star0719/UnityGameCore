@@ -5,25 +5,25 @@ namespace GameCore.Core
     public class EatExpUtils
     {
         //getUpgradeNeedExp: 获取当前等级升级需要的经验
-        public static void Add(int expItemCount, int expPerItem, ref int lv, ref int exp, int maxLv, Func<int, int> getUpgradeNeedExp,
+        public static void Add(int expItemCount, int expPerItem, ref int curLv, ref int curExp, int maxLv, Func<int, int> getUpgradeNeedExp,
             out int usedItemCount)
         {
             usedItemCount = 0;
             for (int i = 0; i < expItemCount; i++)
             {
                 usedItemCount++;
-                exp += expPerItem;
-                var needExp = getUpgradeNeedExp(lv);
-                while (exp >= needExp)
+                curExp += expPerItem;
+                var needExp = getUpgradeNeedExp(curLv);
+                while (curExp >= needExp)
                 {
-                    exp -= needExp;
-                    lv++;
+                    curExp -= needExp;
+                    curLv++;
 
-                    if (lv == maxLv)
+                    if (curLv == maxLv)
                     {
                         return;
                     }
-                    needExp = getUpgradeNeedExp(lv);
+                    needExp = getUpgradeNeedExp(curLv);
                 }
             }
         }

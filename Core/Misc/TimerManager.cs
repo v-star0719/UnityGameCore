@@ -25,7 +25,7 @@ namespace GameCore.Core
                 this.leftTimes = times;
                 this.onTick = onTick;
                 this.onFinish = onFinish;
-                time = interval;
+                time = interval + delay;
             }
         }
 

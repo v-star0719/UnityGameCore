@@ -24,8 +24,9 @@ namespace GameCore
         protected virtual void Update()
         {
             var deltaTime = Time.deltaTime;
-            EventManager.Instance.Tick(deltaTime);
+            EventManager.Inst.Tick(deltaTime);
             SceneManagerX.Inst.Tick(deltaTime);
+            TimerManager.Inst.Tick(deltaTime);
         }
 
         protected virtual void OnDestroy()

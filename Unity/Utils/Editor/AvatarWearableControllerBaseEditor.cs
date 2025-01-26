@@ -8,8 +8,8 @@ using UnityEngine;
 
 namespace GameCore.Unity
 {
-    [CustomEditor(typeof(AvatarDressUpControllerBase), true)]
-    public class AvatarDressUpControlBaseEditorEditor : Editor
+    [CustomEditor(typeof(AvatarWearableControllerBase), true)]
+    public class AvatarWearableControlBaseEditorEditor : Editor
     {
         private SkinnedMeshRenderer skin;
 
@@ -17,12 +17,12 @@ namespace GameCore.Unity
         {
             base.OnInspectorGUI();
             
-            skin = EditorGUILayout.ObjectField("dressUp", skin, typeof(SkinnedMeshRenderer), true) as SkinnedMeshRenderer;
+            skin = EditorGUILayout.ObjectField("Wearable", skin, typeof(SkinnedMeshRenderer), true) as SkinnedMeshRenderer;
             using (GUIUtil.Enabled(skin != null))
             {
                 if(GUILayout.Button("Combine"))
                 {
-                    (target as AvatarDressUpControllerBase).CombineSkinnedMesh(skin);
+                    (target as AvatarWearableControllerBase).CombineSkinnedMesh(skin);
                 }
             }
         }

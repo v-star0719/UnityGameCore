@@ -45,7 +45,7 @@ namespace GameCore.Unity
             return null;
         }
 
-        public static string GetTransformPath(Transform node, Transform root)
+        public static string GetTransformPath(Transform node, Transform root = null)
         {
             string rt = node.name;
             node = node.parent;

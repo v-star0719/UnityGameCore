@@ -10,11 +10,12 @@ namespace GameCore.Unity
     public class AnimatorPlayer : MonoBehaviour
     {
         public Animator animator;
-        private float timer;
+        public float Timer { get; private set; }
         private float duration;
         private Action onFinish;
         private string stateName;
         private bool applyRootMotion;
+        private bool isLoop;
 
         private void Start()
         {
@@ -28,16 +29,24 @@ namespace GameCore.Unity
                 if (s.IsName(stateName))
                 {
                     duration = s.length;
+                    isLoop = s.loop;
                 }
             }
             else
             {
-                timer += Time.deltaTime;
-                if (timer >= duration)
+                Timer += Time.deltaTime;
+                if (Timer >= duration)
                 {
-                    enabled = false;
-                    animator.applyRootMotion = applyRootMotion;
-                    onFinish?.Invoke();
+                    if (isLoop)
+                    {
+                        Timer -= duration;
+                    }
+                    else
+                    {
+                        enabled = false;
+                        animator.applyRootMotion = applyRootMotion;
+                        onFinish?.Invoke();
+                    }
                 }
             }
         }
@@ -65,7 +74,24 @@ namespace GameCore.Unity
                 animator.Play(stateName);
             }
             duration = -1;
-            timer = 0;
+            Timer = 0;
+        }
+
+        public void Pause()
+        {
+            animator.speed = 0;
+        }
+
+        public void Resume()
+        {
+            animator.speed = 1;
+        }
+
+        public void Stop()
+        {
+            duration = -1;
+            enabled = false;
+            onFinish?.Invoke();
         }
     }
 }

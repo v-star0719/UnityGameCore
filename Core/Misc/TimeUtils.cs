@@ -5,30 +5,45 @@ namespace GameCore.Core
     class TimeUtils
     {
         public const long TICKS_19700101 = 621355968000000000;	//C#中1970年的时间ticks，用于处理java时间戳
-        public const long TICKS_SECOND = 1000;
-        public const long TICKS_MINUTE = 1000 * 60;
-        public const long TICKS_HOUR = 1000 * 60 * 60;
-        public const long TICKS_DAY = 1000 * 60 * 60 * 24;
 
         public static DateTime GetDateTimeBy1970Utc(long seconds)
         {
-            long tricksCSharp = 10000 * seconds + TICKS_19700101;
+            long tricksCSharp = TimeSpan.TicksPerSecond * seconds + TICKS_19700101;
             DateTime wantData = new DateTime(tricksCSharp);
             return wantData;
         }
 
-        public static string GetHmsString(long t)
+        public static string GetHmsString(long ticks)
         {
-            long hour = t / TICKS_HOUR;
-            long minute = (t % TICKS_HOUR) / TICKS_MINUTE;
-            long second = (t % TICKS_MINUTE) / TICKS_SECOND;
+            var hour = ticks / TimeSpan.TicksPerHour;
+            ticks -= ticks * TimeSpan.TicksPerHour;
+            var minute = ticks / TimeSpan.TicksPerMinute;
+            ticks -= ticks * TimeSpan.TicksPerMinute;
+            var second = ticks / TimeSpan.TicksPerSecond;
             return $"{hour:00}:{minute:00}:{second:00}";
         }
 
-        public static string GetMsString(long t)
+        public static string GetHmsString(int seconds)
         {
-            long minute = (t / TICKS_MINUTE);
-            long second = (t % TICKS_MINUTE) / TICKS_SECOND;
+            var hour = seconds / 3600;
+            seconds -= seconds * 3600;
+            var minute = seconds / 60;
+            var second = seconds - seconds * 60;
+            return $"{hour:00}:{minute:00}:{second:00}";
+        }
+
+        public static string GetMsString(long ticks)
+        {
+            var minute = ticks / TimeSpan.TicksPerMinute;
+            ticks -= ticks * TimeSpan.TicksPerMinute;
+            var second = ticks / TimeSpan.TicksPerSecond;
+            return $"{minute:00}:{second:00}";
+        }
+
+        public static string GetMsString(int seconds)
+        {
+            var minute = seconds / 60;
+            var second = seconds - 60 * minute;
             return $"{minute:00}:{second:00}";
         }
 

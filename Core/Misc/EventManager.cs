@@ -5,7 +5,7 @@ namespace GameCore.Core
 {
 	public class EventManager
 	{
-		public static EventManager Instance = new EventManager();
+		public static EventManager Inst = new EventManager();
 		private readonly Dictionary<Enum, List<Action<Object>>> subscriptions = new Dictionary<Enum, List<Action<Object>>>();
 		private readonly List<Enum> tickEvents = new List<Enum>();
 		private readonly List<Object> tickEventsArg = new List<Object>();
@@ -24,7 +24,14 @@ namespace GameCore.Core
 			{
 				foreach(var action in subscription)
 				{
-					action(arg);
+                    try
+                    {
+                        action(arg);
+                    }
+                    catch (Exception e)
+                    {
+                        LoggerX.Error(e.ToString());
+                    }
 				}
 			}
 		}
