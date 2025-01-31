@@ -54,21 +54,26 @@ namespace Kernel.Unity
                 var bodyBone = FindBoneOnBody(clothBone.name);
                 if (bodyBone == null)
                 {
-                    Debug.LogWarning($"Missing bone:{clothBone.name}£¬try to create fake bone");
-                    var parent = FindBoneOnBody(clothBone.transform.parent.name);
-                    if (parent == null)
+                    //Debug.LogWarning($"Missing bone:{clothBone.name}£¬try to create fake bone");
+                    //var parent = FindBoneOnBody(clothBone.transform.parent.name);
+                    //if (parent == null)
+                    //{
+                    //    Debug.LogError($"failed, no parent bone: {clothBone.transform.parent.name}");
+                    //    return;
+                    //}
+
+                    //var go = new GameObject(clothBone.name);
+                    //bodyBone = go.transform;
+                    //bodyBone.parent = parent;
+                    //bodyBone.transform.localPosition = clothBone.localPosition;
+                    //bodyBone.transform.localScale = clothBone.localScale;
+                    //bodyBone.transform.localRotation = clothBone.localRotation;
+                    //Debug.LogWarning("Create fake bone success");
+                    bodyBone = CreateFakeBoneOnBody(clothBone);
+                    if (bodyBone==null)
                     {
-                        Debug.LogError($"failed, no parent bone: {clothBone.transform.parent.name}");
                         return;
                     }
-
-                    var go = new GameObject(clothBone.name);
-                    bodyBone = go.transform;
-                    bodyBone.parent = parent;
-                    bodyBone.transform.localPosition = clothBone.localPosition;
-                    bodyBone.transform.localScale = clothBone.localScale;
-                    bodyBone.transform.localRotation = clothBone.localRotation;
-                    Debug.LogWarning("Create fake bone success");
                 }
 
                 bones.Add(bodyBone);
@@ -97,6 +102,30 @@ namespace Kernel.Unity
                 }
             }
             return null;
+        }
+
+        private Transform CreateFakeBoneOnBody(Transform bone)
+        {
+            var parentBone = FindBoneOnBody(bone.parent.name);
+            if (parentBone == null)
+            {
+                Debug.LogWarning($"Missing bone:{bone.parent.name}£¬try to create fake bone");
+                parentBone = CreateFakeBoneOnBody(bone.parent);
+            }
+            if(parentBone == null)
+            {
+                Debug.LogError($"failed, no parent bone: {bone.parent.name}");
+                return null;
+            }
+
+            var go = new GameObject(bone.name);
+            var bodyBone = go.transform;
+            bodyBone.parent = parentBone;
+            bodyBone.transform.localPosition = bone.localPosition;
+            bodyBone.transform.localScale = bone.localScale;
+            bodyBone.transform.localRotation = bone.localRotation;
+            Debug.LogWarning($"Create fake bone success {bone.name}");
+            return bodyBone;
         }
     }
 }
