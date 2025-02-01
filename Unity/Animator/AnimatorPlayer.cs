@@ -57,7 +57,6 @@ namespace GameCore.Unity
             enabled = true;
             this.onFinish = onFinish;
 
-            animator = GetComponentInChildren<Animator>();
             applyRootMotion = animator.applyRootMotion;
 
             if (rootMotion != null)
