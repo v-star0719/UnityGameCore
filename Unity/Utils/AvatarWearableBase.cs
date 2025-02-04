@@ -17,5 +17,16 @@ namespace Kernel.Unity
         }
         public List<SkinnedMeshRenderer> skins = new();
         public List<MeshSkinData> meshSkins = new();
+
+        public void OnDestroy()
+        {
+            foreach (var m in meshSkins)
+            {
+                if (m.meshRenderer != null)
+                {
+                    Destroy(m.meshRenderer);  
+                }
+            }
+        }
     }
 }
