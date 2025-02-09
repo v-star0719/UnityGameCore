@@ -7,7 +7,6 @@ using UnityEngine;
 [CustomEditor(typeof(UIScrollPickerBase), true)]
 public class UIScrollPickerEditor : Editor
 {
-    private float t = 0;
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
