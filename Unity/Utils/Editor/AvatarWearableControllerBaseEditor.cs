@@ -9,7 +9,7 @@ using UnityEngine;
 namespace GameCore.Unity
 {
     [CustomEditor(typeof(AvatarWearableControllerBase), true)]
-    public class AvatarWearableControlBaseEditorEditor : Editor
+    public class AvatarWearableControlBaseEditor : Editor
     {
         private SkinnedMeshRenderer skin;
 
