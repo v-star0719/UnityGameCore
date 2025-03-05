@@ -11,15 +11,23 @@ using UnityEngine;
 
 namespace GameCore.Unity
 {
-    public partial class MiscToolsWnd : EditorWindow
+    public partial class MiscToolsWnd : EditorWindowBase
     {
         public string playerPrefersKey;
         public int playerPrefersInt;
         public int playerPrefersString;
+        private EditDataStringField batchNameFormat;
+
         [MenuItem("Tools/Misc/MiniTools")]
         public static void Open()
         {
             GetWindow<MiscToolsWnd>("MiscToolsWnd");
+        }
+
+        protected override void InitEditDataFields()
+        {
+            base.InitEditDataFields();
+            batchNameFormat = new("MiscToolsWnd.batchNameFormat", "{0}", this);
         }
 
         public void OnGUI()
@@ -64,6 +72,20 @@ namespace GameCore.Unity
                 }
             }
 
+            using (Edit.GUIUtil.LayoutHorizontal(EditorGUIUtil.StyleBox))
+            {
+                GUILayout.Label("BatchRename", GUILayout.ExpandWidth(false));
+                batchNameFormat.Value = EditorGUILayout.TextField(batchNameFormat.Value);
+                if (GUILayout.Button($"Do (Select:{Selection.objects.Length}", GUILayout.ExpandWidth(false)))
+                {
+                    for (var i = 0; i < Selection.objects.Length; i++)
+                    {
+                        var obj = Selection.objects[i];
+                        obj.name = string.Format(batchNameFormat.Value, i);
+                    }
+                }
+            }
+            
             GUIPivotAndCenterOffset();
         }
     }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using GameCore.Core;
@@ -111,5 +112,20 @@ namespace GameCore.Unity
             return null;
         }
 
+        public static List<string> GetMaterialTextureProperties(Material mat)
+        {
+            List<string> results = new List<string>();
+
+            Shader shader = mat.shader;
+            for(int i = 0; i < ShaderUtil.GetPropertyCount(shader); ++i)
+            {
+                if(ShaderUtil.GetPropertyType(shader, i) == ShaderUtil.ShaderPropertyType.TexEnv)
+                {
+                    results.Add(ShaderUtil.GetPropertyName(shader, i));
+                }
+            }
+
+            return results;
+        }
     }
 }

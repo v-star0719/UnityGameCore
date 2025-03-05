@@ -24,6 +24,7 @@ namespace GameCore.Unity
 
         public int itemPerLine;
         public bool reposition;
+        public bool hideInvisible;
 
         // Start is called before the first frame update
         void Start()
@@ -64,6 +65,11 @@ namespace GameCore.Unity
             for (int i = 0; i < count; i++)
             {
                 var trans = transform.GetChild(i);
+                if (hideInvisible && !trans.gameObject.activeSelf)
+                {
+                    continue;
+                }
+
                 trans.localPosition = curPos;
 
                 col++;
@@ -78,8 +84,6 @@ namespace GameCore.Unity
                     curPos = curPos + columnGap;
                 }
             }
-
-
         }
     }
 }
