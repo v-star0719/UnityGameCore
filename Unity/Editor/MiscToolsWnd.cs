@@ -17,6 +17,8 @@ namespace GameCore.Unity
         public int playerPrefersInt;
         public int playerPrefersString;
         private EditDataStringField batchNameFormat;
+        private Color linnerToSrgbSource;
+        private Color linnerToSrgbTarget;
 
         [MenuItem("Tools/Misc/MiniTools")]
         public static void Open()
@@ -85,8 +87,26 @@ namespace GameCore.Unity
                     }
                 }
             }
+
+            using (Edit.GUIUtil.LayoutHorizontal(EditorGUIUtil.StyleBox))
+            {
+                GUILayout.Label("LinnerToSrgb", GUILayout.ExpandWidth(false));
+                var clr = EditorGUILayout.ColorField(linnerToSrgbSource, GUILayout.Width(100));
+                GUILayout.Label("===>", GUILayout.ExpandWidth(false));
+                EditorGUILayout.ColorField(linnerToSrgbTarget, GUILayout.Width(100));
+                if (clr != linnerToSrgbSource)
+                {
+                    linnerToSrgbSource = clr;
+                    linnerToSrgbTarget = new Color(L2S(clr.r), L2S(clr.g), L2S(clr.b));
+                }
+            }
             
             GUIPivotAndCenterOffset();
+        }
+
+        public static float L2S(float f)
+        {
+            return f <= 0.0031308f ? 12.92f * f : 1.055f * (f * (1 / 2.4f)) - 0.055f;
         }
     }
 }
