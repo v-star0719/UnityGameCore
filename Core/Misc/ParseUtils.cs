@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GameCore.Core
 {
-    class ParseUtils
+    public class ParseUtils
     {
 		public static bool TryParseVector2(string value, out Vector2 v)
 		{
