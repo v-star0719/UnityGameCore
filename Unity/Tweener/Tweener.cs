@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Events;
@@ -45,6 +46,7 @@ namespace GameCore.Unity.Tweener
         private Direction direction;
         private float delayTimer = 0;
         private float timer = -1;
+        private Action onFinishCallback;//允许调用的时候传参，方便处理
 
         protected virtual void Start()
         {
@@ -147,6 +149,7 @@ namespace GameCore.Unity.Tweener
             {
                 ev.Invoke();
             }
+            onFinishCallback?.Invoke();
         }
 
 		public void Stop()
@@ -217,12 +220,13 @@ namespace GameCore.Unity.Tweener
 			return val;
 		}
 
-		public virtual void Play (bool forward)
+		public virtual void Play (bool forward, Action onFinish = null)
         {
             enabled = true;
             timer = forward ? 0 : duration;
             delayTimer = 0;
             direction = forward ? Direction.Forward : Direction.Backward;
+            onFinishCallback = onFinish;
 			Sample(forward ? 0 : 1);
         }
 

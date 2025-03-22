@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GameCore.Core
 {
-    class StringUtils
+    public class StringUtils
     {
         public static bool IsTelePhone(string str_handset)
         {
@@ -67,6 +67,21 @@ namespace GameCore.Core
             return sb.ToString();
         }
 
+        public static void SortByNumberInString(IList<string> list)
+        {
+            var tmpList = new List<StringWithIntInfo>(list.Count);
+            foreach (var l in list)
+            {
+                tmpList.Add(new StringWithIntInfo(l));
+            }
+            tmpList.Sort((a, b) => a.Number.CompareTo(b.Number));
+            list.Clear();
+            foreach (var info in tmpList)
+            {
+                list.Add(info.Str);
+            }
+        }
+
         public static string ArrayToString<T>(T[] arr)
         {
             return "[" + string.Join(",", arr) + "]";
@@ -103,6 +118,18 @@ namespace GameCore.Core
             }
 #endif
             return url;
+        }
+
+        private class StringWithIntInfo
+        {
+            public string Str { get; private set; }
+            public int Number { get; private set; }
+
+            public StringWithIntInfo(string s)
+            {
+                Str = s;
+                Number = ParseUtils.GetIntFromString(s);
+            }
         }
     }
 }
