@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 namespace GameCore.Unity.UGUIEx
@@ -6,13 +8,16 @@ namespace GameCore.Unity.UGUIEx
     [ExecuteInEditMode]
     public class UIScrollPickerItem : MonoBehaviour, IPointerClickHandler
     {
+        [ReadOnly]
         public int index = 0;
 
         public bool transitAlpha = false;
         public AnimationCurve transitAlphaCurve;
         public bool transitScale = false;
         public AnimationCurve transitScaleCurve;
+        public UnityEvent onClick;//点击事件要在选中后才能发出，不然会串了
 
+        public float ff;
         private UIScrollPickerBase picker;
 
         private CanvasGroup canvasGroup;
@@ -24,11 +29,17 @@ namespace GameCore.Unity.UGUIEx
                 picker = GetComponentInParent<UIScrollPickerBase>();//编辑器里可能删除一个组件，换成另一个了
             }
 
+            if (picker == null)
+            {
+                return;
+            }
+
             if (transitAlpha || transitScale)
             {
                 var halfViewSize = picker.GetViewportSize() * 0.5f;
                 var d = picker.GetDistToViewportCenter(transform);
                 var f = Mathf.Clamp01((Mathf.Abs(d) - picker.pickAreaSize * 0.5f) / halfViewSize);
+                ff = f;
                 if (transitAlpha)
                 {
 
@@ -74,12 +85,22 @@ namespace GameCore.Unity.UGUIEx
 
         public void OnDestroy()
         {
-            picker.RemoveItem(this);
+            if (picker != null)
+            {
+                picker.RemoveItem(this);
+            }
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            picker.Select(index);
+            if (picker.CurSelectedIndex == index)
+            {
+                onClick.Invoke();
+            }
+            else
+            {
+                picker.Select(index);
+            }
         }
 
         public virtual void OnSelect()

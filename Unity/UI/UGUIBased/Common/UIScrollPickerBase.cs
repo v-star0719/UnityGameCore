@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using static UnityEditor.Progress;
 
 //
 //(1)目前没有做循环滚动，循环很麻烦
@@ -15,19 +16,18 @@ namespace GameCore.Unity.UGUIEx
 {
     public abstract class UIScrollPickerBase : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        public const float SCALE_POS_FACTOR = 0.5f; //当到原点的距离小于SCALE_POS_FACTOR*ItemWith时进行scale变化，并认为该item被选中了
-
         public RectTransform viewportTrans;
         public RectTransform contentTrans;
         public float pickAreaSize;//滚动到一个区域内认为是选中了，这个参数指定这个区域的大小
 
         public int itemSize;
         public int itemGap;
+        public bool hideInactive;
 
         protected List<UIScrollPickerItem> items = new();
         public int CurSelectedIndex { get; private set; }
 
-        public float springDuration = 0.5f;
+        public float springDuration = 0.3f;
         private bool isDragging = false;
 
         private Vector3 springStartPos;
@@ -35,14 +35,14 @@ namespace GameCore.Unity.UGUIEx
         private float springTimer = 0f;
         private bool isSpring = false;
 
-        public float dampintDuration = 0.4f;
+        public float dampintDuration = 0.3f;
         private Vector2 lastDragDelta;
         private float dampingTimer;
         private bool isDamping;
 
         private bool needRebuild = false;
 
-        public UnityEvent<int> onSelect;
+        public UnityEvent<int> onSelect;//索引，是否是点击的项
 
         // Use this for initialization
         private void Start()
@@ -59,7 +59,6 @@ namespace GameCore.Unity.UGUIEx
 
             if (needRebuild || !Application.isPlaying)
             {
-                needRebuild = false;
                 Rebuild();
             }
             Update_Damping();
@@ -129,24 +128,37 @@ namespace GameCore.Unity.UGUIEx
 
         public void Rebuild()
         {
+            needRebuild = false;
             items.Clear();
+            var index = 0;
             for (int i = 0; i < contentTrans.childCount; i++)
             {
                 var trans = contentTrans.GetChild(i);
+                if (hideInactive && !trans.gameObject.activeSelf)
+                {
+                    continue;
+                }
+
                 var item = trans.GetComponent<UIScrollPickerItem>();
                 if (item == null)
                 {
                     item = trans.gameObject.AddComponent<UIScrollPickerItem>();
                 }
-                item.index = i;
+                item.index = index;
                 items.Add(item);
-                trans.localPosition = GetItemPos(i);
+                trans.localPosition = GetItemPos(index);
                 item.ShowTransit();
+                index++;
             }
         }
 
-        public void Select(int select, bool cut = false)
+        public void Select(int select, bool force = false, bool cut = false)
         {
+            if (select == CurSelectedIndex)
+            {
+                ChangeSelect(select);
+                return;
+            }
             SpringToContentPos(items[select].transform.localPosition, cut);
         }
 
@@ -211,6 +223,7 @@ namespace GameCore.Unity.UGUIEx
             if (cut)
             {
                 contentTrans.localPosition -= viewportPos;
+                AfterMove();
             }
             else
             {
@@ -240,14 +253,19 @@ namespace GameCore.Unity.UGUIEx
                 {
                     if(CurSelectedIndex != item.index)
                     {
-                        CurSelectedIndex = item.index;
                         item.OnSelect();
-                        if(onSelect != null)
-                        {
-                            onSelect.Invoke(CurSelectedIndex);
-                        }
+                        ChangeSelect(item.index);
                     }
                 }
+            }
+        }
+
+        protected virtual void ChangeSelect(int index)
+        {
+            CurSelectedIndex = index;
+            if(onSelect != null)
+            {
+                onSelect.Invoke(CurSelectedIndex);
             }
         }
 

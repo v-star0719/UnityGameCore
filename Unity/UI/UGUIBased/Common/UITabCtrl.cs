@@ -11,7 +11,7 @@ namespace GameCore.Unity.UGUIEx
     public class UITabCtrl : MonoBehaviour
     {
         private List<UITabCell> cellList = new List<UITabCell>();
-        public List<UnityEvent> onSelect = new List<UnityEvent>();
+        public UnityEvent onSelect;
         public bool initOnAwake = true;
 
         private int curSelect = -1;
@@ -60,10 +60,7 @@ namespace GameCore.Unity.UGUIEx
                     cellList[index].Select(true);
                 }
                 curSelect = index;
-                foreach (var ue in onSelect)
-                {
-                    ue.Invoke();
-                }
+                onSelect.Invoke();
             }
         }
 

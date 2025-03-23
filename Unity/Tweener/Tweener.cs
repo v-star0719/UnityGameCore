@@ -40,7 +40,7 @@ namespace GameCore.Unity.Tweener
 		public float duration = 1f;
 		public bool useFixedUpdate = false;
 
-		public List<UnityEvent> onFinished = new();
+        public UnityEvent onFinished;
         public bool playOnAwake;//true表示每次enable后都自动播放。现在是从头开始播
 
         private Direction direction;
@@ -145,10 +145,7 @@ namespace GameCore.Unity.Tweener
         private void OnFinished()
         {
             enabled = false;
-            foreach(var ev in onFinished)
-            {
-                ev.Invoke();
-            }
+            onFinished.Invoke();
             onFinishCallback?.Invoke();
         }
 
