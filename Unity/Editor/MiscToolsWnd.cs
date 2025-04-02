@@ -8,6 +8,7 @@ using GameCore.Edit;
 using GameCore.Unity;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace GameCore.Unity
 {
@@ -56,9 +57,15 @@ namespace GameCore.Unity
                 BoxColliderFitToMesh();
             }
 
-            if (GUIUtil.Button("CreateTexture2DArray"))
+            using (GUIUtil.LayoutHorizontal())
             {
-                CreateTexture2DArray.ShowWindow();
+                if(GUIUtil.Button("SetDirtyAndSave"))
+                {
+                    var guid = Selection.assetGUIDs[0];
+                    var asset = AssetDatabase.LoadAssetAtPath<Object>(AssetDatabase.GUIDToAssetPath(guid));
+                    EditorUtility.SetDirty(asset);
+                    AssetDatabase.SaveAssetIfDirty(asset);
+                }
             }
 
             using (Edit.GUIUtil.LayoutHorizontal(EditorGUIUtil.StyleBox))
@@ -100,7 +107,15 @@ namespace GameCore.Unity
                     linnerToSrgbTarget = new Color(L2S(clr.r), L2S(clr.g), L2S(clr.b));
                 }
             }
-            
+
+            using (Edit.GUIUtil.LayoutHorizontal(EditorGUIUtil.StyleBox))
+            {
+                if(GUILayout.Button($"复制对象路径", GUILayout.ExpandWidth(false)))
+                {
+                    EditorGUIUtility.systemCopyBuffer = TransformUtils.GetTransformPath(Selection.activeTransform);
+                }
+            }
+
             GUIPivotAndCenterOffset();
         }
 

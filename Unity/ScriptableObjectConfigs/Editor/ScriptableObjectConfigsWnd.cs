@@ -21,7 +21,7 @@ namespace GameCore.Unity
             types = new List<Type>();
             foreach (var t in typeof(ScriptableObjectConfigsBase<>).Assembly.GetTypes())
             {
-                if(t.BaseType.IsGenericType && t.BaseType.GetGenericTypeDefinition() == typeof(ScriptableObjectConfigsBase<>))
+                if(t.BaseType != null && t.BaseType.IsGenericType && t.BaseType.GetGenericTypeDefinition() == typeof(ScriptableObjectConfigsBase<>))
                 {
                     types.Add(t);
                 }

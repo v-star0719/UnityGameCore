@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
-namespace KKK
+namespace GameCore.Unity.UGUIEx
 {
-    public class UIScrollViewLocation : MonoBehaviour
+    public class UIScrollRectLocation : MonoBehaviour
     {
         public Vector2 stayViewportPos = new Vector2(0.5f, 0.5f);//停留在视口哪个地方。0~1。
         private ScrollRect _scrollRect;

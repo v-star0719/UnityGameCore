@@ -42,26 +42,31 @@ namespace GameCore.Unity.UGUIEx
         private float itemScale = 1;
         private float itemTotalCount;
         private float dragCheckTimer;
+        private ScrollRect scrollRect;
         //private ScrollViewDragDirs dragDirs; //左右上下四个方向是不是可以拖动
 
         //private float dragError = 5f;
         private float dragCheckInterval = 0.2f;
-        private SpringPanel __springPanel;
+        private UIScrollRectLocation __scrollRectLocation;
         private float autoScrollToHoverObjTimer = 0;
 
-        private SpringPanel SpringPanel
+        private UIScrollRectLocation ScrollRectLocation
         {
             get
             {
-                if (__springPanel == null)
+                if (scrollRect == null)
                 {
-                    __springPanel = GetComponent<SpringPanel>();
+                    return null;
                 }
-                if(__springPanel == null)
+                if (__scrollRectLocation == null)
                 {
-                    __springPanel = gameObject.AddComponent<SpringPanel>();
+                    __scrollRectLocation = scrollRect.GetComponent<UIScrollRectLocation>();
+                    if(__scrollRectLocation == null)
+                    {
+                        __scrollRectLocation = scrollRect.gameObject.AddComponent<UIScrollRectLocation>();
+                    }
                 }
-                return __springPanel;
+                return __scrollRectLocation;
             }
         }
 
@@ -86,6 +91,7 @@ namespace GameCore.Unity.UGUIEx
             itemPrefab.gameObject.SetActive(false);
 
             enabled = onDraggableChanged != null || autoScrollToHoverObj;
+            scrollRect = GetComponentInParent<ScrollRect>();
             //if (onDraggableChanged != null)
             //{
             //    dragDirs = new ScrollViewDragDirs();
@@ -198,17 +204,9 @@ namespace GameCore.Unity.UGUIEx
 
             if (keepSelectCurrent)
             {
-                RestrictInScrollView();
                 if (focusToCurrent)
                 {
-                    if (IsItemVisible(items[index]))
-                    {
-                        RestrictInScrollView();
-                    }
-                    else
-                    {
-                        FocusTo(index, false);
-                    }
+                    FocusTo(index, false);
                 }
             }
             else
@@ -221,7 +219,6 @@ namespace GameCore.Unity.UGUIEx
             }
         }
 
-        //todo default select
         public void Set<T>(List<T> datas, bool keepSelectCurrent = false, bool focusToCurrent = false, bool noAnim = true) where T : IGridExData
         {
             List<IGridExData> list = new List<IGridExData>();
@@ -323,19 +320,10 @@ namespace GameCore.Unity.UGUIEx
 
         public void ResetScrollView()
         {
-            //if (scrollView != null)
-            //{
-            //    scrollView.ResetPosition();
-            //}
-        }
-
-        public void RestrictInScrollView()
-        {
-            //if (scrollView != null)
-            //{
-            //    scrollView.InvalidateBounds();
-            //    scrollView.RestrictWithinBounds(false);
-            //}
+            if (scrollRect != null && scrollRect.content != null)
+            {
+                scrollRect.normalizedPosition = Vector3.zero;
+            }
         }
 
         //滚动到一个项哪里
@@ -354,38 +342,16 @@ namespace GameCore.Unity.UGUIEx
                 return false;
             }
 
-            //if (scrollView == null)
-            //{
-            //    return false;
-            //}
+            var localtion = ScrollRectLocation;
 
-            float t, b, l, r; 
-            GetDistToClipBorder(item, out t, out b, out l, out r);
-            if (CheckInClipArea(t, b, l, r))
+            if(localtion == null)
             {
                 return false;
             }
 
-            var tempPos = new Vector3(0, 0, 0);
-            tempPos.x = 0;
-            tempPos.y = 0;
-            tempPos.z = 0;
-            if (l > 0)
-            {
-                tempPos.x = tempPos.x + l;
-            }
-            else if (r < 0)
-            {
-                tempPos.x = tempPos.x + r;
-            }
-            else if (t < 0)
-            {
-                tempPos.y = tempPos.y + t;
-            }
-            else if (b > 0)
-            {
-                tempPos.y = tempPos.y + b;
-            }
+            localtion.ScrollTo(item.transform as RectTransform);
+
+ 
 
             //if (flashTo)
             //{
@@ -623,7 +589,7 @@ namespace GameCore.Unity.UGUIEx
             {
                 autoScrollToHoverObjTimer = 0;
 
-                var spri = SpringPanel;
+                var spri = ScrollRectLocation;
                 if(spri.enabled)
                 {
                     return;
