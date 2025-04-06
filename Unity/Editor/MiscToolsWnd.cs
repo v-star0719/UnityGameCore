@@ -61,10 +61,13 @@ namespace GameCore.Unity
             {
                 if(GUIUtil.Button("SetDirtyAndSave"))
                 {
-                    var guid = Selection.assetGUIDs[0];
-                    var asset = AssetDatabase.LoadAssetAtPath<Object>(AssetDatabase.GUIDToAssetPath(guid));
-                    EditorUtility.SetDirty(asset);
-                    AssetDatabase.SaveAssetIfDirty(asset);
+                    foreach (var guid in Selection.assetGUIDs)
+                    {
+                        var asset = AssetDatabase.LoadAssetAtPath<Object>(AssetDatabase.GUIDToAssetPath(guid));
+                        EditorUtility.SetDirty(asset);
+                        AssetDatabase.SaveAssetIfDirty(asset);
+                    }
+                    ShowNotification(new GUIContent($"Finish {Selection.assetGUIDs.Length}"), 2);
                 }
             }
 

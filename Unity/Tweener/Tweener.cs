@@ -103,6 +103,7 @@ namespace GameCore.Unity.Tweener
                 if (timer >= duration)
                 {
                     f = 1;
+                    timer = duration;
                     isFinished = true;
                 }
                 else
@@ -116,6 +117,7 @@ namespace GameCore.Unity.Tweener
                 if(timer <= 0)
                 {
                     f = 0;
+                    timer = 0;
                     isFinished = true;
                 }
                 else
@@ -227,7 +229,18 @@ namespace GameCore.Unity.Tweener
 			Sample(forward ? 0 : 1);
         }
 
-		public void ResetToBeginning ()
+        public virtual void PlayFromCurrentPos(bool forward, Action onFinish = null)
+        {
+            if (!enabled)
+            {
+                delayTimer = 0;//说明之前已经播放完成了
+            }
+            enabled = true;
+            direction = forward ? Direction.Forward : Direction.Backward;
+            onFinishCallback = onFinish;
+        }
+
+public void ResetToBeginning ()
 		{
 			Sample(0);
 		}

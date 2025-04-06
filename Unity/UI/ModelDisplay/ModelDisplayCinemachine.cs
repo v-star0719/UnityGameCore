@@ -13,9 +13,9 @@ namespace GameCore.Unity
 
         public ModelDisplayCinemachineCamInfo CurCameraInfo => curCameraInfo;
 
-        public void Init(ITouchEventSource source, ModelDisplayCinemachineCamConf[] confs, float screenFactor = -1, float scrollFactor = -1)
+        public void Init( ModelDisplayCinemachineCamConf[] confs, float screenFactor = -1, float zoomFactor = -1, float scrollFactor = -1)
         {
-            base.Init(source, screenFactor, scrollFactor);
+            base.Init(screenFactor, zoomFactor, scrollFactor);
             camInfoMap = new Dictionary<string, ModelDisplayCinemachineCamInfo>();
 
             foreach (var conf in confs)
@@ -175,8 +175,7 @@ namespace GameCore.Unity
                 case CamTypes.Normal:
                 {
                     var dir = info.camGo.transform.position - info.lookAtTarget.transform.position;
-                    info.camGo.transform.position = info.lookAtTarget.transform.position + 
-                                                    dir.normalized * (info.maxDistance * info.zoom);
+                    info.camGo.transform.position = info.lookAtTarget.transform.position + dir.normalized * info.CurDist;
                     break;
                 }
 
@@ -216,10 +215,13 @@ namespace GameCore.Unity
                 {
                     if (info.lookAtTarget != null)
                     {
-                        var pos = info.camGo.transform.position - info.lookAtTarget.transform.position;
-                        pos = info.lookAtTarget.transform.rotation * 
-                              Quaternion.Euler(y, x, 0) * pos;
-                        info.camGo.transform.position = info.lookAtTarget.transform.position + pos;
+                        var dir = info.camGo.transform.position - info.lookAtTarget.transform.position;
+                        if (dir.z < 0)
+                        {
+                            y = -y;//转到后面后需要反向旋转，若正面的时候向上划相机向上转，到后面的时候相机继续那样转会跑下面去，需要反向转相机才能向上。
+                        }
+                        var pos = Quaternion.Euler(y, x, 0) * dir;
+                        info.camGo.transform.position = info.lookAtTarget.transform.position + ClampPos(pos);
                     }
                     else
                     {
@@ -291,6 +293,8 @@ namespace GameCore.Unity
         public float zoom;
         public float maxDistance;//自由相机的最大距离
         public Transform lookAtTarget;
+
+        public float CurDist => zoom * maxDistance;
     }
 
     public enum CamTypes //ModelDisplayCinemachineCamType

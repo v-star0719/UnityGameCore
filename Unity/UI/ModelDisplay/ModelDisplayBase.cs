@@ -4,15 +4,6 @@ using UnityEngine;
 
 namespace GameCore.Unity
 {
-    public interface ITouchEventSource
-    {
-        Action onDragStart { get; set; }
-        Action<Vector2> onDrag { get; set; }
-        Action onDragEnd { get; set; }
-        Action onClick { get; set; }
-        Action<float> onZoom { get; set; }
-    }
-
     public class ModelDisplayBase : MonoBehaviour
     {
         public Camera myCamera;
@@ -26,7 +17,6 @@ namespace GameCore.Unity
         private float missTouchTime;
         private bool isDragging;
         private float lastZoomTime;
-        private ITouchEventSource eventSource;
         protected bool freeDrag;//自由移动的不限制同一时间只能x或者y方向拖
         protected float dragFactor;//拖动时，屏幕位移转换成逻辑位移。
         protected float zoomFactor = 1;//双指缩放时，屏幕位移转换成逻辑位移
@@ -41,24 +31,14 @@ namespace GameCore.Unity
             set => freeDrag = value;
         }
 
-        public void Init(ITouchEventSource source, float dragFactor = -1, float zoomFactor = -1, float scrollFactor = -1)
+        public void Init(float dragFactor = -1, float zoomFactor = -1, float scrollFactor = -1)
         {
-            eventSource = source;
             this.dragFactor = dragFactor > 0 ? dragFactor : 180f / Screen.width;//位移1屏180度
             this.zoomFactor = zoomFactor > 0 ? zoomFactor : 0.5f / Screen.width;//位移1屏缩放1半
             this.scrollFactor = scrollFactor > 0 ? scrollFactor : 100;
-            smoothlyDrag = new Touch_SmoothlyDrag(OnSmoothlyDrag);
-            smoothlyZoom = new Touch_SmoothlyZoom(OnSmoothlyZoom);
+            smoothlyDrag = new Touch_SmoothlyDrag(OnDragSmoothly);
+            smoothlyZoom = new Touch_SmoothlyZoom(OnZoomSmoothly);
             missTouchTime = 0;
-
-            if (source != null)
-            {
-                source.onDragStart += OnDragStart;
-                source.onDrag += OnDrag;
-                source.onDragEnd += OnDragEnd;
-                source.onZoom += OnZoom;
-            }
-
             //CinemachineCore.CameraUpdatedEvent.AddListener(self.CameraUpdatedEvent)
         }
 
@@ -190,17 +170,17 @@ namespace GameCore.Unity
             smoothlyDrag.Stop();
         }
 
-        public void OnScroll(GameObject go, float delta)
+        public void OnScroll(float delta)
         {
             OnZoom(delta * scrollFactor);
         }
 
-        public void OnSmoothlyDrag(float x, float y)
+        protected void OnDragSmoothly(float x, float y)
         {
             DragByDelta(x, y);
         }
 
-        public void OnSmoothlyZoom(float f)
+        protected void OnZoomSmoothly(float f)
         {
             ZoomByDelta(f);
         }
@@ -226,14 +206,6 @@ namespace GameCore.Unity
                 //AssetManager.RecycleAsset(modelObj)
                 Destroy(modelObj);
                 modelObj = null;
-            }
-
-            if (eventSource != null)
-            {
-                eventSource.onDragStart -= OnDragStart;
-                eventSource.onDrag -= OnDrag;
-                eventSource.onDragEnd -= OnDragEnd;
-                eventSource.onZoom -= OnZoom;
             }
             //CinemachineCore.CameraUpdatedEvent.RemoveListener(CameraUpdatedEvent);
         }

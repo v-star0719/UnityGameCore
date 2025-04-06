@@ -69,12 +69,12 @@ namespace GameCore.Core
 
         public static void SortByNumberInString(IList<string> list)
         {
-            var tmpList = new List<StringWithIntInfo>(list.Count);
+            var tmpList = new List<StringSortInfo>(list.Count);
             foreach (var l in list)
             {
-                tmpList.Add(new StringWithIntInfo(l));
+                tmpList.Add(new StringSortInfo(l));
             }
-            tmpList.Sort((a, b) => a.Number.CompareTo(b.Number));
+            tmpList.Sort((a, b) => a.CompareTo(b));
             list.Clear();
             foreach (var info in tmpList)
             {
@@ -120,15 +120,64 @@ namespace GameCore.Core
             return url;
         }
 
-        private class StringWithIntInfo
+        private class StringSortInfo : IComparable
         {
             public string Str { get; private set; }
-            public int Number { get; private set; }
+            private uint[] numbers;
+            private int numberIndex;
 
-            public StringWithIntInfo(string s)
+            public StringSortInfo(string s)
             {
                 Str = s;
-                Number = ParseUtils.GetIntFromString(s);
+                numbers = new uint[s.Length];
+                uint number = 0;
+                bool findNumber = false;
+                for(int i = 0; i < s.Length; i++)
+                {
+                    var c = s[i];
+                    if(c >= '0' && c <= '9')
+                    {
+                        findNumber = true;
+                        number = number * 10 + c - '0';
+                    }
+                    else
+                    {
+                        if (findNumber)
+                        {
+                            findNumber = false;
+                            numbers[numberIndex++] = number;
+                            number = 0;
+                        }
+                        numbers[numberIndex++] = c;
+                    }
+                }
+            }
+
+            public int CompareTo(object obj)
+            {
+                if (obj is StringSortInfo s)
+                {
+                    for (var i = 0; i < numbers.Length && i < s.numbers.Length; i++)
+                    {
+                        if (numbers[i] != s.numbers[i])
+                        {
+                            return numbers[i].CompareTo(s.numbers[i]);
+                        }
+                    }
+                    if (numberIndex == s.numberIndex)
+                    {
+                        return 0;
+                    }
+                    if (numberIndex < s.numberIndex)
+                    {
+                        return 1;
+                    }
+                    return -1;
+                }
+                else
+                {
+                    return 0;
+                }
             }
         }
     }
