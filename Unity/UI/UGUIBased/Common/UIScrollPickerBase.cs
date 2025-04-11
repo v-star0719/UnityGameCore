@@ -156,7 +156,10 @@ namespace GameCore.Unity.UGUIEx
         {
             if (select == CurSelectedIndex)
             {
-                ChangeSelect(select);
+                if (force)
+                {
+                    ChangeSelect(select);
+                }
                 return;
             }
             SpringToContentPos(items[select].transform.localPosition, cut);

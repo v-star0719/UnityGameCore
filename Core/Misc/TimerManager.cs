@@ -32,10 +32,17 @@ namespace GameCore.Core
         private List<Timer> timers = new List<Timer>();//同时运行的计时器数量较少时（低于30），直接遍历就行。如果数量较多，可用堆。
         private int id = 0;
 
+        public int Add(float delay, Action onFinish)
+        {
+            var timer = new Timer(id++, delay, 0, 1, null, onFinish);
+            timers.Add(timer);
+            return timer.id;
+        }
+
         //timers <= 0时是无限次
         public int Add(float delay, float interval, int times = 1, Action onTick = null, Action onFinish = null)
         {
-            var timer = new Timer(++id, delay, interval, times, onTick, onFinish);
+            var timer = new Timer(id++, delay, interval, times, onTick, onFinish);
             timers.Add(timer);
             return timer.id;
         }

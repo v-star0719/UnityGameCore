@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using UnityEngine.Events;
 
 namespace GameCore.Unity.Tweener
@@ -45,8 +46,9 @@ namespace GameCore.Unity.Tweener
 
         private Direction direction;
         private float delayTimer = 0;
-        private float timer = -1;
+        private float timer = 0;
         private Action onFinishCallback;//允许调用的时候传参，方便处理
+        private bool isPlaying = false;
 
         protected virtual void Start()
         {
@@ -55,7 +57,7 @@ namespace GameCore.Unity.Tweener
 				Debug.LogError("no animation curve on tweener", gameObject);
             }
 
-            if (timer < 0 && !playOnAwake)
+            if (!isPlaying && !playOnAwake)
             {
                 enabled = false;
             }
@@ -73,7 +75,7 @@ namespace GameCore.Unity.Tweener
 
         protected virtual void OnEnable()
         {
-            if(playOnAwake && timer < 0)//如果timer>=0说明已经开始播放了，不重新播放，继续播放即可。可能是用户手动播放的
+            if(playOnAwake && !isPlaying)
             {
                 Play(true);
             }
@@ -81,10 +83,6 @@ namespace GameCore.Unity.Tweener
 
         protected void OnDisable()
         {
-            if(playOnAwake)
-            {
-                timer = -1;
-            }
         }
 
 		protected void DoUpdate (float deltaTime)
@@ -146,7 +144,9 @@ namespace GameCore.Unity.Tweener
 
         private void OnFinished()
         {
+            Debug.Log("OnFinish");
             enabled = false;
+            isPlaying = false;
             onFinished.Invoke();
             onFinishCallback?.Invoke();
         }
@@ -221,6 +221,7 @@ namespace GameCore.Unity.Tweener
 
 		public virtual void Play (bool forward, Action onFinish = null)
         {
+            isPlaying = true;
             enabled = true;
             timer = forward ? 0 : duration;
             delayTimer = 0;
@@ -231,23 +232,24 @@ namespace GameCore.Unity.Tweener
 
         public virtual void PlayFromCurrentPos(bool forward, Action onFinish = null)
         {
-            if (!enabled)
-            {
-                delayTimer = 0;//说明之前已经播放完成了
-            }
+            isPlaying = true;
             enabled = true;
             direction = forward ? Direction.Forward : Direction.Backward;
             onFinishCallback = onFinish;
         }
 
-public void ResetToBeginning ()
+        public void ResetToBeginning ()
 		{
+            timer = 0;
+            delayTimer = 0;
 			Sample(0);
 		}
 
 		public void ResetToEnd ()
 		{
-			Sample(1);
+            timer = duration;
+            delayTimer = 0;
+            Sample(1);
 		}
 		
         protected abstract void OnUpdate (float factor);
