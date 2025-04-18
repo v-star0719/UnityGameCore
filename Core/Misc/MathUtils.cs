@@ -519,5 +519,41 @@ namespace GameCore.Core
             }
             return LineIntersect(sA1, sA2, sB1, sB2, out intersectionPoint);
         }
-}
+
+        public static Vector3 RotateX(Vector3 vector, float angle)
+        {
+            float angleRad = Mathf.Deg2Rad * angle;
+            float cosTheta = Mathf.Cos(angleRad);
+            float sinTheta = Mathf.Sin(angleRad);
+            return new Vector3(
+                vector.x,
+                vector.y * cosTheta - vector.z * sinTheta,
+                vector.y * sinTheta + vector.z * cosTheta
+            );
+        }
+
+        public static Vector3 RotateY(Vector3 vector, float angle)
+        {
+            float angleRad = Mathf.Deg2Rad * angle;
+            float cosTheta = Mathf.Cos(angleRad);
+            float sinTheta = Mathf.Sin(angleRad);
+            return new Vector3(
+                vector.x * cosTheta + vector.z * sinTheta,
+                vector.y,
+                -vector.x * sinTheta + vector.z * cosTheta
+            );
+        }
+
+        public static Vector3 RotateZ(Vector3 vector, float angle)
+        {
+            float angleRad = Mathf.Deg2Rad * angle;
+            float cosTheta = Mathf.Cos(angleRad);
+            float sinTheta = Mathf.Sin(angleRad);
+            return new Vector3(
+                vector.x * cosTheta - vector.y * sinTheta,
+                vector.x * sinTheta + vector.y * cosTheta,
+                vector.z
+            );
+        }
+    }
 }
