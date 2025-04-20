@@ -216,11 +216,7 @@ namespace GameCore.Unity
                     if (info.lookAtTarget != null)
                     {
                         var dir = info.camGo.transform.position - info.lookAtTarget.transform.position;
-                        if (dir.z < 0)
-                        {
-                            y = -y;//转到后面后需要反向旋转，若正面的时候向上划相机向上转，到后面的时候相机继续那样转会跑下面去，需要反向转相机才能向上。
-                        }
-                        var pos = Quaternion.Euler(y, x, 0) * dir;
+                        var pos = Quaternion.Euler(0, x, 0) * Quaternion.AngleAxis(-y, info.camGo.transform.right) * dir;
                         info.camGo.transform.position = info.lookAtTarget.transform.position + ClampPos(pos);
                     }
                     else
