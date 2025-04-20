@@ -6,7 +6,7 @@ namespace GameCore.Unity
 {
     public class ModelDisplayCinemachine : ModelDisplayBase
     {
-        public Transform cameraRoot;
+        public Transform cameraRoot;//多个相机都放在这下面
         private Dictionary<string, ModelDisplayCinemachineCamInfo> camInfoMap;
         private ModelDisplayCinemachineCamInfo curCameraInfo;
         private ModelDisplayCinemachineCamInfo cacheCameraInfo;
@@ -140,7 +140,7 @@ namespace GameCore.Unity
 
         }
 
-        protected override void Update()
+        public override void Update()
         {
             base.Update();
         }

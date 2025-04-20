@@ -144,7 +144,6 @@ namespace GameCore.Unity.Tweener
 
         private void OnFinished()
         {
-            Debug.Log("OnFinish");
             enabled = false;
             isPlaying = false;
             onFinished.Invoke();

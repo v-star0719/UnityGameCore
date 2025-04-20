@@ -11,17 +11,17 @@ namespace GameCore.Unity.UGUIEx
             public RectTransform target;
             public float offset;
 
-            private Vector2 lastPos;
+            private Vector3 lastPos;
             private float lastOffset;
 
             public virtual bool IsChanged()
             {
-                return target != null && (target.anchoredPosition != lastPos || lastOffset != offset);
+                return target != null && (target.position != lastPos || lastOffset != offset);
             }
 
             public virtual void MarkNotChanged()
             {
-                lastPos = target.anchoredPosition;
+                lastPos = target.position;
                 lastOffset = offset;
             }
 

@@ -13,8 +13,8 @@ namespace GameCore.Unity
             Release,
         }
 
-        private const float DURA = 2;
-        private const float FORCE = 0.3f;//最低音量
+        private const float DURA = 1;
+        private const float FORCE = 0.1f;//最低音量
         private State state;
 
         public SoundGlobalEffectPress(SoundManager mgr):base(mgr)

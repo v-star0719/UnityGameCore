@@ -159,6 +159,18 @@ namespace GameCore.Unity
             return null;
         }
 
+        public virtual T GetPanel<T>() where T : PanelBaseCore
+        {
+            foreach (var t in panels)
+            {
+                if (t is T rt)
+                {
+                    return rt;
+                }
+            }
+            return null;
+        }
+
         public virtual PanelBaseCore GetTopPanel()
         {
             if (panels.Count > 0)

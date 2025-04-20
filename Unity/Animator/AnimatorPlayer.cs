@@ -13,8 +13,7 @@ namespace GameCore.Unity
         public float Timer { get; private set; }
         private float duration;
         private Action onFinish;
-        private string stateName;
-        private bool applyRootMotion;
+        public string StateName { get; private set; }
         private bool isLoop;
 
         private void Start()
@@ -26,7 +25,7 @@ namespace GameCore.Unity
             if (duration < 0)
             {
                 var s = animator.GetCurrentAnimatorStateInfo(0);
-                if (s.IsName(stateName))
+                if (s.IsName(StateName))
                 {
                     duration = s.length;
                     isLoop = s.loop;
@@ -44,24 +43,26 @@ namespace GameCore.Unity
                     else
                     {
                         enabled = false;
-                        animator.applyRootMotion = applyRootMotion;
                         onFinish?.Invoke();
                     }
                 }
             }
         }
 
-        public void Play(string stateName, float crossFade = 0.2f, bool? rootMotion = null, Action onFinish = null)
+        public void Play(string stateName, float crossFade = 0.2f, bool rootMotion = false, Action onFinish = null)
         {
-            this.stateName = stateName;
+            this.StateName = stateName;
             enabled = true;
             this.onFinish = onFinish;
 
-            applyRootMotion = animator.applyRootMotion;
-
-            if (rootMotion != null)
+            if (rootMotion != animator.applyRootMotion)
             {
-                animator.applyRootMotion = rootMotion.Value;
+                animator.applyRootMotion = rootMotion;
+                if (!rootMotion)
+                {
+                    animator.transform.localPosition = Vector3.zero;
+                    animator.transform.localRotation = Quaternion.identity;
+                }
             }
 
             if (crossFade > 0)

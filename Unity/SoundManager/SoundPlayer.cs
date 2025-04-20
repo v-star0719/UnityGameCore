@@ -255,6 +255,11 @@ namespace GameCore.Unity
             StopAllSoundList(FadeInSounds, 1);
         }
 
+        public SoundItem GetSoundItem(SoundItemInfo info)
+        {
+            return aliveSounds.GetValueOrDefault(info.id, null);
+        }
+
         private void InsertToPlayingList(SoundItem soundItem)
         {
             soundItem.isInPlayingList = true;

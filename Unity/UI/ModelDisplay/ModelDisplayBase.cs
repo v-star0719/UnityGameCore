@@ -64,7 +64,7 @@ namespace GameCore.Unity
             OnModelLoaded();
         }
 
-        protected virtual void Update()
+        public virtual void Update()
         {
             OnCameraUpdatedEvent();
 
