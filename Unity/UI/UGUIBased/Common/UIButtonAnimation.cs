@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class UIButtonAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, ISelectHandler, IDeselectHandler
 {
     public Vector3 press = new Vector3(1.05f, 1.05f, 1.05f);
-    public float duration = 0.2f;
+    public float duration = 0.1f;
     public GameObject selectGo;
 
     private float timer;
@@ -22,7 +22,7 @@ public class UIButtonAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     public void Update()
     {
-        if (!isWorking)
+        if(!isWorking)
         {
             return;
         }
@@ -41,23 +41,17 @@ public class UIButtonAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        timer = 0;
-        startScale = transform.localScale;
-        endScale = Vector3.Scale(initScale, press);
-        isWorking = true;
+        Play(Vector3.Scale(initScale, press));
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        timer = 0;
-        startScale = transform.localScale;
-        endScale = initScale;
-        isWorking = true;
+        Play(initScale);
     }
 
     public void OnSelect(BaseEventData eventData)
     {
-        if (selectGo != null)
+        if(selectGo != null)
         {
             selectGo.SetActive(true);
         }
@@ -69,5 +63,13 @@ public class UIButtonAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpH
         {
             selectGo.SetActive(false);
         }
+    }
+
+    private void Play(Vector3 targetScale)
+    {
+        timer = 0;
+        startScale = transform.localScale;
+        endScale = targetScale;
+        isWorking = true;
     }
 }

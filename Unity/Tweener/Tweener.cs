@@ -37,7 +37,9 @@ namespace GameCore.Unity.Tweener
 		public AnimationCurve animationCurve;
 
 		public bool ignoreTimeScale = false;
-		public float delay = 0f;
+		public float delay = 0f;//对于循环的动画，只在启动时有效
+        public float headDelay = 0f;//对于循环动画也有效
+        public float tailDelay = 0f;
 		public float duration = 1f;
 		public bool useFixedUpdate = false;
 
@@ -93,20 +95,28 @@ namespace GameCore.Unity.Tweener
                 return;
             }
 
-            float f = 0;
+            float f;
             var isFinished = false;
             if (direction == Direction.Forward)
             {
                 timer += deltaTime;
-                if (timer >= duration)
+                if (timer < headDelay)
+                {
+                    f = 0;
+                }
+                else if (timer < headDelay + duration)
+                {
+                    f = (timer - headDelay) / duration;
+                }
+                else if (timer < headDelay + duration + tailDelay)
                 {
                     f = 1;
-                    timer = duration;
-                    isFinished = true;
                 }
                 else
                 {
-                    f = timer / duration;
+                    f = 1;
+                    timer = headDelay + duration + tailDelay;
+                    isFinished = true;
                 }
             }
             else
@@ -118,9 +128,17 @@ namespace GameCore.Unity.Tweener
                     timer = 0;
                     isFinished = true;
                 }
+                else if (timer <= headDelay)
+                {
+                    f = 0;
+                }
+                else if (timer < headDelay + duration)
+                {
+                    f = (timer - headDelay) / duration;
+                }
                 else
                 {
-                    f = timer / duration;
+                    f = 1;
                 }
             }
             Sample(f);

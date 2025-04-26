@@ -14,6 +14,7 @@ namespace GameCore.Unity.UGUIEx
         [HideInInspector]
         public GameObject trigger;//点在trigger上不会触发关闭
         public Argument arg;
+        public RectTransform content;
         private static int lastTipCloseFrame = 0;
 
         //自动放置在指定的位置周围
@@ -42,7 +43,7 @@ namespace GameCore.Unity.UGUIEx
             }
             else
             {
-                canvasGroup = gameObject.GetComponentInChildren<CanvasGroup>();
+                canvasGroup = content.GetComponent<CanvasGroup>();
                 if(canvasGroup == null)
                 {
                     Debug.LogError("CanvasGroup is required to fade in");
@@ -60,9 +61,8 @@ namespace GameCore.Unity.UGUIEx
                 if(!waitPlace)
                 {
                     canvasGroup.alpha = 1;
-                    var ui = transform.GetChild(0) as RectTransform;
-                    UGUIUtils.AutoPlaceUI(ui, arg.worldPos);
-                    UGUIUtils.ConstrainUIInScreen(ui);
+                    UGUIUtils.AutoPlaceUI(content, arg.worldPos);
+                    UGUIUtils.ConstrainUIInScreen(content);
                     isPlaced = true;
                 }
             }

@@ -24,11 +24,15 @@ namespace GameCore.Unity
         {
             if (duration < 0)
             {
-                var s = animator.GetCurrentAnimatorStateInfo(0);
-                if (s.IsName(StateName))
+                duration--;
+                if (duration < -2 && !animator.IsInTransition(0)) //等一帧，overidde的时候可能还是上个剪辑的时间
                 {
-                    duration = s.length;
-                    isLoop = s.loop;
+                    var s = animator.GetCurrentAnimatorStateInfo(0);
+                    if(s.IsName(StateName))
+                    {
+                        duration = s.length;
+                        isLoop = s.loop;
+                    }
                 }
             }
             else
