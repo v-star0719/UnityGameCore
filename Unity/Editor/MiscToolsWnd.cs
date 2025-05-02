@@ -57,6 +57,11 @@ namespace GameCore.Unity
                 BoxColliderFitToMesh();
             }
 
+            if (GUIUtil.Button("MissingScript"))
+            {
+                MissingScript.CheckSelectGameObjects();
+            }
+
             using (GUIUtil.LayoutHorizontal())
             {
                 if(GUIUtil.Button("SetDirtyAndSave"))
