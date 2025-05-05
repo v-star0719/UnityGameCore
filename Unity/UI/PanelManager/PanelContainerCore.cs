@@ -22,21 +22,16 @@ namespace GameCore.Unity
                 Debug.LogError(TransformUtils.GetTransformPath(transform,  null));
             }
 
-            if (Panel.settings.bgType == PanelBaseCore.BgType.None)
-            {
-                HideBgTexture(true);
-            }
-            else
-            {
-                HideBgTexture(false);
-                EnableBgTexture(false);//先隐藏，ugui中没有图的时候是白的，影响截图
-                if(Panel.settings.blurBg)
-                {
-                    PlayableDirector.gameObject.SetActive(false);
-                    StartCoroutine(MakeBlurBg());
-                }
-            }
             PlayableDirector.enabled = Panel.settings.playPopUpAnimation;
+
+            //背景
+            ShowBg();
+            if (Panel.settings.bgType == PanelBaseCore.BgType.Blur)
+            {
+                EnableBgTexture(false);//先隐藏，ugui中没有图的时候是白的，影响截图
+                PlayableDirector.gameObject.SetActive(false);//动画先暂停
+                StartCoroutine(MakeBlurBg());
+            }
         }
 
         public void AddPanel(PanelBaseCore panel)
@@ -52,15 +47,15 @@ namespace GameCore.Unity
             Panel.OnBgClick();
         }
 
-        protected virtual void EnableBgTexture(bool e)
-        {
-        }
-
-        protected virtual void HideBgTexture(bool b)
+        protected virtual void ShowBg()
         {
         }
 
         protected virtual void SetBgTexture(Texture t)
+        {
+        }
+
+        protected virtual void EnableBgTexture(bool e)
         {
         }
 
@@ -69,7 +64,7 @@ namespace GameCore.Unity
             yield return new WaitForEndOfFrame(); //截屏需要等一帧
             screenCapture = ScreenCapture.CaptureScreenshotAsTexture();
             SetBgTexture(screenCapture);
-            EnableBgTexture(Panel.settings.blurBg);
+            EnableBgTexture(true);
             makingData = BlurTextureMaker.Blur(screenCapture);
             PlayableDirector.gameObject.SetActive(true);
         }

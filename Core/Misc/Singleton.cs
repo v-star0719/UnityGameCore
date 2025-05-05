@@ -8,11 +8,7 @@
         {
             get
             {
-                if(instance == null)
-                {
-                    instance = new T();
-                }
-
+                instance ??= new T();
                 return instance;
             }
         }

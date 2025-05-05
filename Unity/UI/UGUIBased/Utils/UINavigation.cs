@@ -50,7 +50,14 @@ namespace GameCore.Unity.UGUIEx
 
         public void SetWorking(bool b)
         {
-            var v = Selectable.navigation;
+            var s = Selectable;
+            if(s == null)
+            {
+                Debug.LogError("Selectable is required", gameObject);
+                return;
+            }
+
+            var v = s.navigation;
             v.mode = b ? Navigation.Mode.Automatic : Navigation.Mode.None;
             Selectable.navigation = v;
         }

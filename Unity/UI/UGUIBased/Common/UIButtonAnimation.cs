@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using GameCore.Unity.Tweener;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,13 +8,23 @@ public class UIButtonAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpH
 {
     public Vector3 press = new Vector3(1.05f, 1.05f, 1.05f);
     public float duration = 0.1f;
-    public GameObject selectGo;
+    public GameObject selectGo;//如果用了tween，正向是显示
 
     private float timer;
     private Vector3 startScale;
     private Vector3 endScale;
     private Vector3 initScale;
     private bool isWorking;//enable=false的话收不到消息
+    private TweenPlayer selectGoTweener;
+
+    public void Awake()
+    {
+        if (selectGo != null)
+        {
+            selectGo.SetActive(false);
+            selectGoTweener = selectGo.GetComponent<TweenPlayer>();
+        }
+    }
 
     public void Start()
     {
@@ -54,6 +65,10 @@ public class UIButtonAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpH
         if(selectGo != null)
         {
             selectGo.SetActive(true);
+            if(selectGoTweener != null)
+            {
+                selectGoTweener.Play(true);
+            }
         }
     }
 
@@ -62,6 +77,13 @@ public class UIButtonAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpH
         if(selectGo != null)
         {
             selectGo.SetActive(false);
+            //if (selectGoTweener != null)
+            //{
+            //    selectGoTweener.Play(false, () =>
+            //    {
+            //        selectGo.SetActive(false);
+            //    });
+            //}
         }
     }
 

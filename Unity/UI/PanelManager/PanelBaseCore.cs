@@ -12,6 +12,7 @@ namespace GameCore.Unity
             None,
             Gray,
             Blur,
+            Empty,
         }
 
         [Serializable]
@@ -22,6 +23,7 @@ namespace GameCore.Unity
             public bool playPopUpAnimation = true;
             public bool clickBgClose = true;
             public BgType bgType = BgType.Blur;
+            public bool closeByCancelAxis = true;
 
             public bool playOpenSound = true;
             public bool playCloseSound = true;

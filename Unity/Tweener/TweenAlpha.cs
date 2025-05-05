@@ -8,7 +8,7 @@ namespace GameCore.Unity.Tweener
     public class TweenAlpha : Tweener
     {
         public float from;
-        public float to;
+        public float to = 1;
 
         public CanvasGroup canvasGroup;
         public Image image;

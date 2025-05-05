@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using static UnityEditor.Progress;
+using GameCore.Lang.Extension;
 
 //
 //(1)目前没有做循环滚动，循环很麻烦
@@ -25,7 +26,8 @@ namespace GameCore.Unity.UGUIEx
         public bool hideInactive;
 
         protected List<UIScrollPickerItem> items = new();
-        public int CurSelectedIndex { get; private set; }
+        public int CurSelectedIndex { get; private set; } = -1;
+        public int ItemCount => items.Count;
 
         public float springDuration = 0.3f;
         private bool isDragging = false;
@@ -43,6 +45,8 @@ namespace GameCore.Unity.UGUIEx
         private bool needRebuild = false;
 
         public UnityEvent<int> onSelect;//索引，是否是点击的项
+
+        public UIScrollPickerItem CurItem => items.SafeGet(CurSelectedIndex, null);
 
         // Use this for initialization
         private void Start()

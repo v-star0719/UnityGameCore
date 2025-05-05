@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using GameCore.Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,6 +13,7 @@ namespace GameCore.Unity.UGUIEx
     {
         //一个container隐藏了，就显示上一个container的
         public static List<UINavigationContainer> containers = new();
+        private static int refreshTimer;
 
         public Dictionary<GameObject, UINavigation> dict = new();
         private GameObject lastObj;
@@ -19,21 +21,19 @@ namespace GameCore.Unity.UGUIEx
 
         public void OnEnable()
         {
-            foreach (var c in containers)
+            if (containers.Count > 0)
             {
-                c.SetWorking(false);
+                containers[^1].SetWorking(false);
             }
             containers.Add(this);
+            BeginRefresh();
         }
 
         public void OnDisable()
         {
             var i = containers.IndexOf(this);
             containers.RemoveAt(i);
-            if(containers.Count > 0 && i > 0 && Game.Inst != null)
-            {
-                Game.Inst.StartCoroutine(DelaySelect(0.1f));//底部的面板可能被关闭了，需要等底部的面板打开后才能进行选中
-            }
+            BeginRefresh();
         }
 
         public void Update()
@@ -67,7 +67,7 @@ namespace GameCore.Unity.UGUIEx
         {
             if(lastObj != null && lastObj.activeInHierarchy)
             {
-                EventSystem.current.SetSelectedGameObject(lastObj); 
+                SetEventSystemSelect(lastObj);
             }
             else
             {
@@ -94,13 +94,38 @@ namespace GameCore.Unity.UGUIEx
                 
                 if(p1 != null || p2 != null)
                 {
-                    EventSystem.current.SetSelectedGameObject(p1 ?? p2);
+                    SetEventSystemSelect(p1 ?? p2);
                 }
                 else
                 {
                     //Debug.LogError("no ui navigation to select");
                 }
             }
+        }
+
+        public static void BeginRefresh()
+        {
+            if (refreshTimer > 0)
+            {
+                TimerManager.Inst.Del(refreshTimer);
+            }
+            //等待时间过短的话，UI上的Navigation可能还没显示
+            refreshTimer = TimerManager.Inst.Add(0.7f, () =>
+            {
+                if (containers.Count > 0)
+                {
+                    var c = containers[^1];
+                    c.SetWorking(true);
+                    c.SelectLastObj();
+                }
+                refreshTimer = 0;
+            });
+        }
+
+        public static void SetEventSystemSelect(GameObject go)
+        {
+            EventSystem.current.SetSelectedGameObject(go);
+            EventSystem.current.firstSelectedGameObject = go;
         }
 
         public static IEnumerator DelaySelect(float t)

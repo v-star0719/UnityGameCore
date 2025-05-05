@@ -59,20 +59,26 @@ namespace GameCore.Unity.Tweener
 				Debug.LogError("no animation curve on tweener", gameObject);
             }
 
-            if (!isPlaying && !playOnAwake)
+            if (!isPlaying && playOnAwake)
             {
-                enabled = false;
+                isPlaying = true;
             }
         }
 
         protected void Update()
         {
-            if (!useFixedUpdate) DoUpdate(ignoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime);
+            if (isPlaying && !useFixedUpdate)
+            {
+                DoUpdate(ignoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime);
+            }
         }
 
         protected void FixedUpdate()
         {
-            if (useFixedUpdate) DoUpdate(ignoreTimeScale ? Time.fixedUnscaledDeltaTime : Time.fixedDeltaTime);
+            if (isPlaying && useFixedUpdate)
+            {
+                DoUpdate(ignoreTimeScale ? Time.fixedUnscaledDeltaTime : Time.fixedDeltaTime);
+            }
         }
 
         protected virtual void OnEnable()
@@ -162,7 +168,6 @@ namespace GameCore.Unity.Tweener
 
         private void OnFinished()
         {
-            enabled = false;
             isPlaying = false;
             onFinished.Invoke();
             onFinishCallback?.Invoke();
@@ -170,7 +175,7 @@ namespace GameCore.Unity.Tweener
 
 		public void Stop()
 		{
-            enabled = false;
+            isPlaying = false;
         }
 
         public void Sample (float factor)
@@ -239,7 +244,6 @@ namespace GameCore.Unity.Tweener
 		public virtual void Play (bool forward, Action onFinish = null)
         {
             isPlaying = true;
-            enabled = true;
             timer = forward ? 0 : duration;
             delayTimer = 0;
             direction = forward ? Direction.Forward : Direction.Backward;
@@ -250,7 +254,6 @@ namespace GameCore.Unity.Tweener
         public virtual void PlayFromCurrentPos(bool forward, Action onFinish = null)
         {
             isPlaying = true;
-            enabled = true;
             direction = forward ? Direction.Forward : Direction.Backward;
             onFinishCallback = onFinish;
         }
