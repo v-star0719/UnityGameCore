@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace GameCore.Unity.UGUIEx
 {
-    public class RectTransformUtils
+    public static class RectTransformUtils
     {
         //https://discussions.unity.com/t/how-to-find-out-the-rect-of-a-group-of-ui-objects/933245
         public static void CalculateBoundingRect(List<RectTransform> rectTransforms, out Vector3 min, out Vector3 max)
@@ -48,6 +48,20 @@ namespace GameCore.Unity.UGUIEx
                 max = trans.InverseTransformPoint(max);
             }
             return new Bounds((min + max) * 0.5f, max - min);
+        }
+
+        public static void SetWidth(this RectTransform trans, float w)
+        {
+            var sz = trans.sizeDelta;
+            sz.x = w;
+            trans.sizeDelta = sz;
+        }
+
+        public static void SetHeight(this RectTransform trans, float h)
+        {
+            var sz = trans.sizeDelta;
+            sz.y = h;
+            trans.sizeDelta = sz;
         }
 
         private static void CalculateBoundingRectInner(RectTransform trans, ref Vector3 min, ref Vector3 max)

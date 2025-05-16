@@ -45,5 +45,15 @@ namespace GameCore.Core
                 }
             }
         }
+
+        public static int GetExpPropCount(int exp, int expPerProp)
+        {
+            var n = exp / expPerProp;
+            if (exp > n * expPerProp)
+            {
+                n++;
+            }
+            return n;
+        }
     }
 }
