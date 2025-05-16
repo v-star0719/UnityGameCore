@@ -322,7 +322,7 @@ namespace GameCore.Unity.UGUIEx
         {
             if (scrollRect != null && scrollRect.content != null)
             {
-                scrollRect.normalizedPosition = Vector3.zero;
+                scrollRect.normalizedPosition = new Vector2(0, 1);
             }
         }
 
