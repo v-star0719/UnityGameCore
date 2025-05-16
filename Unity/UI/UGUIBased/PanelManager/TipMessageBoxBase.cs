@@ -1,6 +1,7 @@
 using GameCore.Unity;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace GameCore.Unity.UGUIEx
 {
@@ -61,7 +62,7 @@ namespace GameCore.Unity.UGUIEx
                 if(!waitPlace)
                 {
                     canvasGroup.alpha = 1;
-                    UGUIUtils.AutoPlaceUI(content, arg.worldPos);
+                    UGUIUtils.AutoPlaceUI(content, arg.worldPos, arg.PreferDir);
                     UGUIUtils.ConstrainUIInScreen(content);
                     isPlaced = true;
                 }
@@ -117,6 +118,33 @@ namespace GameCore.Unity.UGUIEx
             public GameObject trigger;
             public Vector3 worldPos; //提示位置。会自动放置在该位置周围
             public bool doNotAutoPlace;//如果不需要自动摆放位置并限制在屏幕内，设置true
+
+            public UGUIUtils.AutoPlaceUIPreferDir PreferDir
+            {
+                get
+                {
+                    if (trigger == null)
+                    {
+                        return UGUIUtils.AutoPlaceUIPreferDir.None;
+                    }
+                    var sr = trigger.GetComponentInParent<ScrollRect>();
+                    if(sr != null)
+                    {
+                        return sr.horizontal ? UGUIUtils.AutoPlaceUIPreferDir.Vertical : UGUIUtils.AutoPlaceUIPreferDir.Horizontal;
+                    }
+                    var hg = trigger.GetComponentInParent<HorizontalLayoutGroup>();
+                    if (hg != null)
+                    {
+                        return UGUIUtils.AutoPlaceUIPreferDir.Vertical;
+                    }
+                    var vg = trigger.GetComponentInParent<VerticalLayoutGroup>();
+                    if(vg != null)
+                    {
+                        return UGUIUtils.AutoPlaceUIPreferDir.Horizontal;
+                    }
+                    return UGUIUtils.AutoPlaceUIPreferDir.None;
+                }
+            }
 
             public Argument(GameObject trigger, Vector3 worldPos, bool doNotAutoPlace = false)
             {
