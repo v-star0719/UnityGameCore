@@ -7,7 +7,7 @@ namespace GameCore.Unity
 {
     //直接挂到GameObjective上，然后加子节点作为曲线的节点
     //两个节点中间的点是控制点。节点列表为：节点，控制点，节点，控制点，节点。。。以此类推
-    [ExecuteInEditMode]
+    [ExecuteAlways]
     public class SimpleBezierCurveEdit : MonoBehaviour
     {
         public SimpleBezierCurveData bezierData;

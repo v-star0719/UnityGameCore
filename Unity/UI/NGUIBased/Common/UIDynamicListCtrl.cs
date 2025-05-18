@@ -11,7 +11,7 @@ using System.Collections.Generic;
  */
 namespace GameCore.Unity.NGUIEx
 {
-    [ExecuteInEditMode]
+    [ExecuteAlways]
     public class UIDynamicListCtrl : MonoBehaviour
     {
         public List<UIDynamicListItemCtrlBase> itemList = new List<UIDynamicListItemCtrlBase>();

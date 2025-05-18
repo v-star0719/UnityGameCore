@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 namespace GameCore.Unity
 {
     //将子节点按行列网格排列在3D空间中
-    [ExecuteInEditMode]
+    [ExecuteAlways]
     public class Grid3D : MonoBehaviour
     {
         public enum Alignment

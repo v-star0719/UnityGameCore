@@ -4,7 +4,7 @@ using UnityEngine;
 namespace GameCore.Unity
 {
     //在一定范围内随机分布
-    [ExecuteInEditMode]
+    [ExecuteAlways]
     public class RandomDistribution : MonoBehaviour
     {
         public Vector3 range;

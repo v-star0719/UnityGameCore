@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 
 namespace GameCore.Core
 {
-    [ExecuteInEditMode]
+    [ExecuteAlways]
     public class TestGridCellMerge : MonoBehaviour
     {
         public bool test;

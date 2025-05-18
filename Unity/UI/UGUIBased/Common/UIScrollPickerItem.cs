@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace GameCore.Unity.UGUIEx
 {
-    [ExecuteInEditMode]
+    [ExecuteAlways]
     public class UIScrollPickerItem : MonoBehaviour, IPointerClickHandler
     {
         [ReadOnly]

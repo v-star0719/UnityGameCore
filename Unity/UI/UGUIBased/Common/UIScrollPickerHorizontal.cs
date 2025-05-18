@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace GameCore.Unity.UGUIEx
 {
-    [ExecuteInEditMode]
+    [ExecuteAlways]
     public class UIScrollPickerHorizontal : UIScrollPickerBase
     {
         public override float GetDistToViewportCenter(Transform item)

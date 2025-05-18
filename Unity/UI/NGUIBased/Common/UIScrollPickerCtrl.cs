@@ -12,7 +12,7 @@ namespace GameCore.Unity.NGUIEx
 {
     public delegate void OnScrollPickerSelectChanged(UIScrollPickerItemCtrlBase item, int itemIndex);
 
-    [ExecuteInEditMode]
+    [ExecuteAlways]
     public class UIScrollPickerCtrl : MonoBehaviour
     {
         public enum EmDirection

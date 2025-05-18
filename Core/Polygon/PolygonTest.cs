@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using GameCore.Common;
 using UnityEngine;
 
-[ExecuteInEditMode]
+[ExecuteAlways]
 public class PolygonTest : MonoBehaviour
 {
     public Transform polygonRoot1;

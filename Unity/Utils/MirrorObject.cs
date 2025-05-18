@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GameCore.Unity
 {
-    [ExecuteInEditMode]
+    [ExecuteAlways]
     public class MirrorObject : MonoBehaviour
     {
         public enum MirrorPlaneType

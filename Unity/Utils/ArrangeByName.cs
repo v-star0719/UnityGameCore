@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GameCore.Unity
 {
-    [ExecuteInEditMode]
+    [ExecuteAlways]
     public class ArrangeByName : MonoBehaviour
     {
         public bool sortByName;

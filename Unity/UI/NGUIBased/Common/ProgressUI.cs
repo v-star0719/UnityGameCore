@@ -3,7 +3,7 @@ using UnityEngine;
 #if NGUI
 namespace GameCore.Unity.NGUIEx
 {
-    [ExecuteInEditMode]
+    [ExecuteAlways]
     public class ProgressUI : MonoBehaviour
     {
         public UIWidget widget;

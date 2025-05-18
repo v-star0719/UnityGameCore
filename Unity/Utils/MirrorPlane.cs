@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GameCore.Unity
 {
-    [ExecuteInEditMode]
+    [ExecuteAlways]
     public class MirrorPlane : MonoBehaviour
     {
         public Camera cam;

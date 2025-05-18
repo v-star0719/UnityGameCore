@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using GameCore.Common;
 using UnityEngine;
 
-[ExecuteInEditMode]
+[ExecuteAlways]
 public class GrahamScanTest : MonoBehaviour
 {
     // Use this for initialization

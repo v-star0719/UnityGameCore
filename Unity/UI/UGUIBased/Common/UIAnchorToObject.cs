@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 namespace GameCore.Unity.UGUIEx
 {
-    [ExecuteInEditMode]
+    [ExecuteAlways]
     public partial class UIAnchorToObject : MonoBehaviour
     {
         public AnchorDataHorizontal leftAnchor;
