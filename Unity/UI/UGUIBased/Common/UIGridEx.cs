@@ -289,6 +289,42 @@ namespace GameCore.Unity.UGUIEx
             SelectedItem = null;
         }
 
+        public void Del(int gridId)
+        {
+            var index = GetItemIndexById(gridId);
+            if (index >= 0)
+            {
+                datas.RemoveAt(index);
+                var item = GetItem(index);
+                recycledItems.Add(item);
+                items.RemoveAt(index);
+                if (SelectedItem == item)
+                {
+                    SelectedItem = null;
+                    SelectItem(index, false, false, false);
+                }
+            }
+        }
+
+        public void Insert(int index, IGridExData data)
+        {
+            datas.Insert(index, data);
+            var item = GetAvailableItem();
+            items.Insert(index, item);
+            item.transform.SetSiblingIndex(index);
+            item.SetData(data);
+        }
+
+        public void InsertTail(IGridExData data)
+        {
+            Insert(items.Count, data);
+        }
+
+        public void InsetHead(IGridExData data)
+        {
+            Insert(0, data);
+        }
+
         public void OnItemSelect(UIGridExItem item, bool isClickMsg)
         {
             if (item != null && !item.CanSelect())
