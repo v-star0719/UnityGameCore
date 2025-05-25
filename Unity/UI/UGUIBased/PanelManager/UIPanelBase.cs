@@ -5,6 +5,19 @@ namespace GameCore.Unity.UGUIEx
 {
     public class UIPanelBase : PanelBaseCore
     {
+        private RectTransform _rectTransform;
+        public RectTransform RectTransform
+        {
+            get
+            {
+                if(_rectTransform == null)
+                {
+                    _rectTransform = GetComponent<RectTransform>();
+                }
+                return _rectTransform;
+            }
+        }
+
         public override int Depth
         {
             get => depth;

@@ -95,8 +95,8 @@ namespace GameCore.Unity
         public int NextId => ++nextId;
 
         public SoundPlayer NormalPlayer => Players[(int)SoundLayer.normal];
-        public SoundPlayer TopPlayer => Players[(int)SoundLayer.normal];
-        public SoundPlayerBgm BgmPlayer => Players[(int)SoundLayer.normal] as SoundPlayerBgm;
+        public SoundPlayer TopPlayer => Players[(int)SoundLayer.top];
+        public SoundPlayerBgm BgmPlayer => Players[(int)SoundLayer.bgm] as SoundPlayerBgm;
 
         #region MonoLife 
 

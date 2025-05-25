@@ -83,6 +83,11 @@ namespace GameCore.Unity.UGUIEx
 
             for (int i = 0; i < trans.childCount; i++)
             {
+                var child = trans.GetChild(i);
+                if (!child.gameObject.activeSelf)
+                {
+                    continue;
+                }
                 CalculateBoundingRectInner(trans.GetChild(i) as RectTransform, ref min, ref max);
             }
         }

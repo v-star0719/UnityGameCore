@@ -24,6 +24,7 @@ namespace GameCore.Unity
             public bool clickBgClose = true;
             public BgType bgType = BgType.Blur;
             public bool closeByCancelAxis = true;
+            public bool closeBySubmitAxis = false;
 
             public bool playOpenSound = true;
             public bool playCloseSound = true;
@@ -37,6 +38,8 @@ namespace GameCore.Unity
 
         public bool IsClosed { get; private set; }
         public string PanelName { get; set; }
+        public float OpenTiming { get; private set; }
+        public float Age => Time.time - OpenTiming;
 
         private Dictionary<Enum, Action<object>> events = new();
 
@@ -55,6 +58,7 @@ namespace GameCore.Unity
         public virtual void Open(PanelManagerCore mgr, params object[] args)
         {
             manager = mgr;
+            OpenTiming = Time.time;
             try
             {
                 OnOpen(args);

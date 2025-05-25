@@ -173,12 +173,12 @@ namespace GameCore.Unity
 
         public virtual PanelBaseCore GetTopPanel()
         {
-            if (panels.Count > 0)
-            {
-                return panels[panels.Count - 1];
-            }
+            return panels.Count > 0 ? panels[^1] : null;
+        }
 
-            return null;
+        public virtual PanelBaseCore GetBottomPanel()
+        {
+            return panels.Count > 0 ? panels[0] : null;
         }
     }
 }

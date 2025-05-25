@@ -96,11 +96,34 @@ namespace GameCore.Unity
             var topPanel = PanelManager.Normal.GetTopPanel();
             if (topPanel != CurScene.MainPanel)
             {
-                PanelManager.Top.ClosePanel(topPanel);
+                if (topPanel.settings.closeByCancelAxis && topPanel.Age > 0.5f)//按下回车打开面板，可能立刻又把面板关闭
+                {
+                    PanelManager.Normal.ClosePanel(topPanel);
+                }
             }
             else
             {
                 CurScene.OnCancelAxis();
+            }
+        }
+
+        public virtual void OnSubmitAxis()
+        {
+            if(CurScene == null)
+            {
+                return;
+            }
+            var topPanel = PanelManager.Normal.GetTopPanel();
+            if(topPanel != CurScene.MainPanel)
+            {
+                if (topPanel.settings.closeBySubmitAxis && topPanel.Age > 0.5f)//按下回车打开面板，可能立刻又把面板关闭
+                {
+                    PanelManager.Normal.ClosePanel(topPanel);
+                }
+            }
+            else
+            {
+                CurScene.OnSubmitAxis();
             }
         }
 

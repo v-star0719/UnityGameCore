@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static UISpriteCollection;
+using Debug = UnityEngine.Debug;
 
 namespace GameCore.Unity.UGUIEx
 {
@@ -108,12 +110,12 @@ namespace GameCore.Unity.UGUIEx
             for (int i = 0; i < dataCount; i++)
             {
                 var item = GetAvailableItem();
-                item.gameObject.SetActive(true);
                 item.index = i;
                 item.SetData(datas[i]);
                 item.SetSelect(false);
                 items.Add(item);
             }
+            RefreshItemName();
 
             arrangeFunc?.Invoke();
             //Debug.Log($"used: {items.Count}  recycled: {recycledItems.Count} total: {itemTotalCount}");
@@ -152,7 +154,6 @@ namespace GameCore.Unity.UGUIEx
             {
                 var go = GameObject.Instantiate(itemPrefab, itemPrefab.transform.parent);
                 itemTotalCount += 1;
-                go.name = itemTotalCount.ToString();
                 go.transform.localScale = new Vector3(itemScale, itemScale, itemScale);
                 item = go.GetComponent<UIGridExItem>();
                 item.grid = this;
@@ -169,6 +170,7 @@ namespace GameCore.Unity.UGUIEx
                 recycledItems.RemoveAt(index);
                 //Debug.Log($"GetAvailableItem. get recycled items, remain  {recycledItems.Count}");
             }
+            item.gameObject.SetActive(true);
             return item;
         }
 
@@ -298,12 +300,18 @@ namespace GameCore.Unity.UGUIEx
                 var item = GetItem(index);
                 recycledItems.Add(item);
                 items.RemoveAt(index);
+                item.gameObject.SetActive(false);
                 if (SelectedItem == item)
                 {
                     SelectedItem = null;
                     SelectItem(index, false, false, false);
                 }
+                for (int i = index; i < items.Count; i++)
+                {
+                    items[i].index = i;
+                }
             }
+            RefreshItemName();
         }
 
         public void Insert(int index, IGridExData data)
@@ -311,8 +319,14 @@ namespace GameCore.Unity.UGUIEx
             datas.Insert(index, data);
             var item = GetAvailableItem();
             items.Insert(index, item);
-            item.transform.SetSiblingIndex(index);
+            item.index = index;
+            item.transform.SetSiblingIndex(index + 1); //有个prefab在下面
             item.SetData(data);
+            RefreshItemName();
+            for(int i = index; i < items.Count; i++)
+            {
+                items[i].index = i;
+            }
         }
 
         public void InsertTail(IGridExData data)
@@ -679,6 +693,15 @@ namespace GameCore.Unity.UGUIEx
                 //    }
                 //    preKn = kn;
                 //}
+            }
+        }
+
+        [Conditional("UNITY_EDITOR")]
+        private void RefreshItemName()
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                items[i].gameObject.name = (i+1).ToString();
             }
         }
     }

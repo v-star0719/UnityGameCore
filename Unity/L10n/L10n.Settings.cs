@@ -46,7 +46,7 @@ namespace Misc
             AddLanguageInfo(SystemLanguage.French, "Français", false, SystemLanguage.English);//法语
             AddLanguageInfo(SystemLanguage.German, "Deutsch", false, SystemLanguage.English);//德语
             AddLanguageInfo(SystemLanguage.Greek, "", false, SystemLanguage.English);//希腊语
-            AddLanguageInfo(SystemLanguage.Hebrew, "עברית", false, SystemLanguage.English);//希伯来语
+            AddLanguageInfo(SystemLanguage.Hebrew, "", false, SystemLanguage.English);//希伯来语 עברית
             AddLanguageInfo(SystemLanguage.Hungarian, "", false, SystemLanguage.English);//匈牙利语
             AddLanguageInfo(SystemLanguage.Hindi, "", false, SystemLanguage.English);//北印度语 //हिन्दी游戏里的字体不支持
             AddLanguageInfo(SystemLanguage.Icelandic, "", false, SystemLanguage.English);//冰岛语

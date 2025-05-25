@@ -14,7 +14,7 @@ namespace GameCore
     {
         public Transform topUIRoot;
         public Transform normalUIRoot;
-        private float checkCancelInputTimer;
+        private float checkInputTimer;
 
         protected virtual void Awake()
         {
@@ -42,21 +42,21 @@ namespace GameCore
         //ESC键或者手柄的取消键
         protected virtual void TickCheckCancelInput()
         {
-            if (checkCancelInputTimer < Time.time && Input.GetAxis("Cancel") > 0)
+            if (checkInputTimer < Time.time)
             {
-                checkCancelInputTimer = Time.time + 0.2f;
-                var p = PanelManager.Normal.GetTopPanel();
-
-                if (PanelManager.Normal.GetTopPanel() is CityMainPanel)
+                var cancel = Input.GetAxis("Cancel") > 0;
+                var submit = Input.GetAxis("Submit") > 0;
+                if (cancel || submit)
                 {
-                    UIUtils.ShowOkCancelMsgBox("ExitConfirm".L10n(), () =>
+                    checkInputTimer = Time.time + 0.2f;
+                    if (cancel)
                     {
-                        Application.Quit(0);
-                    });
-                }
-                else
-                {
-                    PanelManager.Normal.CloseTopPanel();
+                        SceneManagerX.Inst.OnCancelAxis();
+                    }
+                    else
+                    {
+                        SceneManagerX.Inst.OnSubmitAxis();
+                    }
                 }
             }
         }

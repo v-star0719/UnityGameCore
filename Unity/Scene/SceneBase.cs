@@ -36,6 +36,12 @@
         {
 
         }
+
+        //Enter键或者手柄的确认键
+        public virtual void OnSubmitAxis()
+        {
+
+        }
     }
 
     public class SceneArgBase
