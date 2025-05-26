@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -118,6 +118,22 @@ namespace GameCore.Lang.Extension
 				}
 			}
 			return -1;
+		}
+
+		public static bool Contains<T>(this T[] list, T v)
+		{
+			if(list != null)
+			{
+				var imax = list.Length;
+				for(var i = 0; i < imax; ++i)
+				{
+					if(v.Equals(list[i]))
+					{
+						return true;
+					}
+				}
+			}
+			return false;
 		}
 
 		public static int IndexOfEx(this int[] list, int target)
