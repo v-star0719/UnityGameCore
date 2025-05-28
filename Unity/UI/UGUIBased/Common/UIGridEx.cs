@@ -506,7 +506,7 @@ namespace GameCore.Unity.UGUIEx
 
         public UIGridExItem GetItem(int index)
         {
-            return items[index];
+            return index >= 0 && index < items.Count ? items[index] : null;
         }
 
         public T GetItem<T>(int index) where T : UIGridExItem
