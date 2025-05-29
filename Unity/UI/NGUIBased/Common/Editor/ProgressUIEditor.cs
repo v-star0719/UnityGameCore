@@ -1,3 +1,5 @@
+#if NGUI
+
 using System.Collections;
 using System.Collections.Generic;
 using Fight;
@@ -7,14 +9,19 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
-[CustomEditor(typeof(ProgressUI))]
-public class ProgressUIEditor : Editor
+namespace GameCore.Unity.NGUIEx
 {
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(ProgressUI))]
+    public class ProgressUIEditor : Editor
     {
-        base.OnInspectorGUI();
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
 
-        var p = target as ProgressUI;
-        p.Value = EditorGUILayout.Slider("Value", p.Value, 0, 1);
+            var p = target as ProgressUI;
+            p.Value = EditorGUILayout.Slider("Value", p.Value, 0, 1);
+        }
     }
 }
+
+#endif

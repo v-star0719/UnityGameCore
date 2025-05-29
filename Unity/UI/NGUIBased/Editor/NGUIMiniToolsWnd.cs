@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using Selection = UnityEditor.Selection;
 
-namespace Assets.Kernel.Unity.Editor
+namespace GameCore.Unity.NGUIEx
 {
     public class NGUIMiniToolsWnd : EditorWindow
     {

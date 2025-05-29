@@ -4,7 +4,6 @@ using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static UISpriteCollection;
 using Debug = UnityEngine.Debug;
 
 namespace GameCore.Unity.UGUIEx

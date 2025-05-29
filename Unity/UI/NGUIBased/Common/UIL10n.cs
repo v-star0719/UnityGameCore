@@ -1,6 +1,8 @@
 using Misc;
 using UnityEngine;
 
+#if NGUI
+
 namespace GameCore.Unity.NGUIEx
 {
     public class UIL10n : MonoBehaviour, IL10nMsgReceiver
@@ -38,3 +40,4 @@ namespace GameCore.Unity.NGUIEx
         }
     }
 }
+#endif
