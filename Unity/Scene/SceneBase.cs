@@ -1,4 +1,6 @@
-﻿namespace GameCore.Unity
+﻿using GameCore.Unity.UGUIEx;
+
+namespace GameCore.Unity
 {
     public class SceneBase
     {
@@ -47,6 +49,6 @@
     public class SceneArgBase
     {
         public int type;
-        public bool showLoadingPanel;
+        public LoadingPanelBase.Argument loadingPanelArg;
     }
 }

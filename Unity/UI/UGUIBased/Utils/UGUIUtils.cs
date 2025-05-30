@@ -173,6 +173,29 @@ namespace GameCore.Unity.UGUIEx
             return trans.GetComponentInParent<CanvasScaler>().GetComponent<RectTransform>().sizeDelta;
         }
 
+        //放大或者缩小的宽高来适应size，完全填满size
+        public static void RectFitView(RectTransform rect, Vector2 size)
+        {
+            var r = rect.rect;
+            var rectRatio = r.width / r.height;
+            var sizeRatio = size.x / size.y;
+
+            if (rectRatio > sizeRatio)
+            {
+                //rect比size更宽，让高度符合size的高度。这时宽度可能超出size区域，反过来的画宽度可能不够。
+                r.height = size.y;
+                r.width = size.y * rectRatio;
+            }
+            else
+            {
+                //rect比size更窄，让宽度符合size的宽度，这时高度可能超出size，反过来的画高度可能不够
+                r.width = size.x;
+                r.height = size.x / rectRatio;
+            }
+
+            rect.sizeDelta = r.size;
+        }
+
         public static void SetAlpha(this Image image, float alpha)
         {
             var clr = image.color;

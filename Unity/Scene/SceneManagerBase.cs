@@ -1,6 +1,7 @@
 ﻿using System;
 using GameCore.Unity;
 using GameCore.Core;
+using GameCore.Unity.UGUIEx;
 
 namespace GameCore.Unity
 {
@@ -21,14 +22,14 @@ namespace GameCore.Unity
         public StateType State { get; private set; }
         public int timer;
         public SceneArgBase newSceneArg;
-        public PanelBaseCore loadingPanel;
+        public LoadingPanelBase loadingPanel;
 
-        public void LoadScene(SceneArgBase arg)
+        public virtual void LoadScene(SceneArgBase arg)
         {
             newSceneArg = arg;//判断这个参数不是null就自动切换场景。分帧执行，确保上一个场景已经卸载完毕
-            if (arg.showLoadingPanel)
+            if (arg.loadingPanelArg != null)
             {
-                loadingPanel = PanelManager.Top.OpenPanel("LoadingPanel");
+                loadingPanel = PanelManager.Top.OpenPanel("LoadingPanel", arg.loadingPanelArg) as LoadingPanelBase;
             }
         }
 
@@ -66,7 +67,7 @@ namespace GameCore.Unity
                     break;
                 case StateType.Running:
                     CurScene?.Tick(deltaTime);
-                    if (newSceneArg != null)
+                    if (newSceneArg != null && (loadingPanel == null || !loadingPanel.IsCapturingScreen))
                     {
                         State = StateType.Unloading;
                         CurScene.Destroy();
