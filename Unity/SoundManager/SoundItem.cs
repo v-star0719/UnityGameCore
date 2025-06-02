@@ -73,18 +73,18 @@ namespace GameCore.Unity
             AudioSource = s;
         }
 
-        public void Init(SoundPlayer player, int id, AudioClip clip, bool loop)
+        public void Init(SoundPlayer player, string resName, int id, AudioClip clip, bool loop)
         {
-            Init(player, id, clip, loop, 1, 0, 0, 0);
+            Init(player, resName, id, clip, loop, 1, 0, 0, 0);
         }
 
-        public void Init(SoundPlayer player, int id, AudioClip clip, bool loop, float volume, float duration, float fadein, float fadeout)
+        public void Init(SoundPlayer player, string resName, int id, AudioClip clip, bool loop, float volume, float duration, float fadein, float fadeout)
         {
             AudioSource.enabled = true;
             AudioSource.clip = clip;
             AudioSource.time = 0;
             AudioSource.loop = loop;
-            ResName = clip.name;
+            ResName = resName;
             Duration = duration == 0 ? (loop ? 1080000 : clip.length) : duration; //300天=3600*30=1080000秒
 
             if (fadein > Duration)

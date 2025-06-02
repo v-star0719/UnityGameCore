@@ -21,7 +21,7 @@ namespace GameCore.Unity.UGUIEx
 
         }
 
-        public virtual bool CanSelect()
+        public virtual bool CanSelect(bool isClickMsg)
         {
             return true;
         }

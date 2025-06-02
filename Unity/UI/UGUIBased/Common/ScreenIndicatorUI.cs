@@ -94,7 +94,13 @@ namespace GameCore.Unity.UGUIEx
 
                 if(!hideIfNotInScreen)
                 {
+                    //转换为视图内坐标
                     RectTransformUtility.ScreenPointToLocalPointInRectangle(viewArea, screenPos, uiCamera, out var viewPos);
+                    //如果不在ViewArea内，计算和和ViewArea边界的交点
+                    if(!viewArea.rect.Contains(viewPos))
+                    {
+                        viewPos = GameCore.Core.MathUtils.CalculateRayScreenIntersection(new Vector2(viewW, viewH), viewPos);
+                    }
                     var ag = Mathf.Atan2(viewPos.y, viewPos.x) * Mathf.Rad2Deg;
                     transform.localEulerAngles = new Vector3(0, 0, ag + angle);
                     transform.localPosition = viewPos;
@@ -111,49 +117,11 @@ namespace GameCore.Unity.UGUIEx
                 //转换为视图内坐标
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(viewArea, screenPos, uiCamera, out var viewPos);
                 //交点计算
-                var intersectPos = CalculateRayScreenIntersection(new Vector2(viewW, viewH), viewPos);
+                var intersectPos = GameCore.Core.MathUtils.CalculateRayScreenIntersection(new Vector2(viewW, viewH), viewPos);
                 var ag = Mathf.Atan2(intersectPos.y, intersectPos.x) * Mathf.Rad2Deg;
                 transform.localEulerAngles = new Vector3(0, 0, ag + angle);
                 transform.localPosition = intersectPos;
             }
-        }
-
-        //计算从屏幕中心发出的射线，和屏幕的交点
-        public static Vector2 CalculateRayScreenIntersection(Vector2 screenSize, Vector2 dir)
-        {
-            var halfScreenW = screenSize.x * 0.5f;
-            //水平线
-            if (dir.y == 0)
-            {
-                return new Vector2(0, dir.x > 0 ? halfScreenW : -halfScreenW);
-            }
-
-            //非水平线
-            //------
-            //|\  /|
-            //| \/ |
-            //| /\ |
-            //|/  \|
-            //------ 横屏不好画
-            //计算在上下两边上的交点，如果交点超出屏幕了，说明应该在左右两边相交
-            //这个算法只需要计算两次除法。如果是用斜率判断要算至少2次。
-            var x = 0f;
-            var y = 0f;
-            var halfScreenH = screenSize.y * 0.5f;
-            y = dir.y > 0 ? halfScreenH : -halfScreenH;
-            x = dir.x / dir.y * y;
-            if (dir.x > 0 && x > halfScreenW)
-            {
-                x = halfScreenW;
-                y = dir.y / dir.x * x;
-            }
-            else if (dir.x < 0 && x < -halfScreenW)
-            {
-                x = -halfScreenW;
-                y = dir.y / dir.x * x;
-            }
-
-            return new Vector2(x, y);
         }
     }
 }

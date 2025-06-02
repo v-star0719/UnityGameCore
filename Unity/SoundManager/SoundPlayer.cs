@@ -226,7 +226,7 @@ namespace GameCore.Unity
             }
 
             var soundData = GetSoundData(name);
-            soundData.Init(this, mgr.NextId, clip, loop, volume, duration, fadein, fadeout);
+            soundData.Init(this, name, mgr.NextId, clip, loop, volume, duration, fadein, fadeout);
             LoadingSounds.Add(soundData);
             aliveSounds.Add(soundData.Id, soundData);
             AliveCounter[name] = aliveCount + 1;

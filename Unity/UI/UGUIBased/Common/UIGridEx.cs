@@ -340,7 +340,7 @@ namespace GameCore.Unity.UGUIEx
 
         public void OnItemSelect(UIGridExItem item, bool isClickMsg)
         {
-            if (item != null && !item.CanSelect())
+            if (item != null && !item.CanSelect(isClickMsg))
             {
                 return;
             }
