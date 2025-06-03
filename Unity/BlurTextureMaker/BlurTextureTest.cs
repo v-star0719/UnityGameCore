@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering;
 using UnityEngine.UI;
-using static System.Net.Mime.MediaTypeNames;
 
 public class BlurTextureTest : MonoBehaviour
 {

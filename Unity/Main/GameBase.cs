@@ -1,11 +1,5 @@
-using System;
-using System.Collections;
 using GameCore.Core;
-using GameCore.Unity;
-using Localize;
-using UI;
 using UnityEngine;
-using UnityEngine.U2D;
 
 namespace GameCore
 {

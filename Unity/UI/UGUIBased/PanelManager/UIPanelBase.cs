@@ -1,4 +1,3 @@
-using GameCore.Core;
 using UnityEngine;
 
 namespace GameCore.Unity.UGUIEx

@@ -1,8 +1,3 @@
-using System.Collections.Generic;
-using GameCore;
-using GameCore.Unity;
-using UnityEngine;
-
 #if NGUI
 namespace GameCore.Unity.NGUIEx
 {

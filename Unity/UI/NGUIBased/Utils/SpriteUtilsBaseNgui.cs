@@ -1,8 +1,4 @@
-﻿using System;
-using UnityEditor;
-using UnityEngine;
-
-#if NGUI
+﻿#if NGUI
 namespace GameCore.Unity
 {
     public class SpriteUtilsBaseNgui

@@ -1,4 +1,3 @@
-using UI;
 using UnityEngine;
 
 namespace GameCore.Unity.UGUIEx

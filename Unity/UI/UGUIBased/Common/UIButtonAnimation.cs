@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using GameCore.Unity.Tweener;
 using UnityEngine;
 using UnityEngine.EventSystems;

@@ -1,5 +1,3 @@
-using GameCore.Core;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 

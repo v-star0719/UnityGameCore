@@ -1,6 +1,4 @@
-using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace GameCore.Unity.UGUIEx
 {

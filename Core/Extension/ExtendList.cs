@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using GameCore.Core.Misc;
-using GameCore.Core;
 
 namespace GameCore.Lang.Extension
 {

@@ -1,6 +1,3 @@
-using GameCore;
-using GameCore.Unity;
-using System.Collections;
 using UnityEngine;
 
 namespace GameCore.Unity

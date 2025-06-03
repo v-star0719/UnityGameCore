@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using static UnityEditor.Progress;
 using GameCore.Lang.Extension;
 
 //

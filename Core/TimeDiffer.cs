@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GameCore.Core
+﻿namespace GameCore.Core
 {
     public class TimeDiffer
     {

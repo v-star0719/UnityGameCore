@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 //获取GameView的分辨率。过去分辨率设置为比值时，Screen.Width/Height不是GameView的分辨率，不知道现在怎么样了。
 //没啥用，留着纪念吧

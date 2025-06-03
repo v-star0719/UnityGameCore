@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using GameCore.Core;
+﻿using GameCore.Core;
 using UnityEngine;
-using Random = System.Random;
 
 namespace GameCore.Unity
 {

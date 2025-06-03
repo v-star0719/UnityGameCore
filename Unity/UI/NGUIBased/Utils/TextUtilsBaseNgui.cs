@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
-
-#if NGUI
+﻿#if NGUI
 namespace GameCore.Unity.NGUIEx
 {
     public class TextUtilsBase

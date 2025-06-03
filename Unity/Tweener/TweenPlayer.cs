@@ -1,8 +1,5 @@
 using System;
-using GameCore.Unity.UGUIEx;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace GameCore.Unity.Tweener
 {

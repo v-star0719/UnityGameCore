@@ -1,5 +1,3 @@
-using System;
-
 namespace GameCore.Core
 {
     public class FtpDownloadDestString : FtpDownloadDestBytes

@@ -1,8 +1,5 @@
-using GameCore.Core;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Animations;
-using UnityEngine.UI;
 
 namespace GameCore.Unity.UGUIEx
 {

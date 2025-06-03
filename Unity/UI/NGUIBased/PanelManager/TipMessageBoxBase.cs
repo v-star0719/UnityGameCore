@@ -1,7 +1,3 @@
-using GameCore.Unity;
-using UI;
-using UnityEngine;
-
 #if NGUI
 namespace GameCore.Unity.NGUIEx
 {

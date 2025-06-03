@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
-
-namespace Localize
+﻿namespace Localize
 {
     public static class L10nExtension
     {
