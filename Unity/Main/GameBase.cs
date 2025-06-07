@@ -1,4 +1,5 @@
 using GameCore.Core;
+using GameCore.Unity;
 using UnityEngine;
 
 namespace GameCore
@@ -38,8 +39,8 @@ namespace GameCore
         {
             if (checkInputTimer < Time.time)
             {
-                var cancel = Input.GetAxis("Cancel") > 0;
-                var submit = Input.GetAxis("Submit") > 0;
+                var cancel = Input.GetAxis(InputAxisName.cancel) > 0;
+                var submit = Input.GetAxis(InputAxisName.submit) > 0;
                 if (cancel || submit)
                 {
                     checkInputTimer = Time.time + 0.2f;

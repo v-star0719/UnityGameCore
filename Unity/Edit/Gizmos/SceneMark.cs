@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Runtime.InteropServices.WindowsRuntime;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace GameCore.Edit
 {
@@ -72,6 +74,20 @@ namespace GameCore.Edit
             var angle = Random.Range(0, Mathf.PI * 2);
             var p = new Vector3(r * Mathf.Cos(angle), 0, r * Mathf.Sin(angle));
             return transform.TransformPoint(p);
+        }
+
+        public bool IsPointInSide(Vector3 pt)
+        {
+            switch (type)
+            {
+                case PrimitiveType.Sphere:
+                    return Vector3.Distance(pt, transform.position) < radius;
+                case PrimitiveType.Cube:
+                    var offset = pt - transform.position;
+                    return Mathf.Abs(offset.x) <= size.x * 0.5f && Mathf.Abs(offset.y) <= size.y * 0.5f && Mathf.Abs(offset.z) <= size.z * 0.5f;
+            }
+
+            return false;
         }
     }
 }

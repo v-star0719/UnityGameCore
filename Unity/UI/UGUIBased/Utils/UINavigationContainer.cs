@@ -18,10 +18,12 @@ namespace GameCore.Unity.UGUIEx
         public Dictionary<GameObject, UINavigation> dict = new();
         private GameObject lastObj;
         private bool isWorking = true;
+        private float focusToNavigationTimer;
+        private bool focusToNavigation;//点击其他UI会选到没有导航的UI上，从而无法继续导航，给它选上
 
         public void OnEnable()
         {
-            if (containers.Count > 0)
+            if(containers.Count > 0)
             {
                 containers[^1].SetWorking(false);
             }
@@ -46,12 +48,35 @@ namespace GameCore.Unity.UGUIEx
                     lastObj = obj;
                 }
             }
+
+            if(!focusToNavigation && containers.Count > 0 && dict.Count > 0 && containers[^1] == this)
+            {
+                if(obj != null && dict.ContainsKey(obj))
+                {
+                    focusToNavigation = false;
+                }
+                else
+                {
+                    focusToNavigation = Input.GetAxis(InputAxisName.horizontal) != 0 || Input.GetAxis(InputAxisName.vertical) != 0;
+                    focusToNavigationTimer = 0.3f;
+                }
+            }
+
+            if (focusToNavigation)
+            {
+                focusToNavigationTimer -= Time.deltaTime;
+                if (focusToNavigationTimer <= 0)
+                {
+                    focusToNavigation = false;
+                    SelectLastObj();
+                }
+            }
         }
 
         public void SetWorking(bool b)
         {
             isWorking = b;
-            foreach (var n in dict.Values)
+            foreach(var n in dict.Values)
             {
                 n.SetWorking(b);
             }
@@ -75,7 +100,7 @@ namespace GameCore.Unity.UGUIEx
                 GameObject p2 = null;
                 foreach(var v in dict.Values)
                 {
-                    if (!v.gameObject.activeInHierarchy)
+                    if(!v.gameObject.activeInHierarchy)
                     {
                         continue;
                     }
@@ -91,7 +116,7 @@ namespace GameCore.Unity.UGUIEx
                         p2 = v.gameObject;
                     }
                 }
-                
+
                 if(p1 != null || p2 != null)
                 {
                     SetEventSystemSelect(p1 ?? p2);
@@ -105,14 +130,14 @@ namespace GameCore.Unity.UGUIEx
 
         public static void BeginRefresh()
         {
-            if (refreshTimer > 0)
+            if(refreshTimer > 0)
             {
                 TimerManager.Inst.Del(refreshTimer);
             }
             //等待时间过短的话，UI上的Navigation可能还没显示
             refreshTimer = TimerManager.Inst.Add(0.7f, () =>
             {
-                if (containers.Count > 0)
+                if(containers.Count > 0)
                 {
                     var c = containers[^1];
                     c.SetWorking(true);

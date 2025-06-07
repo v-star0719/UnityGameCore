@@ -14,6 +14,7 @@ namespace GameCore.Unity
         public BuildTarget buildTarget;
         public EditDataStringField outputDir;//存放打出来的包的目录，末尾加不加/都行，绝对路径
         public List<string> scriptingDefineSymbols = new List<string>();
+        public bool isDevelopment;
 
         //对于Windows来说，打包出来是一个文件夹
         protected string packageName;
@@ -141,7 +142,7 @@ namespace GameCore.Unity
 
         protected virtual BuildOptions GetOptions()
         {
-            return BuildOptions.None;
+            return isDevelopment ? BuildOptions.Development : BuildOptions.None;
         }
 
         protected virtual void CopyStreamingAssets()
