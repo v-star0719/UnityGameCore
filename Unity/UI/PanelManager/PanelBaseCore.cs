@@ -114,6 +114,11 @@ namespace GameCore.Unity
         {
         }
 
+        public virtual bool CanClose()
+        {
+            return true;
+        }
+
         public void Show()
         {
             if (Container != null)
@@ -146,6 +151,24 @@ namespace GameCore.Unity
         public virtual void OnBgClick()
         {
             if (settings.clickBgClose)
+            {
+                Close(false);
+            }
+        }
+
+        //回车键键或者手柄的确认键
+        public virtual void OnSubmitAxis()
+        {
+            if (settings.closeBySubmitAxis)
+            {
+                Close(false);
+            }
+        }
+
+        //ESC键或者手柄的取消键
+        public virtual void OnCancelAxis()
+        {
+            if (settings.closeByCancelAxis)
             {
                 Close(false);
             }

@@ -74,6 +74,11 @@ namespace GameCore.Unity
 
         public virtual void ClosePanel(PanelBaseCore pl)
         {
+            if (!pl.CanClose())
+            {
+                return;
+            }
+
             for (var i = 0; i < panels.Count; i++)
             {
                 var p = panels[i];

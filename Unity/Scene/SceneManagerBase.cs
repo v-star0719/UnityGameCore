@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using GameCore.Core;
 using GameCore.Unity.UGUIEx;
 
@@ -96,9 +96,9 @@ namespace GameCore.Unity
             var topPanel = PanelManager.Normal.GetTopPanel();
             if (topPanel != CurScene.MainPanel)
             {
-                if (topPanel.settings.closeByCancelAxis && topPanel.Age > 0.5f)//按下回车打开面板，可能立刻又把面板关闭
+                if (topPanel.Age > 0.5f)//按下回车打开面板，可能立刻又把面板关闭
                 {
-                    PanelManager.Normal.ClosePanel(topPanel);
+                    topPanel.OnCancelAxis();
                 }
             }
             else
@@ -107,6 +107,7 @@ namespace GameCore.Unity
             }
         }
 
+        //回车键键或者手柄的确认键
         public virtual void OnSubmitAxis()
         {
             if(CurScene == null)
@@ -116,9 +117,9 @@ namespace GameCore.Unity
             var topPanel = PanelManager.Normal.GetTopPanel();
             if(topPanel != CurScene.MainPanel)
             {
-                if (topPanel.settings.closeBySubmitAxis && topPanel.Age > 0.5f)//按下回车打开面板，可能立刻又把面板关闭
+                if (topPanel.Age > 0.5f)//按下回车打开面板，可能立刻又把面板关闭
                 {
-                    PanelManager.Normal.ClosePanel(topPanel);
+                    topPanel.OnSubmitAxis();
                 }
             }
             else
