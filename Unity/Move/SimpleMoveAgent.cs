@@ -8,17 +8,21 @@ namespace GameCore.Unity
         public float speed = 3f;
         public float angularSpeed = 180;
         public float stoppingDistance = 0.5f;
+        public float stoppingAngle = 10f;//一般背朝目标不算到
 
         public Vector3 Destination { get; private set; }
 
-        public bool IsArrived { get; private set; }
+        public bool IsArrived => IsDistanceArrived && IsAngleArrived;
         public bool IsStopped { get; set; }
         public bool IsPaused { get; set; }
+        private bool IsDistanceArrived;
+        private bool IsAngleArrived;
 
         public void Reset()
         {
             IsStopped = false;
-            IsArrived = true;
+            IsDistanceArrived = false;
+            IsAngleArrived = false;
             IsPaused = false;
             if (stoppingDistance < 0)
             {
@@ -29,7 +33,9 @@ namespace GameCore.Unity
         public void SetDestination(Vector3 des)
         {
             Destination = des;
-            IsArrived = (Destination - transform.position).sqrMagnitude <= stoppingDistance * stoppingDistance;
+            var dir = Destination - transform.position;
+            IsDistanceArrived = dir.sqrMagnitude <= stoppingDistance * stoppingDistance;
+            IsAngleArrived = Vector3.Angle(dir, transform.forward) <= stoppingAngle;
         }
 
         public void Tick(float deltaTime)
@@ -40,49 +46,56 @@ namespace GameCore.Unity
             }
 
             var dir = Destination - transform.position;
-            var dist = dir.magnitude;
-            if (dist <= stoppingDistance)
+            if (!IsDistanceArrived)
             {
-                //如果当前已经在停止距离内，不移动
-                IsArrived = true;
-            }
-            else
-            {
-                float delta = speed * deltaTime;
-                if (dist - delta <= stoppingDistance)
+                var dist = dir.magnitude;
+                if(dist <= stoppingDistance)
                 {
-                    IsArrived = true;
-                    delta = dist - stoppingDistance;
+                    //如果当前已经在停止距离内，不移动
+                    IsDistanceArrived = true;
                 }
+                else
+                {
+                    float delta = speed * deltaTime;
+                    if(dist - delta <= stoppingDistance)
+                    {
+                        IsDistanceArrived = true;
+                        delta = dist - stoppingDistance;
+                    }
 
-                //撞墙检测
-                //if (Physics.Raycast(transform.position, dir, out var hitInfo, radius + 0.5f, 1 << Layers.barrier))
-                //{
-                //    //快撞墙了
-                //    if (dist - radius < delta)
-                //    {
-                        
-                //        //撞上了，沿 被击中表面法向量在xz平面上的垂线移动
-                //        var normal = new Vector3(hitInfo.normal.z, hitInfo.normal.x);
-                //        normal.Normalize();
-                //        delta = delta * Vector3.Dot(normal, dir) / dir.magnitude;
-                //        if (delta < 0)
-                //        {
-                //            delta = -delta;
-                //            dir = -normal;
-                //        }
-                //        else
-                //        {
-                //            dir = normal;
-                //        }
-                //    }
-                //}
-                transform.position += delta * dir.normalized;
+                    //撞墙检测
+                    //if (Physics.Raycast(transform.position, dir, out var hitInfo, radius + 0.5f, 1 << Layers.barrier))
+                    //{
+                    //    //快撞墙了
+                    //    if (dist - radius < delta)
+                    //    {
+
+                    //        //撞上了，沿 被击中表面法向量在xz平面上的垂线移动
+                    //        var normal = new Vector3(hitInfo.normal.z, hitInfo.normal.x);
+                    //        normal.Normalize();
+                    //        delta = delta * Vector3.Dot(normal, dir) / dir.magnitude;
+                    //        if (delta < 0)
+                    //        {
+                    //            delta = -delta;
+                    //            dir = -normal;
+                    //        }
+                    //        else
+                    //        {
+                    //            dir = normal;
+                    //        }
+                    //    }
+                    //}
+                    transform.position += delta * dir.normalized;
+                }
             }
-            
-            var angle = Vector2.Angle(transform.forward, dir);
-            var targetRotation = Quaternion.LookRotation(dir);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, angularSpeed * deltaTime / angle);
+
+            if (!IsAngleArrived)
+            {
+                var angle = Vector2.Angle(transform.forward, dir);
+                var targetRotation = Quaternion.LookRotation(dir);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, angularSpeed * deltaTime / angle);
+                IsAngleArrived = angle <= stoppingAngle;
+            }
         }
     }
 }

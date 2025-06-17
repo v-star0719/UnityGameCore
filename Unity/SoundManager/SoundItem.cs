@@ -139,9 +139,12 @@ namespace GameCore.Unity
 
         public void Resume()
         {
-            IsPaused = false;
-            pauseDuration += Time.time - pauseTiming;
-            AudioSource.UnPause();
+            if (IsPaused)
+            {
+                IsPaused = false;
+                pauseDuration += Time.time - pauseTiming;//重复Resume这里会出问题
+                AudioSource.UnPause();
+            }
         }
 
         //返回是否完成
