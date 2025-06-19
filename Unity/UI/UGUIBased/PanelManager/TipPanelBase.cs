@@ -8,7 +8,7 @@ namespace GameCore.Unity.UGUIEx
     //当点击弹窗本体关闭时，不会触发底部的点击，非常安全。点击弹窗本体不关闭。
     //
     //（2）自动放置在指定的位置周围，并确保UI在屏幕内
-    public class TipMessageBoxBase : UIPanelBase, IPointerClickHandler
+    public class TipPanelBase : UIPanelBase, IPointerClickHandler
     {
         //点击屏幕其他任意位置关闭
         [HideInInspector]
@@ -87,12 +87,12 @@ namespace GameCore.Unity.UGUIEx
                 return;
             }
 
-            if(trans.GetComponent<TipMessageBoxButtonMask>() != null)
+            if(trans.GetComponent<TipPanelButtonMask>() != null)
             {
                 return;
             }
 
-            var topPanel = PanelManager.Normal.GetTopPanel() as TipMessageBoxBase;
+            var topPanel = PanelManager.Normal.GetTopPanel() as TipPanelBase;
             if(topPanel == null)
             {
                 return;
