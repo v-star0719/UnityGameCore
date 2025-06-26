@@ -1,163 +1,13 @@
+using System;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace GameCore.Core
 {
     public class FileUtils
     {
-        //如果目标目录不存在，则失败
-        //同步的对象可以是文件，也可以是目录
-        //todo 缓存文件和目录的哈希值
-        public static void Sync(string source, string target)
-        {
-            if(File.Exists(source))
-            {
-                if(!File.Exists(target) || IsFileDiff(source, target))
-                {
-                    File.Copy(source, target, true);
-                    Debug.Log($"copy file: {source} => {target}");
-                }
-            }
-            else if(Directory.Exists(source))
-            {
-                if(!Directory.Exists(target))
-                {
-                    CopyDirectory(source, target, true);
-                    Debug.Log($"Copy directory: {source} => {target}");
-                }
-                else
-                {
-                    var sourceDirectInfo = new DirectoryInfo(source);
-                    var targetDirectInfo = new DirectoryInfo(target);
-                    SyncDirectories(source, target, sourceDirectInfo.GetDirectories(), targetDirectInfo.GetDirectories());
-                    SyncFiles(source, target, sourceDirectInfo.GetFiles(), targetDirectInfo.GetFiles());
-                }
-            }
-            else
-            {
-                Debug.Log($"unknown source: {source}");
-            }
-        }
-
-        private static void SyncDirectories(string sourceRoot, string targetRoot, DirectoryInfo[] sourceDirectories, DirectoryInfo[] targetDirectories)
-        {
-            //删除target中多余的目录，两边都有的进行同步
-            for(var i = 0; i < targetDirectories.Length; i++)
-            {
-                var td = targetDirectories[i];
-                bool find = false;
-                for(var j = 0; j < sourceDirectories.Length; j++)
-                {
-                    var sd = sourceDirectories[j];
-                    if(sd != null && sd.Name == td.Name)
-                    {
-                        find = true;
-                        sourceDirectories[j] = null;
-                        Sync(sd.FullName, td.FullName);
-                        break;
-                    }
-                }
-
-                if(!find)
-                {
-                    Directory.Delete(td.FullName, true);
-                    Debug.Log($"Delete {td.FullName}");
-                }
-            }
-            //target中没有的目录复制过去
-            foreach(var sd in sourceDirectories)
-            {
-                if(sd != null)
-                {
-                    CopyDirectory(sd.FullName, Path.Combine(targetRoot, sd.Name), true);
-                    Debug.Log($"Copy directory: {sd.FullName} => {Path.Combine(targetRoot, sd.Name)}");
-                }
-            }
-        }
-
-        private static void SyncFiles(string sourceRoot, string targetRoot, FileInfo[] sourceFiles, FileInfo[] targetFiles)
-        {
-            //删除target中多余的文件，两边都有的进行同步
-            for(var i = 0; i < targetFiles.Length; i++)
-            {
-                var tf = targetFiles[i];
-                bool find = false;
-                for(var j = 0; j < sourceFiles.Length; j++)
-                {
-                    var sf = sourceFiles[j];
-                    if(sf != null && sf.Name == tf.Name)
-                    {
-                        find = true;
-                        sourceFiles[j] = null;
-                        if(IsFileDiff(sf.FullName, tf.FullName))
-                        {
-                            File.Copy(sf.FullName, tf.FullName, true);
-                            Debug.Log($"copy file: {sf.FullName} => {tf.FullName}");
-                        }
-                        break;
-                    }
-                }
-
-                if(!find)
-                {
-                    File.Delete(tf.FullName);
-                    Debug.Log($"Delete {tf.FullName}");
-                }
-            }
-            //target中没有的目录复制过去
-            foreach(var sf in sourceFiles)
-            {
-                if(sf != null)
-                {
-                    File.Copy(sf.FullName, Path.Combine(targetRoot, sf.Name));
-                    Debug.Log($"copy file: {sf.FullName} => {Path.Combine(targetRoot, sf.Name)}");
-                }
-            }
-        }
-
-        public static bool IsFileDiff(string source, string target)
-        {
-            if(File.GetLastWriteTime(source) != File.GetLastWriteTime(target))
-            {
-                return true;
-            }
-
-            FileStream sourceFileStream = new FileStream(source, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            FileStream targetFileStream = new FileStream(target, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            using(sourceFileStream)
-            {
-                using(targetFileStream)
-                {
-                    if(sourceFileStream.Length != targetFileStream.Length)
-                    {
-                        return true;
-                    }
-
-                    var sourceBytes = new byte[1024];
-                    var targetBytes = new byte[sourceBytes.Length];
-                    while(true)
-                    {
-                        var n = sourceFileStream.Read(sourceBytes);
-                        targetFileStream.Read(targetBytes);
-                        for(int i = 0; i < n; i++)
-                        {
-                            if(sourceBytes[i] != targetBytes[i])
-                            {
-                                return true;
-                            }
-                        }
-
-                        if (n == 0)
-                        {
-                            break;
-                        }
-                    }
-                }
-            }
-
-            return false;
-        }
-
         public static void CopyDirectory(string sourceDir, string destinationDir, bool recursive)
         {
             // Get information about the source directory
@@ -198,6 +48,113 @@ namespace GameCore.Core
             {
                 File.Delete(filePath);
             }
+        }
+
+        // 转换通配符为正则表达式
+        public static string WildCardToRegex(string pattern)
+        {
+            return "^" + Regex.Escape(pattern)
+                           .Replace(@"\*", ".*")       // 处理*（匹配任意字符）
+                           .Replace(@"\?", ".")        // 处理?（匹配单个字符）
+                       //.Replace(@"\[!", "[^")      // 处理[!（否定字符集）
+                       //.Replace(@"\[", "[")        // 处理[（字符集开始）
+                       //.Replace(@"\]", "]")        // 处理]（字符集结束）
+                       + "$";
+        }
+
+        public bool IsMatch(string fileName, string pattern)
+        {
+            return Regex.IsMatch(fileName, WildCardToRegex(pattern), RegexOptions.IgnoreCase);
+        }
+
+        public static int GetFileCountRecursive(string path)
+        {
+            int count = 0;
+            try
+            {
+                // 统计当前目录的文件
+                count += Directory.EnumerateFiles(path).Count();
+
+                // 递归统计子目录中的文件
+                foreach(var subDir in Directory.EnumerateDirectories(path))
+                {
+                    count += GetFileCountRecursive(subDir);
+                }
+            }
+            catch(UnauthorizedAccessException)
+            {
+                Debug.Log($"警告：无法访问目录 {path}，已跳过。");
+            }
+            catch(DirectoryNotFoundException)
+            {
+                Debug.Log($"错误：目录 {path} 不存在。");
+            }
+            return count;
+        }
+
+        public enum FileCompareType
+        {
+            lastWriteTime,
+            binary,
+            hash, //todo 未实现。需要同时缓存目录和文件的
+        }
+
+        public static bool IsFileDiff(string source, string target, FileCompareType compareType)
+        {
+            var sourceFileInfo = new FileInfo(source);
+            var targetFileInfo = new FileInfo(target);
+            if(sourceFileInfo.Length != targetFileInfo.Length)
+            {
+                return true;
+            }
+
+            switch(compareType)
+            {
+                case FileCompareType.lastWriteTime:
+                    if(File.GetLastWriteTime(source) != File.GetLastWriteTime(target))
+                    {
+                        return true;
+                    }
+                    break;
+                case FileCompareType.binary:
+                    FileStream sourceFileStream = new FileStream(source, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    FileStream targetFileStream = new FileStream(target, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    using(sourceFileStream)
+                    {
+                        using(targetFileStream)
+                        {
+                            if(sourceFileStream.Length != targetFileStream.Length)
+                            {
+                                return true;
+                            }
+
+                            var sourceBytes = new byte[1024];
+                            var targetBytes = new byte[sourceBytes.Length];
+                            while(true)
+                            {
+                                var n = sourceFileStream.Read(sourceBytes);
+                                targetFileStream.Read(targetBytes);
+                                for(int i = 0; i < n; i++)
+                                {
+                                    if(sourceBytes[i] != targetBytes[i])
+                                    {
+                                        return true;
+                                    }
+                                }
+
+                                if(n == 0)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case FileCompareType.hash:
+                    Debug.Log("Todo FileSyncCompareType.hash");
+                    break;
+            }
+            return false;
         }
     }
 }

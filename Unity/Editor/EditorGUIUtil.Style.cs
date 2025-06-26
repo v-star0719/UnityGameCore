@@ -3,10 +3,9 @@ using UnityEditor;
 
 namespace GameCore.Unity
 {
-	public partial class EditorGUIUtil
+	public static partial class EditorGUIUtil
     {
         private static GUIStyle styleBox;
-
         public static GUIStyle StyleBox
         {
             get
@@ -18,6 +17,21 @@ namespace GameCore.Unity
                 }
 
                 return styleBox;
+            }
+        }
+
+        private static GUIStyle _separatorStyle;
+        private static GUIStyle SeparatorStyle
+        {
+            get
+            {
+                if(_separatorStyle == null)
+                {
+                    _separatorStyle = new GUIStyle();
+                    _separatorStyle.normal.background = EditorGUIUtility.whiteTexture;
+                    _separatorStyle.stretchWidth = true;
+                }
+                return _separatorStyle;
             }
         }
     }

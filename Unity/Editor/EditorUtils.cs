@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using GameCore.Core;
+using GameCore.Edit;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEngine;
 
 namespace GameCore.Unity
 {
-    public class EditorUtils
+    public static class EditorUtils
     {
         public static void TestIterateFolderAssets()
         {

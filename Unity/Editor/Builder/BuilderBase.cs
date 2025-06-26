@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices.ComTypes;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
@@ -11,20 +12,25 @@ namespace GameCore.Unity
 {
     public abstract class BuilderBase
     {
-        public BuildTarget buildTarget;
         public EditDataStringField outputDir;//存放打出来的包的目录，末尾加不加/都行，绝对路径
-        public List<string> scriptingDefineSymbols = new List<string>();
-        public bool isDevelopment;
+        
+        protected BuildTarget buildTarget;
+        protected string packageName;//对于Windows来说，打包出来是一个文件夹
+        protected string outputDir2;//可能不同的用户想要存放到不同的地方。默认放到"工程目录/Builds"下
 
-        //对于Windows来说，打包出来是一个文件夹
-        protected string packageName;
+        //打包结果
         protected BuildReport buildReport;
-        protected string channelName;//渠道名，主要用来生成包名或者目录名
-
         protected bool IsSucceed => buildReport.summary.result == BuildResult.Succeeded;
         protected string OutputPath => buildReport.summary.outputPath;//windows下就是生成的exe的路径。最后是xxx.exe
 
         public virtual string Desc => $"[{GetType().Name}] {outputDir.Value}";
+        public BuilderSettings Settings { get; private set; }
+
+        //直接传BuilderSettings作为参数，反射会找不到构造函数
+        protected BuilderBase(object settings)
+        {
+            Settings = settings as BuilderSettings;
+        }
 
         public virtual void InitEditDataFields(BuilderWindow wnd)
         {
@@ -32,7 +38,7 @@ namespace GameCore.Unity
         }
 
         //如果需要增加步骤，在这里面加
-        public void Build()
+        public void Build(string outputDir = null)
         {
             if(EditorUserBuildSettings.activeBuildTarget != buildTarget)
             {
@@ -40,13 +46,32 @@ namespace GameCore.Unity
                 return;
             }
 
+            outputDir2 = string.IsNullOrEmpty(outputDir) ? GetDefaultOutputDir() : outputDir;
+
             SetPackageName();
             SetScriptingDefineSymbols();
             DoBuild();
 
+            if (buildReport == null)
+            {
+                Debug.Log("Build failed");
+                return;
+            }
+
             if(IsSucceed)
             {
                 CopyStreamingAssets();
+            }
+
+            BuildSummary summary = buildReport.summary;
+            if(summary.result == BuildResult.Succeeded)
+            {
+                Debug.Log("Build succeeded: " + summary.totalSize + " bytes");
+                EditorUtility.RevealInFinder(summary.outputPath);
+            }
+            else
+            {
+                Debug.Log($"Build {summary.result}");
             }
         }
 
@@ -57,7 +82,7 @@ namespace GameCore.Unity
 
         protected virtual void SetPackageName()
         {
-            packageName = $"{PlayerSettings.productName}_{buildTarget}_version_{DateTime.Now:yy-MM-dd,HH-mm-ss}";
+            packageName = $"{PlayerSettings.productName}_{GetVersion()}";
         }
 
         protected virtual void DoBuild()
@@ -75,18 +100,7 @@ namespace GameCore.Unity
             buildPlayerOptions.target = buildTarget;
             buildPlayerOptions.options = GetOptions();
             buildPlayerOptions.extraScriptingDefines = GetExtraScriptingDefineSymbols().ToArray();
-
             buildReport = BuildPipeline.BuildPlayer(buildPlayerOptions);
-            BuildSummary summary = buildReport.summary;
-            if(summary.result == BuildResult.Succeeded)
-            {
-                Debug.Log("Build succeeded: " + summary.totalSize + " bytes");
-                EditorUtility.RevealInFinder(summary.outputPath);
-            }
-            else
-            {
-                Debug.Log($"Build {summary.result}");
-            }
         }
 
         //不建议用这个，会导致unity又编译一次，增加打包时间
@@ -101,13 +115,22 @@ namespace GameCore.Unity
 
         protected virtual List<string> GetScriptingDefineSymbols()
         {
-            return null;
+            return new List<string>(Settings.ScriptingDefineSymbols.Replace("\r", "").Split("\n"));
         }
 
         //PlayerSettings里的还会存在，这是额外附加的
         protected virtual List<string> GetExtraScriptingDefineSymbols()
         {
-            return new List<string>();
+            var rt = new List<string>(Settings.ExtraScriptingDefineSymbols.Replace("\r", "").Split("\n"));
+            if(Settings.IsRelease)
+            {
+                rt.Add("RELEASE");
+            }
+            //if(Settings.IsTrial)
+            //{
+            //    rt.Add("TRIAL");
+            //}
+            return rt;
         }
 
         protected virtual List<string> GetScenes()
@@ -126,7 +149,7 @@ namespace GameCore.Unity
         //前缀还是PlayerSettings里的BundleVersion,自动增加日期后缀
         protected virtual string GetVersion()
         {
-            return $"{PlayerSettings.bundleVersion}.{DateTime.Now:yy-MM-dd-HHmmss}";
+            return $"{PlayerSettings.bundleVersion}.{DateTime.Now:yyMMddHHmm}";
         }
 
         ///就是buildPlayerOptions.locationPathName这个字段的值
@@ -142,12 +165,17 @@ namespace GameCore.Unity
 
         protected virtual BuildOptions GetOptions()
         {
-            return isDevelopment ? BuildOptions.Development : BuildOptions.None;
+            return Settings.IsDevelopment ? BuildOptions.Development : BuildOptions.None;
         }
 
         protected virtual void CopyStreamingAssets()
         {
             //FileUtil.CopyFileOrDirectory();
+        }
+
+        public static string GetDefaultOutputDir()
+        {
+            return Path.Combine(Directory.GetCurrentDirectory(), "Builds");
         }
     }
 }

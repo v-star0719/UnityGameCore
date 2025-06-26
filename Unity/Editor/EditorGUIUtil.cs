@@ -5,6 +5,10 @@ using System.Reflection;
 using GameCore.Core;
 using UnityEngine;
 using UnityEditor;
+using GameCore.Edit;
+using GameCore.Lang.Extension;
+using Unity.Transforms;
+using UnityEngine.Purchasing;
 
 namespace GameCore.Unity
 {
@@ -679,7 +683,120 @@ namespace GameCore.Unity
             EditorUtility.DisplayDialog("提升", tip, "ok");
 		}
 
-		private class EnumMaskItem
+        ///overrideToggleField book开关控制是否继承
+        public static void GUIPropertyFieldWithOverride_String(this Editor editor, string fieldName, object parent, Func<string> getParentValue)
+        {
+            if (parent == null)
+            {
+                EditorGUILayout.PropertyField(editor.serializedObject.FindProperty(fieldName));
+                return;
+            }
+
+            var p = editor.serializedObject.FindProperty(fieldName + "Override");
+            EditorGUILayout.PropertyField(p);
+            if(p.boolValue)
+            {
+                EditorGUILayout.PropertyField(editor.serializedObject.FindProperty(fieldName));
+            }
+            else
+            {
+                GUI.enabled = false;
+                EditorGUILayout.TextField(fieldName.ToUpperFirst(), getParentValue());
+                GUI.enabled = true;
+            }
+            DrawSeparator();
+        }
+        ///overrideToggleField bool开关控制是否继承
+        public static void GUIPropertyFieldWithOverride_StringMultiLine(this Editor editor, string fieldName, object parent, Func<string> getParentValue)
+        {
+            if(parent == null)
+            {
+                EditorGUILayout.PropertyField(editor.serializedObject.FindProperty(fieldName));
+                return;
+            }
+
+            var p = editor.serializedObject.FindProperty(fieldName + "Override");
+            EditorGUILayout.PropertyField(p);
+            if(p.boolValue)
+            {
+                EditorGUILayout.PropertyField(editor.serializedObject.FindProperty(fieldName));
+            }
+            else
+            {
+                GUI.enabled = false;
+				EditorGUILayout.LabelField(fieldName.ToUpperFirst());
+                EditorGUILayout.TextArea(getParentValue());
+                GUI.enabled = true;
+            }
+            DrawSeparator();
+        }
+
+        ///overrideToggleField book开关控制是否继承
+        public static void GUIPropertyFieldWithOverride_Bool(this Editor editor, string fieldName, object parent, Func<bool> getParentValue)
+        {
+            if(parent == null)
+            {
+                EditorGUILayout.PropertyField(editor.serializedObject.FindProperty(fieldName));
+                return;
+            }
+
+            var p = editor.serializedObject.FindProperty(fieldName + "Override");
+            EditorGUILayout.PropertyField(p);
+            if(p.boolValue)
+            {
+                EditorGUILayout.PropertyField(editor.serializedObject.FindProperty(fieldName));
+            }
+            else
+            {
+                GUI.enabled = false;
+                EditorGUILayout.Toggle(fieldName.ToUpperFirst(), getParentValue());
+                GUI.enabled = true;
+            }
+            DrawSeparator();
+        }
+
+        ///overrideToggleField book开关控制是否继承
+        public static void GUIPropertyFieldWithOverride_Popup(this Editor editor, string fieldName, string[] options, object parent, Func<string> getParentValue)
+        {
+            if(parent == null)
+            {
+                GUIPropertyField_PopupString(editor, fieldName, options);
+                return;
+            }
+
+            var p = editor.serializedObject.FindProperty(fieldName + "Override");
+            EditorGUILayout.PropertyField(p);
+            if(p.boolValue)
+            {
+                GUIPropertyField_PopupString(editor, fieldName, options);
+            }
+            else
+            {
+                GUI.enabled = false;
+                EditorGUILayout.Popup(fieldName.ToUpperFirst(), options.IndexOfEx(getParentValue()), options);
+                GUI.enabled = true;
+            }
+            DrawSeparator();
+        }
+
+        public static void GUIPropertyField_PopupString(this Editor editor, string fieldName, string[] options)
+        {
+            var p = editor.serializedObject.FindProperty(fieldName);
+            var idx = options.IndexOfEx(p.stringValue);
+            var newIdx = EditorGUILayout.Popup(fieldName.ToUpperFirst(), idx, options);
+            if(idx != newIdx)
+            {
+                p.stringValue = options[newIdx];
+            }
+        }
+        public static void DrawSeparator()
+        {
+            using(GUIUtil.Color(Color.gray))
+            {
+                GUILayout.Box("", SeparatorStyle, GUILayout.Height(1));
+            }
+        }
+        private class EnumMaskItem
 		{
 			public int Value;
 			public string Text;
