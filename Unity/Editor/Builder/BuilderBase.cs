@@ -115,13 +115,13 @@ namespace GameCore.Unity
 
         protected virtual List<string> GetScriptingDefineSymbols()
         {
-            return new List<string>(Settings.ScriptingDefineSymbols.Replace("\r", "").Split("\n"));
+            return ParseScriptingDefineSymbols(Settings.ScriptingDefineSymbols);
         }
 
         //PlayerSettings里的还会存在，这是额外附加的
         protected virtual List<string> GetExtraScriptingDefineSymbols()
         {
-            var rt = new List<string>(Settings.ExtraScriptingDefineSymbols.Replace("\r", "").Split("\n"));
+            var rt = ParseScriptingDefineSymbols(Settings.ExtraScriptingDefineSymbols);
             if(Settings.IsRelease)
             {
                 rt.Add("RELEASE");
@@ -176,6 +176,19 @@ namespace GameCore.Unity
         public static string GetDefaultOutputDir()
         {
             return Path.Combine(Directory.GetCurrentDirectory(), "Builds");
+        }
+
+        protected static List<string> ParseScriptingDefineSymbols(string str)
+        {
+            var rt = new List<string>();
+            foreach (var s in str.Replace("\r", "").Split("\n"))
+            {
+                if (!string.IsNullOrEmpty(s))
+                {
+                    rt.Add(s);
+                }
+            }
+            return rt;
         }
     }
 }
