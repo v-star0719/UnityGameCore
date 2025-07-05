@@ -211,7 +211,7 @@ namespace GameCore.Unity
             topAlpha = -1;
             bottomAlpha = -1;
 
-            if (!Application.isEditor || !Application.isPlaying)
+            if (!Application.isEditor || !Application.isPlaying || GameObjectUtils.IsEditingInPrefabMode(gameObject))
             {
                 leftMaterial = leftEdge.GetComponentInChildren<MeshRenderer>().sharedMaterial;
                 rightMaterial = rightEdge.GetComponentInChildren<MeshRenderer>().sharedMaterial;

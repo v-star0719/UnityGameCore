@@ -6,6 +6,7 @@ using GameCore.Core;
 using GameCore.Edit;
 using UnityEditor;
 using UnityEditor.Build;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace GameCore.Unity

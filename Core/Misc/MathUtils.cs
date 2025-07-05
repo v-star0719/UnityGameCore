@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using GameCore.Core.Misc;
+using GameCore.Lang.Extension;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -591,6 +592,89 @@ namespace GameCore.Core
             }
 
             return new Vector2(x, y);
+        }
+        
+        
+        ///将一个矩形分成若干格子，在这些格子中随机一个
+        ///返回的格子原点是矩形中心
+        public static Vector2 GetRandomCellInRect(float rectWith, float rectHeight, float cellWith, float cellHeight)
+        {
+            var hCount = (int)Mathf.Max(1, rectWith / cellWith);
+            var vCount = (int)Mathf.Max(1, rectHeight / cellHeight);
+            var r = RandomUtils.Random.Next(0, hCount * vCount);
+            var y = r / hCount;
+            var x = r - y * hCount;
+            //认为(0,0)格子在左下角度
+            var rt = new Vector2
+            {
+                x = (x + 0.5f) * cellWith - hCount * cellWith * 0.5f,
+                y = (y + 0.5f) * cellHeight - vCount * cellHeight * 0.5f
+            };
+            return rt;
+        }
+
+        ///将一个矩形分成若干格子，在这些格子中随机一个
+        ///返回的格子原点是矩形中心
+        ///count: 小于0是一个百分比数值，-100~0对应100%~0
+        public static List<Vector2> GetRandomCellsInRect(float rectWith, float rectHeight, float cellWith, float cellHeight, int count)
+        {
+            var hCount = (int)Mathf.Max(1, rectWith / cellWith);
+            var vCount = (int)Mathf.Max(1, rectHeight / cellHeight);
+
+            //cells记录格子索引，每随机一个，就把用掉的格子放到最后去，从前面可用的格子继续随机
+            var cells = new int[hCount * vCount];
+            for(int i = 0; i < cells.Length; i++)
+            {
+                cells[i] = i;
+            }
+
+            //count修正
+            if (count < 0)
+            {
+                count = Mathf.CeilToInt(-count * 0.01f * cells.Length);
+            }
+
+            var rt = new List<Vector2>();
+            var max = cells.Length;
+            for (var i = 0; i < count && max > 0; i++, max--)
+            {
+                var idx = RandomUtils.Random.Next(0, max);
+                var r = cells[idx];
+                var y = r / hCount;
+                var x = r - y * hCount;
+                //认为(0,0)格子在左下角度
+                var v2 = new Vector2
+                {
+                    x = (x + 0.5f) * cellWith - hCount * cellWith * 0.5f,
+                    y = (y + 0.5f) * cellHeight - vCount * cellHeight * 0.5f
+                };
+                rt.Add(v2);
+                (cells[max - 1], cells[idx]) = (cells[idx], cells[max - 1]);
+            }
+            return rt;
+        }
+
+        ///保持宽高比放在容器里。
+        ///constrain：true=限制在容器内，较长的一边撑满。false=不限制在容易内，较短的一边撑满，较长的一边超出。
+        public static Vector2 PutRectInRect(float containerWith, float containerHeight, float width, float height, bool constrain)
+        {
+            var ratio = width / height;
+            var containerRatio = containerWith / containerHeight;
+            if(ratio < containerRatio)
+            {
+                //更窄
+                return constrain ? new Vector2(containerHeight * ratio, containerHeight) : new Vector2(containerWith, containerWith / ratio);
+            }
+            else
+            {
+                //更宽
+                return constrain ? new Vector2(containerWith, containerWith / ratio) : new Vector2(containerHeight * ratio, containerHeight);
+            }
+        }
+
+        public static Vector2 PutRectInRect(Vector2 containerSize, Vector2 size, bool constrain)
+        {
+            return PutRectInRect(containerSize.x, containerSize.y, size.x, size.y, constrain);
         }
     }
 }
