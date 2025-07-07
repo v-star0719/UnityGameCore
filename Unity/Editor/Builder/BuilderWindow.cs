@@ -66,28 +66,33 @@ namespace GameCore.Unity
 
                     if(GUILayout.Button("Build", GUILayout.ExpandWidth(false)))
                     {
-                        try
-                        {
-                            var type = typeof(BuilderBase).Assembly.GetType(bs.Builder);
-                            if (type == null)
-                            {
-                                Debug.LogError($"builder type is not found: {bs.Builder}");
-                            }
-                            else
-                            {
-                                var builder1 = Activator.CreateInstance(type, (object)bs) as BuilderBase;
-                                builder1.Build(dir);
-                            }
-                        }
-                        catch(Exception e)
-                        {
-                            Debug.LogException(e);
-                        }
+                        DoBuild(bs);
                     }
                 }
                 GUILayout.EndHorizontal();
             }
             GUILayout.EndScrollView();
+        }
+
+        private void DoBuild(BuilderSettings bs)
+        {
+            try
+            {
+                var type = typeof(BuilderBase).Assembly.GetType(bs.Builder);
+                if(type == null)
+                {
+                    Debug.LogError($"builder type is not found: {bs.Builder}");
+                }
+                else
+                {
+                    var builder1 = Activator.CreateInstance(type, (object)bs) as BuilderBase;
+                    builder1.Build(GetOutputDir(bs));
+                }
+            }
+            catch(Exception e)
+            {
+                Debug.LogException(e);
+            }
         }
 
         private void CollectSettings()
