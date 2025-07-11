@@ -124,7 +124,7 @@ namespace Misc
             var key = text.Substring(lineBegin, keyEnd - lineBegin);
             if (!dict.ContainsKey(key))
             {
-                dict.Add(key, text.Substring(keyEnd + Separator.Length, lineEnd - keyEnd - Separator.Length));
+                dict.Add(key, text.Substring(keyEnd + Separator.Length, lineEnd - keyEnd - Separator.Length).Replace("{n}", "\n"));
             }
             else
             {
