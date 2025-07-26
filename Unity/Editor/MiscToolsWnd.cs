@@ -62,6 +62,11 @@ namespace GameCore.Unity
                 MissingScript.CheckSelectGameObjects();
             }
 
+            if (GUIUtil.Button("CheckUncompressedTextures"))
+            {
+                CheckUncompressedTextures();
+            }
+
             using (GUIUtil.LayoutHorizontal())
             {
                 if(GUIUtil.Button("SetDirtyAndSave"))
@@ -127,9 +132,46 @@ namespace GameCore.Unity
             GUIPivotAndCenterOffset();
         }
 
+        private static string[] compressedFormats = new[]{"DXT", "BC", "ETC", "EAC", "ASTC"};
+        public void CheckUncompressedTextures()
+        {
+            var folder = EditorUtils.GetSelectedFolder();
+            EditorUtils.IterateAssetsInFolder(folder, path =>
+            {
+                var format = TextureFormat.ASTC_10x10;
+                var tex2d = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+                Texture tex = null;
+                if (tex2d != null)
+                {
+                    format = tex2d.format;
+                    tex = tex2d;
+                }
+                else
+                {
+                    var tex3d = AssetDatabase.LoadAssetAtPath<Texture3D>(path);
+                    if (tex3d != null)
+                    {
+                        format = tex3d.format;
+                        tex = tex3d;
+                    }
+                }
+
+                var f = format.ToString();
+                foreach (var s in compressedFormats)
+                {
+                    if (f.Contains(s))
+                    {
+                        return;
+                    }
+                }
+                Debug.Log($"{path} is no compressed: {format}", tex);
+            });
+        }
+
         public static float L2S(float f)
         {
             return f <= 0.0031308f ? 12.92f * f : 1.055f * (f * (1 / 2.4f)) - 0.055f;
         }
+
     }
 }

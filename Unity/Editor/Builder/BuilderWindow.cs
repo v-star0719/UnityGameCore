@@ -17,7 +17,8 @@ namespace GameCore.Unity
         private List<Type> builderSettingTypes = new();
         private string[] builderSettingNames;
         private int builderSettingIndex;
-        private Dictionary<int, string> outputDirs = new();
+        private Dictionary<string, string> outputDirs = new();
+        private EditDataStringField lastOutputDir;
 
         [MenuItem("Tools/Builder")]
         public static void Open()
@@ -29,6 +30,12 @@ namespace GameCore.Unity
         {
             CollectSettings();
             base.OnEnable();
+        }
+
+        protected override void InitEditDataFields()
+        {
+            base.InitEditDataFields();
+            lastOutputDir = new EditDataStringField("BuilderWindow.lastOutputDir", "", this);
         }
 
         public void OnGUI()
@@ -44,6 +51,18 @@ namespace GameCore.Unity
                 {
                     CollectSettings();
                 }
+
+                var v = PlayerSettings.bundleVersion;
+                var newVer = EditorGUILayout.TextField(v, GUILayout.Width(100));
+                if (newVer != v)
+                {
+                    PlayerSettings.bundleVersion = v;
+                }
+                //todo ios和Android打包后自动增加这两个值就行
+                // 修改Android版本号
+                //PlayerSettings.Android.bundleVersionCode = 3;
+                // 修改iOS版本号
+                //PlayerSettings.iOS.buildNumber = "3";
             }
 
             scrollPos = GUILayout.BeginScrollView(scrollPos);
@@ -56,9 +75,16 @@ namespace GameCore.Unity
                     EditorStyles.label.richText = true;
                     if(GUILayout.Button($"<u>{dir}</u>", EditorStyles.label))
                     {
-                        var newDir = EditorUtility.SaveFolderPanel("Select a folder", dir, "Builds");
+                        var lastDir = lastOutputDir.Value;
+                        var displayDir = dir;
+                        if (!string.IsNullOrEmpty(lastDir))
+                        {
+                            displayDir= lastDir;
+                        }
+                        var newDir = EditorUtility.SaveFolderPanel("Select a folder", displayDir, "Builds");
                         if (!string.IsNullOrEmpty(newDir) && newDir != dir)
                         {
+                            lastOutputDir.Value = newDir;
                             SetOutputDir(bs, newDir);
                         }
                     }
@@ -136,7 +162,7 @@ namespace GameCore.Unity
 
         private string GetOutputDir(BuilderSettings sb)
         {
-            var key = sb.GetInstanceID();
+            var key = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(sb));
             if (outputDirs.TryGetValue(key, out var dir))
             {
                 return dir;
@@ -153,9 +179,10 @@ namespace GameCore.Unity
 
         private void SetOutputDir(BuilderSettings bs, string dir)
         {
-            if(!outputDirs.TryGetValue(bs.GetInstanceID(), out var curDir) || curDir != dir)
+            var key = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(bs));
+            if(!outputDirs.TryGetValue(key, out var curDir) || curDir != dir)
             {
-                outputDirs[bs.GetInstanceID()] = dir;
+                outputDirs[key] = dir;
                 EditorPrefs.SetString(bs.GetInstanceID().ToString(), dir);
             }
         }
