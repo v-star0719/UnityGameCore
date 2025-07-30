@@ -12,12 +12,14 @@ namespace GameCore.Unity.UGUIEx
         public PlayableDirectorEx director;//正向是展开，如果没有的话，直接显示隐藏
         private string[] options;
         private Action<int> onSelect;
+        public Func<int, bool> CanSelect;
         private bool isShowed;
 
-        public void Init(string[] options, Action<int> onSelect)
+        public void Init(string[] options, Action<int> onSelect, Func<int, bool> canSelect = null)
         {
             this.options = options;
             this.onSelect = onSelect;
+            this.CanSelect = canSelect;
 
             var datas = new List<UIOptionItem.Data>();
             for (int i = 0; i < options.Length; i++)

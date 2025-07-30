@@ -44,7 +44,7 @@ namespace GameCore.Unity.Tweener
         public UnityEvent onFinished;
         public bool playOnAwake;//true表示每次enable后都自动播放。现在是从头开始播
 
-        private Direction direction;
+        public Direction Dir { get; private set;}
         private float delayTimer = 0;
         private float timer = 0;
         private Action onFinishCallback;//允许调用的时候传参，方便处理
@@ -101,7 +101,7 @@ namespace GameCore.Unity.Tweener
 
             float f;
             var isFinished = false;
-            if (direction == Direction.Forward)
+            if (Dir == Direction.Forward)
             {
                 timer += deltaTime;
                 if (timer < headDelay)
@@ -155,11 +155,11 @@ namespace GameCore.Unity.Tweener
                 }
 				else if (style == Style.Loop)
                 {
-                    timer = direction == Direction.Forward ? 0 : 1;
+                    timer = Dir == Direction.Forward ? 0 : 1;
                 }
                 else
                 {
-                    direction = direction == Direction.Forward ? Direction.Backward : Direction.Forward;
+                    Dir = Dir == Direction.Forward ? Direction.Backward : Direction.Forward;
                 }
             }
 		}
@@ -244,7 +244,7 @@ namespace GameCore.Unity.Tweener
             isPlaying = true;
             timer = forward ? 0 : duration;
             delayTimer = 0;
-            direction = forward ? Direction.Forward : Direction.Backward;
+            Dir = forward ? Direction.Forward : Direction.Backward;
             onFinishCallback = onFinish;
 			Sample(forward ? 0 : 1);
         }
@@ -252,7 +252,7 @@ namespace GameCore.Unity.Tweener
         public virtual void PlayFromCurrentPos(bool forward, Action onFinish = null)
         {
             isPlaying = true;
-            direction = forward ? Direction.Forward : Direction.Backward;
+            Dir = forward ? Direction.Forward : Direction.Backward;
             onFinishCallback = onFinish;
         }
 

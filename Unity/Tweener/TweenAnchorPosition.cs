@@ -6,7 +6,6 @@ namespace GameCore.Unity.Tweener
     {
         public Vector3 from;
         public Vector3 to;
-        public Space space;
         public RectTransform rectTrans;
 
         protected override void OnUpdate(float factor)

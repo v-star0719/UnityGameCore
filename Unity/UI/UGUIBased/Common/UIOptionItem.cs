@@ -20,6 +20,16 @@ namespace GameCore.Unity.UGUIEx
             text.text = data.text;
         }
 
+        public override bool CanSelect(bool isClickMsg)
+        {
+            var parent = GetComponentInParent<UIOptionUI>();
+            if (parent.CanSelect != null)
+            {
+                return parent.CanSelect(index);
+            }
+            return true;
+        }
+
         public override void OnSelectX(bool isClick)
         {
             base.OnSelectX(isClick);

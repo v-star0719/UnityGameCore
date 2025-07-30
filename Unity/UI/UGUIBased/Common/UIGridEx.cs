@@ -201,7 +201,10 @@ namespace GameCore.Unity.UGUIEx
             }
 
             Set(datas);
-            SelectItem(index, false, false, false);
+            if (index >= 0)
+            {
+                SelectItem(index, false, false, false);
+            }
 
             if (keepSelectCurrent)
             {

@@ -12,14 +12,15 @@ namespace GameCore.Unity.UGUIEx
     {
         private List<UITabCell> cellList = new List<UITabCell>();
         public UnityEvent onSelect;
+        public bool canDeselect;
         public bool initOnAwake = true;
 
-        private int curSelect = -1;
+        private int curSelect = -11111;
         private bool isInited;
 
         public int CurSelect => curSelect;
 
-        public UITabPage CurPage => cellList[curSelect].page;
+        public UITabPage CurPage => curSelect >= 0 && curSelect < cellList.Count ? cellList[curSelect].page : null;
 
         private void Awake()
         {
@@ -61,6 +62,10 @@ namespace GameCore.Unity.UGUIEx
                 }
                 curSelect = index;
                 onSelect.Invoke();
+            }
+            else if(canDeselect)
+            {
+                SelectTab(-1);
             }
         }
 
