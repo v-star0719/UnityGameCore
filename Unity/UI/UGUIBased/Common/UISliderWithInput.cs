@@ -12,7 +12,7 @@ namespace GameCore.Unity.UGUIEx
         public int decimalPlaces = 1;
         public Slider slider;
         public TMP_InputField input;
-        public Action onChange;
+        public UnityEvent<float> onChange;
 
         public float Min
         {
@@ -47,16 +47,18 @@ namespace GameCore.Unity.UGUIEx
             return slider.value.ToString("f" + decimalPlaces);
         }
 
-        public void OnSliderChanged()
+        public void OnSliderChanged(float f)
         {
             input.text = NumberToString();
+            onChange?.Invoke(Value);
         }
 
-        public void OnInputChanged()
+        public void OnInputChanged(string text)
         {
-            if(float.TryParse(input.text, out var number))
+            if(float.TryParse(text, out var number))
             {
                 slider.SetValueWithoutNotify(number);
+                onChange?.Invoke(Value);
             }
         }
     }

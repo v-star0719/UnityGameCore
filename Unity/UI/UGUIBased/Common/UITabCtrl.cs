@@ -88,6 +88,11 @@ namespace GameCore.Unity.UGUIEx
             return cellList[index].page;
         }
 
+        public UITabCell GetCell(int index)
+        {
+            return cellList[index];
+        }
+
         public T GetPage<T>() where T : UITabPage
         {
             foreach (var cell in cellList)
