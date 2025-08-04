@@ -11,6 +11,7 @@ namespace GameCore.Unity
         private Action onFinish;
         public string StateName { get; private set; }
         private bool isLoop;
+        private bool isRootMotion;
 
         private void Start()
         {
@@ -42,8 +43,7 @@ namespace GameCore.Unity
                     }
                     else
                     {
-                        enabled = false;
-                        onFinish?.Invoke();
+                        Stop();
                     }
                 }
             }
@@ -57,6 +57,7 @@ namespace GameCore.Unity
 
             if (rootMotion != animator.applyRootMotion)
             {
+                isRootMotion = animator.applyRootMotion;
                 animator.applyRootMotion = rootMotion;
                 if (!rootMotion)
                 {
@@ -92,6 +93,7 @@ namespace GameCore.Unity
             duration = -1;
             enabled = false;
             onFinish?.Invoke();
+            animator.applyRootMotion = isRootMotion;
         }
     }
 }

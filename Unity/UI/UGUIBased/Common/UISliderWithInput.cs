@@ -32,7 +32,7 @@ namespace GameCore.Unity.UGUIEx
             set
             {
                 slider.SetValueWithoutNotify(value);
-                input.text = NumberToString();
+                input.SetTextWithoutNotify(NumberToString());
             }
         }
 
@@ -49,13 +49,13 @@ namespace GameCore.Unity.UGUIEx
 
         public void OnSliderChanged(float f)
         {
-            input.text = NumberToString();
+            input.SetTextWithoutNotify(NumberToString());
             onChange?.Invoke(Value);
         }
 
-        public void OnInputChanged(string text)
+        public void OnInputChanged()
         {
-            if(float.TryParse(text, out var number))
+            if(float.TryParse(input.text, out var number))
             {
                 slider.SetValueWithoutNotify(number);
                 onChange?.Invoke(Value);

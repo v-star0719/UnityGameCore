@@ -7,6 +7,9 @@ namespace GameCore.Unity
     public class HideIfCameraOnBack : MonoBehaviour
     {
         public GameObject obj;
+        public List<GameObject> objs = new ();
+        public float maxCamDist = 100;
+
         // Update is called once per frame
         void Update()
         {
@@ -17,8 +20,16 @@ namespace GameCore.Unity
             }
 
             var dir = cam.transform.position - transform.position;
+            if (dir.sqrMagnitude > maxCamDist * maxCamDist)
+            {
+                return;
+            }
+
             var d = Vector3.Dot(dir, transform.forward);
-            obj.SetActive(d > 0);
+            foreach (var o in objs)
+            {
+                o.SetActive(d > 0);
+            }
         }
     }
 }
