@@ -53,15 +53,15 @@ namespace GameCore.Unity
                 }
 
                 var v = PlayerSettings.bundleVersion;
-                var newVer = EditorGUILayout.TextField(v, GUILayout.Width(100));
+                var newVer = GUIVersion(v);
                 if (newVer != v)
                 {
-                    PlayerSettings.bundleVersion = v;
+                    PlayerSettings.bundleVersion = newVer;
                 }
-                //todo iosºÍAndroid´ò°üºó×Ô¶¯Ôö¼ÓÕâÁ½¸öÖµ¾ÍÐÐ
-                // ÐÞ¸ÄAndroid°æ±¾ºÅ
+                //todo ioså’ŒAndroidæ‰“åŒ…åŽè‡ªåŠ¨å¢žåŠ è¿™ä¸¤ä¸ªå€¼å°±è¡Œ
+                // ä¿®æ”¹Androidç‰ˆæœ¬å·
                 //PlayerSettings.Android.bundleVersionCode = 3;
-                // ÐÞ¸ÄiOS°æ±¾ºÅ
+                // ä¿®æ”¹iOSç‰ˆæœ¬å·
                 //PlayerSettings.iOS.buildNumber = "3";
             }
 
@@ -92,12 +92,29 @@ namespace GameCore.Unity
 
                     if(GUILayout.Button("Build", GUILayout.ExpandWidth(false)))
                     {
-                        DoBuild(bs);
+                        if (EditorUtility.DisplayDialog("æç¤º", "è®°å¾—ä¿®æ”¹ç‰ˆæœ¬å·", "ç¡®è®¤æ— è¯¯", "å–æ¶ˆ"))
+                        {
+                            DoBuild(bs);
+                        }
                     }
                 }
                 GUILayout.EndHorizontal();
             }
             GUILayout.EndScrollView();
+        }
+
+        private string GUIVersion(string version)
+        {
+            string[] versionParts = version.Split('.');
+            int major = versionParts.Length >= 1 ? int.Parse(versionParts[0]) : 0;
+            int minor = versionParts.Length >= 2 ? int.Parse(versionParts[1]) : 0;
+            int patch = versionParts.Length >= 3 ? int.Parse(versionParts[2]) : 0;
+            major = EditorGUILayout.IntField(major, GUILayout.Width(20));
+            GUILayout.Label(".", GUILayout.ExpandWidth(false));
+            minor = EditorGUILayout.IntField(minor, GUILayout.Width(20));
+            GUILayout.Label(".", GUILayout.ExpandWidth(false));
+            patch = EditorGUILayout.IntField(patch, GUILayout.Width(20));
+            return $"{major}.{minor}.{patch}";
         }
 
         private void DoBuild(BuilderSettings bs)
