@@ -200,7 +200,7 @@ namespace GameCore.Unity
             if(!outputDirs.TryGetValue(key, out var curDir) || curDir != dir)
             {
                 outputDirs[key] = dir;
-                EditorPrefs.SetString(bs.GetInstanceID().ToString(), dir);
+                EditorPrefs.SetString(key, dir);
             }
         }
     }
