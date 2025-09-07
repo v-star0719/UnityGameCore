@@ -48,15 +48,14 @@ namespace GameCore.Unity
                         CurScene.Init(newSceneArg);
                         CurScene.Load();
                         newSceneArg = null;
-                        State = StateType.Loading;
-                        timer = 0;
+                        ChangeState(StateType.Loading);
                     }
                     break;
                 case StateType.Loading:
                     timer++;
                     if (timer >= WAIT && CurScene.IsLoaded)
                     {
-                        State = StateType.Running;
+                        ChangeState(StateType.Running);
                         CurScene.Start();
                         if (loadingPanel != null)
                         {
@@ -68,7 +67,7 @@ namespace GameCore.Unity
                     CurScene?.Tick(deltaTime);
                     if (newSceneArg != null && (loadingPanel == null || !loadingPanel.IsCapturingScreen))
                     {
-                        State = StateType.Unloading;
+                        ChangeState(StateType.Unloading);
                         CurScene.Destroy();
                         CurScene = null;
                     }
@@ -77,7 +76,7 @@ namespace GameCore.Unity
                     timer++;
                     if (timer >= WAIT)
                     {
-                        State = StateType.None;
+                        ChangeState(StateType.None);
                     }
                     break;
                 default:
@@ -126,6 +125,12 @@ namespace GameCore.Unity
             {
                 CurScene.OnSubmitAxis();
             }
+        }
+
+        private void ChangeState(StateType t)
+        {
+            State = t;
+            timer = 0;
         }
 
         protected virtual SceneBase CreateScene(int type)
