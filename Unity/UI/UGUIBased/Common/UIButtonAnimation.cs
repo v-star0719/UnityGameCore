@@ -1,8 +1,10 @@
+using System;
+using System.Collections;
 using GameCore.Unity.Tweener;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UIButtonAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, ISelectHandler, IDeselectHandler
+public class UIButtonAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, ISelectHandler, IDeselectHandler, ISubmitHandler
 {
     public Vector3 press = new Vector3(1.05f, 1.05f, 1.05f);
     public float duration = 0.1f;
@@ -51,11 +53,13 @@ public class UIButtonAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpH
     public void OnPointerDown(PointerEventData eventData)
     {
         Play(Vector3.Scale(initScale, press));
+        StopAllCoroutines();
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         Play(initScale);
+        StopAllCoroutines();
     }
 
     public void OnSelect(BaseEventData eventData)
@@ -82,6 +86,22 @@ public class UIButtonAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpH
             //        selectGo.SetActive(false);
             //    });
             //}
+        }
+    }
+
+    public void OnSubmit(BaseEventData eventData)
+    {
+        Play(Vector3.Scale(initScale, press));
+
+        IEnumerator Recover()
+        {
+            yield return new WaitForSeconds(duration + 0.1f);
+            Play(initScale);
+        }
+
+        if (gameObject.activeSelf)
+        {
+            StartCoroutine(Recover());
         }
     }
 

@@ -676,5 +676,11 @@ namespace GameCore.Core
         {
             return PutRectInRect(containerSize.x, containerSize.y, size.x, size.y, constrain);
         }
+
+        public static Vector3 GetMeetPosMoveTowardEachOther(Vector3 aPos, Vector3 bPos, float aSpeed, float bSpeed)
+        {
+            var f = aSpeed / (aSpeed + bSpeed);
+            return Vector3.Lerp(aPos, bPos, f);
+        }
     }
 }

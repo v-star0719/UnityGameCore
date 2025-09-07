@@ -51,7 +51,7 @@ namespace GameCore.Unity.UGUIEx
 
             if(!focusToNavigation && containers.Count > 0 && dict.Count > 0 && containers[^1] == this)
             {
-                if(obj != null && dict.ContainsKey(obj))
+                if(obj != null && dict.ContainsKey(obj) && obj.activeInHierarchy)
                 {
                     focusToNavigation = false;
                 }
