@@ -682,5 +682,36 @@ namespace GameCore.Core
             var f = aSpeed / (aSpeed + bSpeed);
             return Vector3.Lerp(aPos, bPos, f);
         }
+
+        /// <summary>
+        /// 计算点c关于直线的对称点
+        /// </summary>
+        /// <param name="p">需要计算对称点的点</param>
+        /// <param name="a">直线经过的点</param>
+        /// <param name="f">直线的方向向量</param>
+        /// <returns>点c关于直线的对称点</returns>
+        public static Vector3 GetSymmetricPoint(Vector3 p, Vector3 a, Vector3 f)
+        {
+            // 确保方向向量不为零
+            if(f.sqrMagnitude < Mathf.Epsilon)
+            {
+                Debug.LogWarning("方向向量不能为零向量");
+                return Vector3.zero;
+            }
+
+            // 计算向量ac
+            Vector3 ac = p - a;
+
+            // 计算投影参数t：(ac · f) / |f|²
+            float t = Vector3.Dot(ac, f) / f.sqrMagnitude;
+
+            // 计算点c在直线上的投影点p
+            Vector3 pj = a + t * f;
+
+            // 计算对称点：对称点 = 2p - c
+            Vector3 symmetricPoint = 2 * pj - p;
+
+            return symmetricPoint;
+        }
     }
 }
