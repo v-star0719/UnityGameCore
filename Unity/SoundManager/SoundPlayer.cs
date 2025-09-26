@@ -128,6 +128,7 @@ namespace GameCore.Unity
                 if(!sound.IsPlaying)
                 {
                     sound.isInPlayingList = false;
+                    sound.BeforeFadeout();
                     FadeOutSounds.Add(sound);
                     PlayingSounds.RemoveAt(i);
                 }

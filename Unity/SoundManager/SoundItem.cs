@@ -52,6 +52,7 @@ namespace GameCore.Unity
         private float pauseDuration;//计算暂停持续的时长
         private float pauseTiming;//暂停开始时刻。
         private SoundPlayer player;
+        private float fadeOutStartVolume;
 
         public float Volume
         {
@@ -169,8 +170,13 @@ namespace GameCore.Unity
             }
 
             var t = CurTime - FadeoutStartTime;
-            AudioSource.volume = Volume - t / FadeoutDura * player.GetFinalVolume(volume);
+            AudioSource.volume = (1 - t / FadeoutDura) * fadeOutStartVolume;
             return t >= FadeoutDura;
+        }
+
+        public void BeforeFadeout()
+        {
+            fadeOutStartVolume = AudioSource.volume;
         }
 
         public void Clear()
@@ -205,7 +211,6 @@ namespace GameCore.Unity
             {
                 FadeoutDura = t;
             }
-            volume = AudioSource.volume;//可能正在淡入中，音量改成当前音量
         }
 
         public SoundItemInfo GetInfo()
