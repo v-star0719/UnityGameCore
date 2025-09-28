@@ -81,6 +81,18 @@ namespace GameCore.Unity
             enabled = false;
         }
 
+        public void SetToSide(bool begin)
+        {
+            if(begin)
+            {
+                SetToBegin();
+            }
+            else
+            {
+                SetToEnd();
+            }
+        }
+
         public void Play(bool forward)
         {
             if (forward)
