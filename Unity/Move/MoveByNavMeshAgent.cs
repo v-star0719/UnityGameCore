@@ -51,7 +51,7 @@ namespace GameCore.Unity
         public override bool IsStopped
         {
             get => agent.isStopped;
-            set => agent.isStopped = value;
+            set => agent.isStopped = value;//NavMeshAgent.isStopped其实是暂停的效果
         }
 
         public override bool IsPaused
