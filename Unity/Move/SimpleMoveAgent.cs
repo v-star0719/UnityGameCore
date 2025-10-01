@@ -91,10 +91,26 @@ namespace GameCore.Unity
 
             if (!IsAngleArrived)
             {
-                var angle = Vector2.Angle(transform.forward, dir);
-                var targetRotation = Quaternion.LookRotation(dir);
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, angularSpeed * deltaTime / angle);
-                IsAngleArrived = angle <= stoppingAngle;
+                if(dir.sqrMagnitude < 0.0001f)
+                {
+                    IsAngleArrived = true;//当位置和目标点重回后，就不能朝向目标点了
+                }
+                else
+                {
+                    var angle = Mathf.Abs(Vector2.Angle(transform.forward, dir));
+                    var targetRotation = Quaternion.LookRotation(dir);
+                    var deltaAngle = angularSpeed * deltaTime;
+                    if(deltaAngle >= angle)
+                    {
+                        transform.rotation = targetRotation;
+                        IsAngleArrived = true;
+                    }
+                    else
+                    {
+                        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, deltaAngle / angle);
+                        IsAngleArrived = (angle - deltaAngle) <= stoppingAngle;
+                    }
+                }
             }
         }
     }
