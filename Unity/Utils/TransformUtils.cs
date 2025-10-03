@@ -77,6 +77,16 @@ namespace GameCore.Unity
             return n;
         }
 
+        public static Transform[] GetChildren(this Transform trans)
+        {
+            var rt = new Transform[trans.childCount];
+            for(int i=0; i<rt.Length; i++)
+            {
+                rt[i] = trans.GetChild(i);
+            }
+            return rt;
+        }
+
         public static void ReplaceStringInName(Transform transform, string find, string replace)
         {
             var newName = transform.name.Replace(find, replace);
