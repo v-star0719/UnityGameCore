@@ -8,6 +8,8 @@ namespace GameCore.Unity.UGUIEx
         private UINavigationContainer __container;
         private Selectable __selectable;
         public bool startsSelected;
+        private bool hasInitMode;
+        private Navigation.Mode mode;
 
         public UINavigationContainer Container
         {
@@ -36,6 +38,8 @@ namespace GameCore.Unity.UGUIEx
         public void Start()
         {
             Container.dict.TryAdd(gameObject, this);
+            mode = Selectable.navigation.mode;
+            hasInitMode = true;
         }
 
         protected void OnDestroy()
@@ -55,8 +59,15 @@ namespace GameCore.Unity.UGUIEx
                 return;
             }
 
+            //可能在Start前调用，先记录原始的配置
+            if (!hasInitMode)
+            {
+                hasInitMode = true;
+                mode = Selectable.navigation.mode;
+            }
+
             var v = s.navigation;
-            v.mode = b ? Navigation.Mode.Automatic : Navigation.Mode.None;
+            v.mode = b ? mode : Navigation.Mode.None;
             Selectable.navigation = v;
         }
     }

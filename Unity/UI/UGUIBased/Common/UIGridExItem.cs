@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace GameCore.Unity.UGUIEx
 {
-    public class UIGridExItem : MonoBehaviourRT
+    public class UIGridExItem : MonoBehaviourRectTrans
     {
         public GameObject selectedMark;
 

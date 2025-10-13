@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace GameCore.Unity.UGUIEx
 {
-    public class MonoBehaviourRT : MonoBehaviour
+    public class MonoBehaviourRectTrans : MonoBehaviour
     {
         private RectTransform _rectTransform;
         public RectTransform RectTransform
