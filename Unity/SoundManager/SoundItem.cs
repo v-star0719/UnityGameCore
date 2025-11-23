@@ -46,7 +46,7 @@ namespace GameCore.Unity
         public bool IsFadeouting => CurTime >= FadeoutStartTime;
         public bool IsPaused { get; private set; }
 
-        private float volume;
+        private float volume;//这个是播放时指定的音量，实际音量 = 音量 * player的音量控制
         private float playStartTime;
         private SoundItemInfo info;
         private float pauseDuration;//计算暂停持续的时长

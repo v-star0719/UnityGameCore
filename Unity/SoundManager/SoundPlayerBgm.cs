@@ -10,6 +10,7 @@ namespace GameCore.Unity
         private string[] soundNames;//当前播放的是第一个。播放完成放到最后
         private float fadein;
         private float fadeout;
+        private float playArgVolume;//播放时指定的音量
 
         public override bool SoundEnable
         {
@@ -62,7 +63,7 @@ namespace GameCore.Unity
                 var t = soundNames[0];
                 soundNames[0] = soundNames[last];
                 soundNames[last] = t;
-                base.Play(soundNames[0], false, volume, 0, fadein, fadeout);
+                base.Play(soundNames[0], false, sound.Volume, 0, fadein, fadeout);
             }
         }
     }

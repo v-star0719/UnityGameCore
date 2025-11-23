@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace GameCore.Unity
@@ -14,13 +15,14 @@ namespace GameCore.Unity
             Right,
         }
 
-        [FormerlySerializedAs("horzOffset")]
-        public Vector3 columnGap;
-        [FormerlySerializedAs("vertOffset")]
-        public Vector3 lineGap;
-        public Alignment alignment;
+        public Vector3 horizontalSize;
+        public Vector3 verticalSize;
 
-        public int itemPerLine;
+        public Vector3 horizontalGap;
+        public Vector3 verticalGap;
+        public Vector2 pivot;
+
+        public int horizontalMaxCount;
         public bool reposition;
         public bool hideInvisible;
 
@@ -44,19 +46,28 @@ namespace GameCore.Unity
 
         private void Reposition()
         {
-            var itemLimit = itemPerLine <= 0 ? transform.childCount : itemPerLine;
-            Vector3 lineStart = Vector3.zero;
-            var columnGap = this.columnGap;
-            if (alignment == Alignment.Right)
+            var childCount = 0;
+            for (int i = 0; i < transform.childCount; i++)
             {
-                lineStart = (itemLimit - 1) * columnGap;
-                columnGap =- this.columnGap;
+                if (hideInvisible && !transform.GetChild(i).gameObject.activeSelf)
+                {
+                    continue;
+                }
+                childCount++;
             }
-            else if (alignment == Alignment.Center)
+            var horizontalCount = horizontalMaxCount <= 0 ? transform.childCount : horizontalMaxCount;
+            if (horizontalCount > childCount)
             {
-                lineStart = (1 - itemLimit) * 0.5f * columnGap;
+                horizontalCount = childCount;
             }
+            var verticalCount = ((childCount - 1) / horizontalCount) + 1;
 
+            var horizontalDelta = horizontalGap + horizontalSize;
+            var verticalDelta = verticalGap + verticalSize;
+            var width = (horizontalCount - 1) * horizontalGap + horizontalCount * horizontalSize;
+            var height = (verticalCount - 1) * verticalGap + verticalCount * verticalSize;
+
+            Vector3 lineStart = Vector3.zero - (width - horizontalSize) * pivot.x  - (height - verticalSize) * pivot.y;
             Vector3 curPos = lineStart;
             int count = transform.childCount;
             int col = 0;
@@ -71,15 +82,15 @@ namespace GameCore.Unity
                 trans.localPosition = curPos;
 
                 col++;
-                if (col == itemLimit)
+                if (col == horizontalCount)
                 {
                     col = 0;
-                    lineStart = lineStart + lineGap;
+                    lineStart += verticalDelta;
                     curPos = lineStart;
                 }
                 else
                 {
-                    curPos = curPos + columnGap;
+                    curPos += horizontalDelta;
                 }
             }
         }
