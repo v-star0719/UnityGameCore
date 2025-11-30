@@ -26,5 +26,21 @@ namespace Kernel.Unity
                 }
             }
         }
+
+        public List<Transform> GetBone(string name)
+        {
+            List<Transform> rt = new List<Transform>();
+            foreach(var skin in skins)
+            {
+                foreach (var b in skin.bones)
+                {
+                    if (b.name == name)
+                    {
+                        rt.Add(b);
+                    }
+                }
+            }
+            return rt;
+        }
     }
 }

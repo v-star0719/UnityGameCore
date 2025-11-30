@@ -13,6 +13,7 @@ namespace GameCore.Unity.UGUIEx
         public Slider slider;
         public TMP_InputField input;
         public UnityEvent<float> onChange;
+        public float defaultValue;
 
         public float Min
         {
@@ -60,6 +61,12 @@ namespace GameCore.Unity.UGUIEx
                 slider.SetValueWithoutNotify(number);
                 onChange?.Invoke(Value);
             }
+        }
+
+        public void OnResetBtnClick()
+        {
+            Value = defaultValue;
+            onChange?.Invoke(Value);
         }
     }
 }

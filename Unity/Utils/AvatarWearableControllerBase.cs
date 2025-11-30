@@ -7,7 +7,8 @@ namespace Kernel.Unity
     public class AvatarWearableControllerBase : MonoBehaviour
     {
         public SkinnedMeshRenderer body;
-        
+        public bool followMode;//true = 骨骼跟随目标对象的骨骼，false=直接使用目标对象的骨骼
+
         private List<AvatarWearableBase> wearables = new();
 
         public virtual void AddWearable(AvatarWearableBase wearable)
@@ -15,12 +16,12 @@ namespace Kernel.Unity
             wearables.Add(wearable);
             GameObjectUtils.SetLayer(wearable.transform, gameObject.layer);
             wearable.transform.SetParent(transform, false);
-            foreach (var skin in wearable.skins)
+            foreach(var skin in wearable.skins)
             {
                 CombineSkinnedMesh(skin);
             }
 
-            foreach (var skin in wearable.meshSkins)
+            foreach(var skin in wearable.meshSkins)
             {
                 CombineMesh(skin.meshRenderer, skin.targetBone);
             }
@@ -35,7 +36,7 @@ namespace Kernel.Unity
         public virtual void ChangeBody(SkinnedMeshRenderer newBody)
         {
             body = newBody;
-            foreach (var wearable in wearables)
+            foreach(var wearable in wearables)
             {
                 foreach(var skin in wearable.skins)
                 {
@@ -46,43 +47,46 @@ namespace Kernel.Unity
 
         public void CombineSkinnedMesh(SkinnedMeshRenderer mesh)
         {
-            List<Transform> bones = new List<Transform>();
-            foreach (var clothBone in mesh.bones)
+            if(followMode)
             {
-                var bodyBone = FindBoneOnBody(clothBone.name);
-                if (bodyBone == null)
+                foreach(var clothBone in mesh.bones)
                 {
-                    //Debug.LogWarning($"Missing bone:{clothBone.name}，try to create fake bone");
-                    //var parent = FindBoneOnBody(clothBone.transform.parent.name);
-                    //if (parent == null)
-                    //{
-                    //    Debug.LogError($"failed, no parent bone: {clothBone.transform.parent.name}");
-                    //    return;
-                    //}
-
-                    //var go = new GameObject(clothBone.name);
-                    //bodyBone = go.transform;
-                    //bodyBone.parent = parent;
-                    //bodyBone.transform.localPosition = clothBone.localPosition;
-                    //bodyBone.transform.localScale = clothBone.localScale;
-                    //bodyBone.transform.localRotation = clothBone.localRotation;
-                    //Debug.LogWarning("Create fake bone success");
-                    bodyBone = CreateFakeBoneOnBody(clothBone);
-                    if (bodyBone==null)
+                    var bodyBone = FindBoneOnBody(clothBone.name);
+                    if(bodyBone == null)
                     {
-                        return;
+                        bodyBone = CreateFakeBoneOnBody(clothBone);
+                        if(bodyBone == null)
+                        {
+                            continue;
+                        }
                     }
+                    TransformUtils.SetParent(clothBone, bodyBone);
                 }
-
-                bones.Add(bodyBone);
             }
-            mesh.bones = bones.ToArray();
+            else
+            {
+                List<Transform> bones = new List<Transform>();
+                foreach(var clothBone in mesh.bones)
+                {
+                    var bodyBone = FindBoneOnBody(clothBone.name);
+                    if(bodyBone == null)
+                    {
+                        bodyBone = CreateFakeBoneOnBody(clothBone);
+                        if(bodyBone == null)
+                        {
+                            continue;
+                        }
+                    }
+                    bones.Add(bodyBone);
+                }
+                mesh.bones = bones.ToArray();
+            }
         }
 
         public void CombineMesh(GameObject mesh, string boneName)
         {
             var bone = FindBoneOnBody(boneName);
-            if (bone == null)
+            if(bone == null)
             {
                 Debug.LogError($"bone was not found: {boneName}");
                 bone = transform;
@@ -105,7 +109,7 @@ namespace Kernel.Unity
         private Transform CreateFakeBoneOnBody(Transform bone)
         {
             var parentBone = FindBoneOnBody(bone.parent.name);
-            if (parentBone == null)
+            if(parentBone == null)
             {
                 Debug.LogWarning($"Missing bone:{bone.parent.name}，try to create fake bone");
                 parentBone = CreateFakeBoneOnBody(bone.parent);
