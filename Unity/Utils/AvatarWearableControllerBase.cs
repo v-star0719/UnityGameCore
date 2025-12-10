@@ -6,10 +6,23 @@ namespace Kernel.Unity
 {
     public class AvatarWearableControllerBase : MonoBehaviour
     {
+        public enum FollowMode
+        {
+            UseTargetBone, //直接使用目标骨骼
+            FollowTargetBoneAsChild,//跟随目标骨骼：作为目标骨骼的子节点
+            FollowTargetBone, //跟随目标骨骼：直接设置位置旋转缩放
+        }
+        private class BonePair
+        {
+            public Transform myBone;
+            public Transform bodyBone;
+        }
+
         public SkinnedMeshRenderer body;
-        public bool followMode;//true = 骨骼跟随目标对象的骨骼，false=直接使用目标对象的骨骼
+        public FollowMode followMode = FollowMode.UseTargetBone;
 
         private List<AvatarWearableBase> wearables = new();
+        private Dictionary<SkinnedMeshRenderer, List<BonePair>> bonePairsMap = new();
 
         public virtual void AddWearable(AvatarWearableBase wearable)
         {
@@ -30,6 +43,13 @@ namespace Kernel.Unity
         public virtual void RemoveWearable(AvatarWearableBase wearable)
         {
             wearables.Remove(wearable);
+            foreach(var sr in new List<SkinnedMeshRenderer>(bonePairsMap.Keys))
+            {
+                if(sr.transform.IsChildOf(wearable.transform))
+                {
+                    bonePairsMap.Remove(sr);
+                }
+            }
             Destroy(wearable.gameObject);
         }
 
@@ -47,23 +67,7 @@ namespace Kernel.Unity
 
         public void CombineSkinnedMesh(SkinnedMeshRenderer mesh)
         {
-            if(followMode)
-            {
-                foreach(var clothBone in mesh.bones)
-                {
-                    var bodyBone = FindBoneOnBody(clothBone.name);
-                    if(bodyBone == null)
-                    {
-                        bodyBone = CreateFakeBoneOnBody(clothBone);
-                        if(bodyBone == null)
-                        {
-                            continue;
-                        }
-                    }
-                    TransformUtils.SetParent(clothBone, bodyBone);
-                }
-            }
-            else
+            if(followMode == FollowMode.UseTargetBone)
             {
                 List<Transform> bones = new List<Transform>();
                 foreach(var clothBone in mesh.bones)
@@ -80,6 +84,43 @@ namespace Kernel.Unity
                     bones.Add(bodyBone);
                 }
                 mesh.bones = bones.ToArray();
+            }
+            else
+            {
+                List<BonePair> bonePairs = null;
+                if(followMode == FollowMode.FollowTargetBone)
+                {
+                    if(bonePairsMap.TryGetValue(mesh, out bonePairs))
+                    {
+                        bonePairs.Clear();
+                    }
+                    else
+                    {
+                        bonePairs = new List<BonePair>();
+                        bonePairsMap.Add(mesh, bonePairs);
+                    }
+                }
+
+                foreach(var clothBone in mesh.bones)
+                {
+                    var bodyBone = FindBoneOnBody(clothBone.name);
+                    if(bodyBone == null)
+                    {
+                        bodyBone = CreateFakeBoneOnBody(clothBone);
+                        if(bodyBone == null)
+                        {
+                            continue;
+                        }
+                    }
+                    if(followMode == FollowMode.FollowTargetBoneAsChild)
+                    {
+                        TransformUtils.SetParent(clothBone, bodyBone);
+                    }
+                    else if(followMode == FollowMode.FollowTargetBone)
+                    {
+                        bonePairs.Add(new() { bodyBone = bodyBone, myBone = clothBone });
+                    }
+                }
             }
         }
 
@@ -128,6 +169,18 @@ namespace Kernel.Unity
             bodyBone.transform.localRotation = bone.localRotation;
             Debug.LogWarning($"Create fake bone success {bone.name}");
             return bodyBone;
+        }
+
+        private void LateUpdate()
+        {
+            foreach(var kv in bonePairsMap)
+            {
+                foreach(var bp in kv.Value)
+                {
+                    bp.myBone.position = bp.bodyBone.position;
+                    bp.myBone.rotation = bp.bodyBone.rotation;
+                }
+            }
         }
     }
 }
