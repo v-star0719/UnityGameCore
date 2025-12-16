@@ -103,6 +103,12 @@ namespace Kernel.Unity
 
                 foreach(var clothBone in mesh.bones)
                 {
+                    //骨骼动态效果时，有些骨骼不希望拆开分散，破坏骨骼链
+                    if (clothBone.tag == "StayWithParent")
+                    {
+                        continue;
+                    }
+
                     var bodyBone = FindBoneOnBody(clothBone.name);
                     if(bodyBone == null)
                     {
