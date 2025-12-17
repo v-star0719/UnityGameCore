@@ -12,7 +12,7 @@ namespace Kernel.Unity
             FollowTargetBoneAsChild,//跟随目标骨骼：作为目标骨骼的子节点
             FollowTargetBone, //跟随目标骨骼：直接设置位置旋转缩放
         }
-        private class BonePair
+        protected class BonePair
         {
             public Transform myBone;
             public Transform bodyBone;
@@ -21,8 +21,8 @@ namespace Kernel.Unity
         public SkinnedMeshRenderer body;
         public FollowMode followMode = FollowMode.UseTargetBone;
 
-        private List<AvatarWearableBase> wearables = new();
-        private Dictionary<SkinnedMeshRenderer, List<BonePair>> bonePairsMap = new();
+        protected List<AvatarWearableBase> wearables = new();
+        protected Dictionary<SkinnedMeshRenderer, List<BonePair>> bonePairsMap = new();
 
         public virtual void AddWearable(AvatarWearableBase wearable)
         {
@@ -65,12 +65,12 @@ namespace Kernel.Unity
             }
         }
 
-        public void CombineSkinnedMesh(SkinnedMeshRenderer mesh)
+        public virtual void CombineSkinnedMesh(SkinnedMeshRenderer renderer)
         {
             if(followMode == FollowMode.UseTargetBone)
             {
                 List<Transform> bones = new List<Transform>();
-                foreach(var clothBone in mesh.bones)
+                foreach(var clothBone in renderer.bones)
                 {
                     var bodyBone = FindBoneOnBody(clothBone.name);
                     if(bodyBone == null)
@@ -83,25 +83,25 @@ namespace Kernel.Unity
                     }
                     bones.Add(bodyBone);
                 }
-                mesh.bones = bones.ToArray();
+                renderer.bones = bones.ToArray();
             }
             else
             {
                 List<BonePair> bonePairs = null;
                 if(followMode == FollowMode.FollowTargetBone)
                 {
-                    if(bonePairsMap.TryGetValue(mesh, out bonePairs))
+                    if(bonePairsMap.TryGetValue(renderer, out bonePairs))
                     {
                         bonePairs.Clear();
                     }
                     else
                     {
                         bonePairs = new List<BonePair>();
-                        bonePairsMap.Add(mesh, bonePairs);
+                        bonePairsMap.Add(renderer, bonePairs);
                     }
                 }
 
-                foreach(var clothBone in mesh.bones)
+                foreach(var clothBone in renderer.bones)
                 {
                     //骨骼动态效果时，有些骨骼不希望拆开分散，破坏骨骼链
                     if (clothBone.tag == "StayWithParent")
@@ -141,7 +141,7 @@ namespace Kernel.Unity
             TransformUtils.SetParent(mesh.transform, bone);
         }
 
-        private Transform FindBoneOnBody(string boneName)
+        protected Transform FindBoneOnBody(string boneName)
         {
             foreach(var bodyBone in body.bones)
             {
@@ -153,7 +153,7 @@ namespace Kernel.Unity
             return null;
         }
 
-        private Transform CreateFakeBoneOnBody(Transform bone)
+        protected Transform CreateFakeBoneOnBody(Transform bone)
         {
             var parentBone = FindBoneOnBody(bone.parent.name);
             if(parentBone == null)
@@ -177,7 +177,7 @@ namespace Kernel.Unity
             return bodyBone;
         }
 
-        private void LateUpdate()
+        protected virtual void LateUpdate()
         {
             foreach(var kv in bonePairsMap)
             {
