@@ -27,7 +27,7 @@ namespace Kernel.Unity
             }
         }
 
-        public List<Transform> GetBone(string name)
+        public virtual List<Transform> GetBone(string name)
         {
             List<Transform> rt = new List<Transform>();
             foreach(var skin in skins)

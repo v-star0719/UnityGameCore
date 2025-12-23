@@ -60,7 +60,7 @@ namespace GameCore.Unity
             {
                 horizontalCount = childCount;
             }
-            var verticalCount = ((childCount - 1) / horizontalCount) + 1;
+            var verticalCount = horizontalCount > 0 ? ((childCount - 1) / horizontalCount) + 1 : 1;
 
             var horizontalDelta = horizontalGap + horizontalSize;
             var verticalDelta = verticalGap + verticalSize;
