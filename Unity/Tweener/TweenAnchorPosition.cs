@@ -8,10 +8,22 @@ namespace GameCore.Unity.Tweener
         public Vector3 to;
         public RectTransform rectTrans;
 
+        private RectTransform RectTrans
+        {
+            get
+            {
+                if (rectTrans == null)
+                {
+                    rectTrans = GetComponent<RectTransform>();
+                }
+                return rectTrans;
+            }
+        }
+
         protected override void OnUpdate(float factor)
         {
             var p = Vector3.Lerp(from, to, factor);
-            rectTrans.anchoredPosition = p;
+            RectTrans.anchoredPosition = p;
         }
     }
 }

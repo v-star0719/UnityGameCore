@@ -4,20 +4,33 @@ namespace GameCore.Unity.Tweener
 {
     public class TweenPosition : Tweener
     {
-        public Vector3 from;
-        public Vector3 to;
+        public Transform _target;
+        public Vector3 from = Vector3.zero;
+        public Vector3 to = Vector3.zero;
         public Space space;
+
+        public Transform Target
+        {
+            get
+            {
+                if(_target == null)
+                {
+                    _target = transform;
+                }
+                return _target;
+            }
+        }
 
         protected override void OnUpdate(float factor)
         {
             var p = Vector3.Lerp(from, to, factor);
             if(space == Space.World)
             {
-                transform.position = p;
+                Target.position = p;
             }
             else
             {
-                transform.localPosition = p;
+                Target.localPosition = p;
             }
         }
     }

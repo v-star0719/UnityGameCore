@@ -21,8 +21,15 @@ public class UIButtonAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpH
     {
         if (selectGo != null)
         {
-            selectGo.SetActive(false);
             selectGoTweener = selectGo.GetComponent<TweenPlayer>();
+            if(selectGoTweener != null)
+            {
+                selectGoTweener.Reset(true);
+            }
+            else
+            {
+                selectGo.SetActive(false);
+            }
         }
     }
 
@@ -66,10 +73,13 @@ public class UIButtonAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpH
     {
         if(selectGo != null)
         {
-            selectGo.SetActive(true);
             if(selectGoTweener != null)
             {
                 selectGoTweener.Play(true);
+            }
+            else
+            {
+                selectGo.SetActive(true);
             }
         }
     }
@@ -78,14 +88,14 @@ public class UIButtonAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpH
     {
         if(selectGo != null)
         {
-            selectGo.SetActive(false);
-            //if (selectGoTweener != null)
-            //{
-            //    selectGoTweener.Play(false, () =>
-            //    {
-            //        selectGo.SetActive(false);
-            //    });
-            //}
+            if(selectGoTweener != null)
+            {
+                selectGoTweener.Play(false);
+            }
+            else
+            {
+                selectGo.SetActive(false);
+            }
         }
     }
 

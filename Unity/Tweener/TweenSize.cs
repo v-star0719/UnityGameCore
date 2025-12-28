@@ -7,23 +7,23 @@ namespace GameCore.Unity.Tweener
     {
         public Vector2 from = Vector2.zero;
         public Vector2 to = Vector2.zero;
-        private RectTransform __rectTrans;
+        public RectTransform target;
 
-        public RectTransform RectTrans
+        public RectTransform Target
         {
             get
             {
-                if (__rectTrans == null)
+                if (target == null)
                 {
-                    __rectTrans = GetComponent<RectTransform>();
+                    target = GetComponent<RectTransform>();
                 }
-                return __rectTrans;
+                return target;
             }
         }
 
         protected override void OnUpdate(float factor)
         {
-            RectTrans.sizeDelta = Vector3.Lerp(from, to, factor);
+            Target.sizeDelta = Vector3.Lerp(from, to, factor);
         }
     }
 }

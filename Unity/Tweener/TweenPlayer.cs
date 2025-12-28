@@ -5,19 +5,21 @@ namespace GameCore.Unity.Tweener
 {
     public class TweenPlayer : MonoBehaviour
     {
-        private Tweener[] _tweeners;
+        public Tweener[] tweeners;
         private int finishedCount = 0;
         private Action onFinish;
+        private bool noTweeners;
 
         private Tweener[] Tweeners
         {
             get
             {
-                if(_tweeners == null)
+                if(tweeners == null || (tweeners.Length == 0 && !noTweeners))
                 {
-                    _tweeners = GetComponentsInChildren<Tweener>(true);
+                    tweeners = GetComponentsInChildren<Tweener>(true);
+                    noTweeners = tweeners.Length == 0;
                 }
-                return _tweeners;
+                return tweeners;
             }
         }
 
@@ -31,10 +33,25 @@ namespace GameCore.Unity.Tweener
             }
         }
 
+        public void Reset(bool beginning)
+        {
+            foreach (var t in Tweeners)
+            {
+                if (beginning)
+                {
+                    t.ResetToBeginning();
+                }
+                else
+                {
+                    t.ResetToEnd();
+                }
+            }
+        }
+
         private void OnATweenFinished()
         {
             finishedCount++;
-            if (onFinish != null && finishedCount == _tweeners.Length)
+            if (onFinish != null && finishedCount == Tweeners.Length)
             {
                 onFinish();
             }
