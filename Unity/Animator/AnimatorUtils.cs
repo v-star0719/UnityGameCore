@@ -1,29 +1,33 @@
 ﻿using UnityEngine;
 
-public class AnimatorUtils
+namespace GameCore.Unity
 {
-    public static float GetClipDuration(Animator an, string clipName)
+    public class AnimatorUtils
     {
-        foreach (var clip in an.runtimeAnimatorController.animationClips)
+        public static float GetClipDuration(Animator an, string clipName)
         {
-            if (clip.name == clipName)
+            foreach(var clip in an.runtimeAnimatorController.animationClips)
             {
-                return clip.length;
+                if(clip.name == clipName)
+                {
+                    return clip.length;
+                }
             }
+
+            return 0;
         }
 
-        return 0;
-    }
-    public static AnimationClip GetClip(Animator an, string clipName)
-    {
-        foreach (var clip in an.runtimeAnimatorController.animationClips)
+        public static AnimationClip GetClip(Animator an, string clipName)
         {
-            if (clip.name == clipName)
+            foreach(var clip in an.runtimeAnimatorController.animationClips)
             {
-                return clip;
+                if(clip.name == clipName)
+                {
+                    return clip;
+                }
             }
-        }
 
-        return null;
+            return null;
+        }
     }
 }
