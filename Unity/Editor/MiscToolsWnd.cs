@@ -123,9 +123,13 @@ namespace GameCore.Unity
 
             using (Edit.GUIUtil.LayoutHorizontal(EditorGUIUtil.StyleBox))
             {
-                if(GUILayout.Button($"复制对象路径", GUILayout.ExpandWidth(false)))
+                if(GUILayout.Button($"复制选择的Transform路径", GUILayout.ExpandWidth(false)))
                 {
-                    EditorGUIUtility.systemCopyBuffer = TransformUtils.GetTransformPath(Selection.activeTransform);
+                    CopySelectTransformPath(false);
+                }
+                if(GUILayout.Button($"复制选择的Transform名字", GUILayout.ExpandWidth(false)))
+                {
+                    CopySelectTransformPath(true);
                 }
             }
 
@@ -173,5 +177,23 @@ namespace GameCore.Unity
             return f <= 0.0031308f ? 12.92f * f : 1.055f * (f * (1 / 2.4f)) - 0.055f;
         }
 
+        public static void CopySelectTransformPath(bool justName)
+        {
+            StringBuilder sb = new();
+            foreach(var obj in Selection.objects)
+            {
+                var go = obj as GameObject;
+                if(go != null)
+                {
+                    if(sb.Length > 0)
+                    {
+                        sb.Append("\n");
+                    }
+                    var text = justName ? go.name : TransformUtils.GetTransformPath(go.transform);
+                    sb.Append(text);
+                }
+            }
+            EditorGUIUtility.systemCopyBuffer = sb.ToString();
+        }
     }
 }
