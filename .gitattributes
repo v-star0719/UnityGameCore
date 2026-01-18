@@ -1,1 +1,2 @@
-* text=auto eol=lf  # 可选：强制所有文本文件使用 LF 换行符（不转换为 CRLF）
+# 可选：强制所有文本文件使用 LF 换行符（不转换为 CRLF）
+* text=auto eol=lf
