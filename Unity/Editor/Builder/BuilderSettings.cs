@@ -33,7 +33,7 @@ namespace GameCore.Unity
         public bool IsDevelopment => isDevelopmentOverride || Parent == null ? isDevelopment : Parent.IsDevelopment;
 
         [SerializeField] private bool scriptingDefineSymbolsOverride;
-        [SerializeField] [TextArea(5, 10)] private string scriptingDefineSymbols;
+        [SerializeField] [Multiline] private string scriptingDefineSymbols;
         public string ScriptingDefineSymbols => scriptingDefineSymbolsOverride || Parent == null ? scriptingDefineSymbols : Parent.ScriptingDefineSymbols;
 
         [SerializeField] private bool extraScriptingDefineSymbolsOverride;

@@ -2,17 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using GameCore.Core;
-using GameCore.Edit;
 using UnityEditor;
 using UnityEditor.Build;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering;
 
 namespace GameCore.Unity
 {
-    public static class EditorUtils
+    public static class TextureImporterUtils
     {
         public static void TestIterateFolderAssets()
         {
@@ -129,6 +125,88 @@ namespace GameCore.Unity
             }
 
             return results;
+        }
+
+        /// <summary>
+        /// 获取指定平台在编辑器中支持的贴图导入压缩格式
+        /// </summary>
+        /// <param name="targetPlatform">目标平台</param>
+        /// <returns>可用的压缩格式列表</returns>
+        public static List<TextureImporterFormat> GetSupportedTextureImportFormats(TextureImporterType importerType, BuildTarget targetPlatform)
+        {
+            List<TextureImporterFormat> supportedFormats = new List<TextureImporterFormat>();
+
+            // 遍历所有 TextureImporterFormat 枚举值
+            var type = typeof(TextureImporterFormat);
+            var fields = type.GetFields(BindingFlags.Public | BindingFlags.Static);
+            foreach(var f in fields)
+            {
+                var format = (TextureImporterFormat)f.GetValue(null);
+
+                // 跳过未压缩格式
+                if (!IsCompressedFormat(format))
+                {
+                    continue;
+                }
+
+                //跳过弃用的
+                if (f.HasCustomAttribute<ObsoleteAttribute>())
+                {
+                    continue;
+                }
+
+                // 检查格式是否在目标平台可用
+                if(targetPlatform == 0 && TextureImporter.IsDefaultPlatformTextureFormatValid(importerType, format) ||
+                   targetPlatform != 0 && TextureImporter.IsPlatformTextureFormatValid(importerType, targetPlatform, format))
+                {
+                    supportedFormats.Add(format);
+                }
+            }
+
+            return supportedFormats;
+        }
+
+        /// <summary>
+        /// 判断是否为未压缩格式
+        /// </summary>
+        public static bool IsCompressedFormat(TextureImporterFormat format)
+        {
+            string formatName = format.ToString();
+            return IsDxtFormat(formatName) ||
+                   IsPvrtcFormat(formatName) ||
+                   IsEtcFormat(formatName) ||
+                   IsEacFormat(formatName) ||
+                   IsAstcFormat(formatName);
+        }
+
+        public static bool IsDxtFormat(string formatName)
+        {
+            return formatName.Contains("DXT");
+        }
+
+        public static bool IsPvrtcFormat(string formatName)
+        {
+            return formatName.Contains("PVRTC");
+        }
+
+        public static bool IsEtcFormat(string formatName)
+        {
+            return formatName.Contains("ETC");
+        }
+
+        public static bool IsEacFormat(string formatName)
+        {
+            return formatName.Contains("EAC");
+        }
+
+        public static bool IsAstcFormat(string formatName)
+        {
+            return formatName.Contains("ASTC");
+        }
+
+        public static bool IsCrunched(string formatName)
+        {
+            return formatName.Contains("Crunched");
         }
     }
 }

@@ -10,6 +10,9 @@ namespace GameCore.Unity
         protected float refreshTimer;
         protected bool autoRefresh = false;
 
+        // 记录上一帧的窗口尺寸
+        private Vector2 _lastWindowSize;
+
         //编辑数据
         protected float dataSaveCheckIntarval = 1f;
         private float dataSaveTimer;
@@ -80,6 +83,19 @@ namespace GameCore.Unity
                     dataSaveTimer -= dataSaveCheckIntarval;
                 }
             }
+
+            // 检测尺寸是否发生变化（考虑浮点数精度问题，使用阈值判断）
+            Vector2 currentSize = position.size;
+            if(!Mathf.Approximately(currentSize.x, _lastWindowSize.x) ||
+               !Mathf.Approximately(currentSize.y, _lastWindowSize.y))
+            {
+                _lastWindowSize = currentSize;
+                OnResize(currentSize, _lastWindowSize);
+            }
+        }
+
+        protected virtual void OnResize(Vector2 currentSize, Vector2 lastSize)
+        {
         }
     }
 }

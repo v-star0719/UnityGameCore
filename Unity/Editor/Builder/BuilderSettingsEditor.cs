@@ -27,18 +27,13 @@ namespace GameCore.Unity
             }
 
             EditorGUILayout.PropertyField(serializedObject.FindProperty("desc"));
-            if (settings.Parent != null)
-            {
-                EditorGUIUtil.DrawSeparator();
-            }
-
-            this.GUIPropertyFieldWithOverride_Popup("builder", GetBuilders(), settings.Parent, () => settings.Builder);
-            this.GUIPropertyFieldWithOverride_String("channel", settings.Parent, () => settings.Channel);
-            this.GUIPropertyFieldWithOverride_String("assetBundlePackage", settings.Parent, () => settings.AssetBundlePackage);
-            this.GUIPropertyFieldWithOverride_Bool("isRelease", settings.Parent, () => settings.IsRelease);
-            this.GUIPropertyFieldWithOverride_Bool("isDevelopment", settings.Parent, () => settings.IsDevelopment);
-            this.GUIPropertyFieldWithOverride_StringMultiLine("scriptingDefineSymbols", settings.Parent, () => settings.ScriptingDefineSymbols);
-            this.GUIPropertyFieldWithOverride_StringMultiLine("extraScriptingDefineSymbols", settings.Parent, () => settings.ExtraScriptingDefineSymbols);
+            this.GUIPropertyFieldWithOverride_Popup("builder", GetBuilders(), () => settings.Builder);
+            this.GUIPropertyFieldWithOverride_String("channel", () => settings.Channel);
+            this.GUIPropertyFieldWithOverride_String("assetBundlePackage", () => settings.AssetBundlePackage);
+            this.GUIPropertyFieldWithOverride_Bool("isRelease", () => settings.IsRelease);
+            this.GUIPropertyFieldWithOverride_Bool("isDevelopment", () => settings.IsDevelopment);
+            this.GUIPropertyFieldWithOverride_String("scriptingDefineSymbols", () => settings.ScriptingDefineSymbols);
+            this.GUIPropertyFieldWithOverride_String("extraScriptingDefineSymbols", () => settings.ExtraScriptingDefineSymbols);
 
             serializedObject.ApplyModifiedProperties();
         }

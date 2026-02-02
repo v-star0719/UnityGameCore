@@ -14,7 +14,20 @@ namespace GameCore.Unity
 {
 	public partial class EditorGUIUtil
 	{
-		public static bool RightClicked(Rect rect)
+        public enum TextureMaxSizeType
+        {
+            _32 = 32,
+            _64 = 64,
+            _128 = 128,
+            _256 = 256,
+            _512 = 512,
+            _1024 = 1024,
+            _2048 = 2048,
+            _4096 = 4096,
+            _8192 = 8192,
+        }
+
+        public static bool RightClicked(Rect rect)
 		{
 			return Event.current.type == UnityEngine.EventType.ContextClick && rect.Contains(Event.current.mousePosition);
 		}
@@ -522,9 +535,164 @@ namespace GameCore.Unity
 				changed = true;
 			}
 			return newObj;
-		}
+        }
 
-		public static bool Foldout(bool foldout, string content, bool toggleOnLabelClick)
+        public static void PropertyField_Popup(SerializedProperty property, string[] options)
+        {
+            var idx = options.IndexOfEx(property.stringValue);
+            var newIdx = EditorGUILayout.Popup(property.displayName, idx, options);
+            if(idx != newIdx)
+            {
+                property.stringValue = options[newIdx];
+            }
+        }
+
+        public static void PropertyField_TextureImporterPlatformSettings(SerializedProperty property, TextureImporterType importerType, BuildTarget buildTarget)
+        {
+			 //overriden
+             if (buildTarget != 0)
+             {
+				var overridenProperty = property.FindPropertyRelative("m_Overridden");
+				var overridenInt = overridenProperty.intValue;
+				var overridenBool = EditorGUILayout.Toggle("Overriden", overridenInt != 0);
+				var overridenIntNew = overridenBool ? 1 : 0;
+				if(overridenIntNew != overridenInt)
+				{
+					overridenProperty.intValue = overridenIntNew;
+				}
+			}
+
+			//maxSize
+			var maxSizeProperty = property.FindPropertyRelative("m_MaxTextureSize");
+			var maxSizeEnum = (TextureMaxSizeType)maxSizeProperty.intValue;
+			var maxSizeEnumNew = (TextureMaxSizeType)EditorGUILayout.EnumPopup("MaxTextureSize", maxSizeEnum);
+			if(maxSizeEnumNew != maxSizeEnum)
+			{
+				maxSizeProperty.intValue = (int)maxSizeEnumNew;
+			}
+
+			//resize
+			var resizeProperty = property.FindPropertyRelative("m_ResizeAlgorithm");
+            var resizeEnum = (TextureResizeAlgorithm)resizeProperty.intValue;
+            var resizeEnumNew = (TextureResizeAlgorithm)EditorGUILayout.EnumPopup("ResizeAlgorithm", resizeEnum);
+            if(resizeEnumNew != resizeEnum)
+            {
+                resizeProperty.intValue = (int)resizeEnumNew;
+            }
+
+            //format
+            var enumList = TextureImporterUtils.GetSupportedTextureImportFormats(importerType, buildTarget);
+            var enumNameList = enumList.Select(x => x.ToString());
+            var formatProperty = property.FindPropertyRelative("m_TextureFormat");
+            var formatEnum = (TextureImporterFormat)formatProperty.intValue;
+            var formatIndex = enumList.IndexOf(formatEnum);
+            var formatIndexNew = EditorGUILayout.Popup("TextureFormat", formatIndex, enumNameList.ToArray());
+            var formatEnumNew = enumList[formatIndexNew];
+            if(formatIndexNew != formatIndex)
+            {
+                formatProperty.intValue = (int)formatEnumNew;
+            }
+
+            //textureCompression
+            if (buildTarget == 0)
+            {
+				var textureCompressionProperty = property.FindPropertyRelative("m_TextureCompression");
+				var textureCompressionEnum = (TextureImporterCompression)textureCompressionProperty.intValue;
+				var textureCompressionEnumNew = (TextureImporterCompression)EditorGUILayout.EnumPopup("TextureCompression", textureCompressionEnum);
+				if(textureCompressionEnumNew != textureCompressionEnum)
+				{
+					textureCompressionProperty.intValue = (int)textureCompressionEnumNew;
+				}
+			}
+
+            //compressionQuality
+            var compressionQualityProperty = property.FindPropertyRelative("m_CompressionQuality");
+            if (TextureImporterUtils.IsCrunched(formatEnumNew.ToString()))
+            {
+                EditorGUILayout.IntSlider(compressionQualityProperty, 0, 100, "CompressorQuality");
+            }
+            else
+            {
+                var compressionQualityEnum = (TextureCompressionQuality)compressionQualityProperty.intValue;
+                var compressionQualityEnumNew = (TextureCompressionQuality)EditorGUILayout.EnumPopup("CompressorQuality", compressionQualityEnum);
+                if(compressionQualityEnumNew != compressionQualityEnum)
+                {
+                    compressionQualityProperty.intValue = (int)compressionQualityEnumNew;
+                }
+            }
+
+            //AndroidETC2FallbackOverride
+            if(buildTarget == BuildTarget.Android)
+            {
+                var etc2FallbackOverrideProperty = property.FindPropertyRelative("m_AndroidETC2FallbackOverride");
+                var etc2FallbackOverrideEnum = (AndroidETC2FallbackOverride)etc2FallbackOverrideProperty.intValue;
+                var etc2FallbackOverrideEnumNew = (AndroidETC2FallbackOverride)EditorGUILayout.EnumPopup("ETC2FallbackOverride", etc2FallbackOverrideEnum);
+                if(etc2FallbackOverrideEnumNew != etc2FallbackOverrideEnum)
+                {
+                    etc2FallbackOverrideProperty.intValue = (int)etc2FallbackOverrideEnumNew;
+                }
+            }
+        }
+
+        public static void TextureImporterPlatformSettingsField(TextureImporterPlatformSettings settings, TextureImporterType importerType, BuildTarget buildTarget)
+        {
+            //overriden
+            if (buildTarget != 0)
+            {
+                settings.overridden = EditorGUILayout.Toggle("Overriden", settings.overridden);
+            }
+
+            //maxSize
+            var maxSizeEnum = (TextureMaxSizeType)settings.maxTextureSize;
+            var maxSizeEnumNew = (TextureMaxSizeType)EditorGUILayout.EnumPopup("MaxTextureSize", maxSizeEnum);
+            if(maxSizeEnumNew != maxSizeEnum)
+            {
+                settings.maxTextureSize = (int)maxSizeEnumNew;
+            }
+
+            //resize
+            settings.resizeAlgorithm = (TextureResizeAlgorithm)EditorGUILayout.EnumPopup("ResizeAlgorithm", settings.resizeAlgorithm);
+
+            //format
+            var enumList = TextureImporterUtils.GetSupportedTextureImportFormats(importerType, buildTarget);
+            var enumNameList = enumList.Select(x => x.ToString());
+            var formatEnum = settings.format;
+            var formatIndex = enumList.IndexOf(formatEnum);
+            var formatIndexNew = EditorGUILayout.Popup("TextureFormat", formatIndex, enumNameList.ToArray());
+            if(formatIndexNew != formatIndex)
+            {
+                settings.format = enumList[formatIndex];
+            }
+
+            //textureCompression
+            if(buildTarget == 0)
+            {
+                settings.textureCompression = (TextureImporterCompression)EditorGUILayout.EnumPopup("TextureCompression", settings.textureCompression);
+            }
+
+            //compressionQuality
+            if(TextureImporterUtils.IsCrunched(settings.format.ToString()))
+            {
+                settings.compressionQuality = EditorGUILayout.IntSlider("CompressorQuality", settings.compressionQuality, 0, 100);
+            }
+            else
+            {
+                var compressionQualityEnum = (TextureCompressionQuality)settings.compressionQuality;
+                var compressionQualityEnumNew = (TextureCompressionQuality)EditorGUILayout.EnumPopup("CompressorQuality", compressionQualityEnum);
+                if(compressionQualityEnumNew != compressionQualityEnum)
+                {
+                    settings.compressionQuality = (int)compressionQualityEnumNew;
+                }
+            }
+
+            //AndroidETC2FallbackOverride
+            if(buildTarget == BuildTarget.Android)
+            {
+                settings.androidETC2FallbackOverride = (AndroidETC2FallbackOverride)EditorGUILayout.EnumPopup("ETC2FallbackOverride", settings.androidETC2FallbackOverride);
+            }
+        }
+
+        public static bool Foldout(bool foldout, string content, bool toggleOnLabelClick)
 		{
 			var rect = GUILayoutUtility.GetRect(EditorGUIUtility.fieldWidth, EditorGUIUtility.fieldWidth, 16f, 16f);
 			return EditorGUI.Foldout(rect, foldout, content, toggleOnLabelClick);
@@ -683,112 +851,6 @@ namespace GameCore.Unity
             EditorUtility.DisplayDialog("提升", tip, "ok");
 		}
 
-        ///overrideToggleField book开关控制是否继承
-        public static void GUIPropertyFieldWithOverride_String(this Editor editor, string fieldName, object parent, Func<string> getParentValue)
-        {
-            if (parent == null)
-            {
-                EditorGUILayout.PropertyField(editor.serializedObject.FindProperty(fieldName));
-                return;
-            }
-
-            var p = editor.serializedObject.FindProperty(fieldName + "Override");
-            EditorGUILayout.PropertyField(p);
-            if(p.boolValue)
-            {
-                EditorGUILayout.PropertyField(editor.serializedObject.FindProperty(fieldName));
-            }
-            else
-            {
-                GUI.enabled = false;
-                EditorGUILayout.TextField(fieldName.ToUpperFirst(), getParentValue());
-                GUI.enabled = true;
-            }
-            DrawSeparator();
-        }
-        ///overrideToggleField bool开关控制是否继承
-        public static void GUIPropertyFieldWithOverride_StringMultiLine(this Editor editor, string fieldName, object parent, Func<string> getParentValue)
-        {
-            if(parent == null)
-            {
-                EditorGUILayout.PropertyField(editor.serializedObject.FindProperty(fieldName));
-                return;
-            }
-
-            var p = editor.serializedObject.FindProperty(fieldName + "Override");
-            EditorGUILayout.PropertyField(p);
-            if(p.boolValue)
-            {
-                EditorGUILayout.PropertyField(editor.serializedObject.FindProperty(fieldName));
-            }
-            else
-            {
-                GUI.enabled = false;
-				EditorGUILayout.LabelField(fieldName.ToUpperFirst());
-                EditorGUILayout.TextArea(getParentValue());
-                GUI.enabled = true;
-            }
-            DrawSeparator();
-        }
-
-        ///overrideToggleField book开关控制是否继承
-        public static void GUIPropertyFieldWithOverride_Bool(this Editor editor, string fieldName, object parent, Func<bool> getParentValue)
-        {
-            if(parent == null)
-            {
-                EditorGUILayout.PropertyField(editor.serializedObject.FindProperty(fieldName));
-                return;
-            }
-
-            var p = editor.serializedObject.FindProperty(fieldName + "Override");
-            EditorGUILayout.PropertyField(p);
-            if(p.boolValue)
-            {
-                EditorGUILayout.PropertyField(editor.serializedObject.FindProperty(fieldName));
-            }
-            else
-            {
-                GUI.enabled = false;
-                EditorGUILayout.Toggle(fieldName.ToUpperFirst(), getParentValue());
-                GUI.enabled = true;
-            }
-            DrawSeparator();
-        }
-
-        ///overrideToggleField book开关控制是否继承
-        public static void GUIPropertyFieldWithOverride_Popup(this Editor editor, string fieldName, string[] options, object parent, Func<string> getParentValue)
-        {
-            if(parent == null)
-            {
-                GUIPropertyField_PopupString(editor, fieldName, options);
-                return;
-            }
-
-            var p = editor.serializedObject.FindProperty(fieldName + "Override");
-            EditorGUILayout.PropertyField(p);
-            if(p.boolValue)
-            {
-                GUIPropertyField_PopupString(editor, fieldName, options);
-            }
-            else
-            {
-                GUI.enabled = false;
-                EditorGUILayout.Popup(fieldName.ToUpperFirst(), options.IndexOfEx(getParentValue()), options);
-                GUI.enabled = true;
-            }
-            DrawSeparator();
-        }
-
-        public static void GUIPropertyField_PopupString(this Editor editor, string fieldName, string[] options)
-        {
-            var p = editor.serializedObject.FindProperty(fieldName);
-            var idx = options.IndexOfEx(p.stringValue);
-            var newIdx = EditorGUILayout.Popup(fieldName.ToUpperFirst(), idx, options);
-            if(idx != newIdx)
-            {
-                p.stringValue = options[newIdx];
-            }
-        }
         public static void DrawSeparator()
         {
             using(GUIUtil.Color(Color.gray))
@@ -796,6 +858,7 @@ namespace GameCore.Unity
                 GUILayout.Box("", SeparatorStyle, GUILayout.Height(1));
             }
         }
+
         private class EnumMaskItem
 		{
 			public int Value;

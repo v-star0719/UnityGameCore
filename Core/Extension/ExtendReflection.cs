@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection;
 
 namespace GameCore
@@ -74,5 +74,10 @@ namespace GameCore
 			}
 			return default(T);
 		}
+
+        public static bool HasCustomAttribute<T>(this FieldInfo fieldInfo) where T : Attribute
+        {
+            return fieldInfo.GetCustomAttribute<T>() != null;
+        }
 	}
 }
