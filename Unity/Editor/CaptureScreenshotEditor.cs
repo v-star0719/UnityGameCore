@@ -1,14 +1,17 @@
 using System;
 using System.IO;
+using GameCore.Edit;
 using UnityEditor;
 using UnityEngine;
 
 namespace GameCore.Unity
 {
-    public class CaptureScreenshotEditor : EditorWindow
+    public class CaptureScreenshotEditor : EditorWindowBase
     {
-        private string fullScreenShotPath;
-        private string cameraShotPath;
+        private EditDataStringField fullScreenShotDir;
+        private EditDataStringField fullScreenShotFileName;
+        private EditDataStringField cameraShotDir;
+        private EditDataStringField cameraShotFileName;
         private Camera camera;
 
 
@@ -18,20 +21,57 @@ namespace GameCore.Unity
             GetWindow<CaptureScreenshotEditor>("CaptureScreenshot");
         }
 
+        protected override void InitEditDataFields()
+        {
+            base.InitEditDataFields();
+            fullScreenShotDir = new EditDataStringField("CaptureScreenshotEditor_FullScreenShotDir", "", this);
+            fullScreenShotFileName = new EditDataStringField("CaptureScreenshotEditor_FullScreenShotFileName", "", this);
+            cameraShotDir = new EditDataStringField("CaptureScreenshotEditor_cameraShotDir", "", this);
+            cameraShotFileName = new EditDataStringField("CaptureScreenshotEditor_cameraShotFileName", "", this);
+        }
+
         private void OnGUI()
         {
             //截屏
             GUILayout.Label("FullScreenshot");
-            fullScreenShotPath = EditorGUILayout.TextField("fullScreenShotPath", fullScreenShotPath);
+            using (GUIUtil.LayoutHorizontal())
+            {
+                var dir = GetFullScreenShotDir();
+                GUILayout.Label(dir, GUILayout.ExpandWidth(false));
+                fullScreenShotFileName.Value = GUILayout.TextField(GetFullScreenShotFileName(), GUILayout.Width(200));
+                GUILayout.Label(".png", GUILayout.ExpandWidth(false));
+                if(GUIUtil.Button("···"))
+                {
+                    fullScreenShotDir.Value = EditorUtility.OpenFolderPanel("", dir, "");
+                }
+            }
             if (GUILayout.Button("FullScreenshot"))
             {
-                CheckFileExists(fullScreenShotPath, () => { ScreenCapture.CaptureScreenshot(fullScreenShotPath); });
+                var savePath = Path.Combine(GetFullScreenShotDir(), GetFullScreenShotFileName()+".png");
+                CheckFileExists(savePath, () =>
+                {
+                    ScreenCapture.CaptureScreenshot(savePath);
+                    if (EditorUtility.DisplayDialog("", "截图成功，是否查看 (如果没有图返回unity让unity执行完)", "Y", "N"))
+                    {
+                        EditorUtility.RevealInFinder(savePath);
+                    }
+                });
             }
 
             //截相机
             GUILayout.Space(12);
             GUILayout.Label("FullScreenshot");
-            cameraShotPath = EditorGUILayout.TextField("cameraShotPath", cameraShotPath);
+            using(GUIUtil.LayoutHorizontal())
+            {
+                var dir = GetCameraShotDir();
+                GUILayout.Label(dir, GUILayout.ExpandWidth(false));
+                cameraShotFileName.Value = GUILayout.TextField(GetFullScreenShotFileName(), GUILayout.Width(200));
+                GUILayout.Label(".png", GUILayout.ExpandWidth(false));
+                if(GUIUtil.Button("···"))
+                {
+                    cameraShotDir.Value = EditorUtility.OpenFolderPanel("", dir, "");
+                }
+            }
             camera = EditorGUILayout.ObjectField("camera", camera, typeof(Camera), true) as Camera;
             if (camera == null)
             {
@@ -47,7 +87,8 @@ namespace GameCore.Unity
 
             if (GUILayout.Button("CaptureCamera"))
             {
-                CheckFileExists(cameraShotPath, () =>
+                var savePath = Path.Combine(GetCameraShotDir(), GetCameraShotFileName()+".png");
+                CheckFileExists(savePath, () =>
                 {
                     var rdt = camera.activeTexture;
                     RenderTexture.active = rdt;
@@ -55,9 +96,35 @@ namespace GameCore.Unity
                     tex.ReadPixels(new Rect(0, 0, rdt.width, rdt.height), 0, 0);
                     RenderTexture.active = null;
                     var bytes = tex.EncodeToPNG();
-                    File.WriteAllBytes(cameraShotPath, bytes);
+                    File.WriteAllBytes(savePath, bytes);
+
+                    if(EditorUtility.DisplayDialog("", "截图成功，是否查看 (如果没有图返回unity让unity执行完)", "Y", "N"))
+                    {
+                        EditorUtility.RevealInFinder(savePath);
+                    }
                 });
             }
+        }
+
+        private string GetFullScreenShotDir()
+        {
+            return string.IsNullOrEmpty(fullScreenShotDir.Value) ? Application.dataPath : fullScreenShotDir.Value;
+        }
+
+        private string GetFullScreenShotFileName()
+        {
+            return string.IsNullOrEmpty(fullScreenShotFileName.Value) ? "1" : fullScreenShotFileName.Value;
+        }
+        
+
+        private string GetCameraShotDir()
+        {
+            return string.IsNullOrEmpty(cameraShotDir.Value) ? Application.dataPath : cameraShotDir.Value;
+        }
+
+        private string GetCameraShotFileName()
+        {
+            return string.IsNullOrEmpty(cameraShotFileName.Value) ? "1" : cameraShotFileName.Value;
         }
 
         private void CheckFileExists(string file, Action action)

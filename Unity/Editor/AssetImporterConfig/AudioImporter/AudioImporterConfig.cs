@@ -1,7 +1,5 @@
 using UnityEditor;
 using UnityEngine;
-using static Unity.Burst.Intrinsics.X86.Avx;
-using static UnityEditor.SpeedTreeImporter;
 
 namespace GameCore.Unity
 {
@@ -16,17 +14,20 @@ namespace GameCore.Unity
 
         [SerializeField] private OverrideType forceToMonoOverride;
         [SerializeField] private bool forceToMono = true;
-        public bool ForceToMono => forceToMonoOverride == OverrideType.Override && Parent != null ? Parent.ForceToMono : forceToMono;
+        public OverrideType ForceToMonoOverride => forceToMonoOverride  == OverrideType.Inherit && Parent != null ? Parent.ForceToMonoOverride : forceToMonoOverride;
+        public bool ForceToMono => forceToMonoOverride == OverrideType.Inherit && Parent != null ? Parent.ForceToMono : forceToMono;
         //--
         //[SerializeField] private OverrideType normalizeOverride;
         //--
         [SerializeField] private OverrideType loadInBackgroundOverride;
         [SerializeField] private bool loadInBackground = true;
-        public bool LoadInBackground => loadInBackgroundOverride == OverrideType.Override && Parent != null ? Parent.LoadInBackground : loadInBackground;
+        public OverrideType LoadInBackgroundOverride => loadInBackgroundOverride  == OverrideType.Inherit && Parent != null ? Parent.LoadInBackgroundOverride : loadInBackgroundOverride;
+        public bool LoadInBackground => loadInBackgroundOverride == OverrideType.Inherit && Parent != null ? Parent.LoadInBackground : loadInBackground;
         //-
         [SerializeField] private OverrideType ambisonicOverride;
         [SerializeField] private bool ambisonic = true;
-        public bool Ambisonic => ambisonicOverride == OverrideType.Override && Parent != null ? Parent.ambisonic : Ambisonic;
+        public OverrideType AmbisonicOverride => ambisonicOverride  == OverrideType.Inherit && Parent != null ? Parent.AmbisonicOverride : ambisonicOverride;
+        public bool Ambisonic => ambisonicOverride == OverrideType.Inherit && Parent != null ? Parent.ambisonic : Ambisonic;
 
         //[SerializeField] private OverrideType loadTypeOverride;
         ////--
@@ -42,15 +43,15 @@ namespace GameCore.Unity
         public override void Apply(AssetImporter im)
         {
             var importer = im as AudioImporter;
-            if (forceToMonoOverride == OverrideType.Override)
+            if (ForceToMonoOverride == OverrideType.Inherit)
             {
                 importer.forceToMono = ForceToMono;
             }
-            if (loadInBackgroundOverride == OverrideType.Override)
+            if (LoadInBackgroundOverride == OverrideType.Inherit)
             {
                 importer.loadInBackground = LoadInBackground;
             }
-            if(ambisonicOverride == OverrideType.Override)
+            if(AmbisonicOverride == OverrideType.Inherit)
             {
                 importer.ambisonic = Ambisonic;
             }

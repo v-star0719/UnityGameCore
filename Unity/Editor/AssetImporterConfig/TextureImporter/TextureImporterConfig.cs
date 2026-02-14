@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using static GameCore.Unity.EditorGUIUtil;
@@ -17,61 +16,75 @@ namespace GameCore.Unity
         //通用基础
         [SerializeField] private OverrideType textureTypeOverride;
         [SerializeField] private TextureImporterType textureType = TextureImporterType.Default;
-        public TextureImporterType TextureType => textureTypeOverride == OverrideType.Override && Parent != null ? Parent.TextureType : textureType;
+        public OverrideType TextureTypeOverride => textureTypeOverride  == OverrideType.Inherit && Parent != null ? Parent.textureTypeOverride : textureTypeOverride;
+        public TextureImporterType TextureType => textureTypeOverride == OverrideType.Inherit && Parent != null ? Parent.TextureType : textureType;
         //--
         [SerializeField] private OverrideType alphaIsTransparencyOverride;
         [SerializeField] private bool alphaIsTransparency;
-        public bool AlphaIsTransparency => alphaIsTransparencyOverride == OverrideType.Override && Parent != null ? Parent.AlphaIsTransparency : alphaIsTransparency;
+        public OverrideType AlphaIsTransparencyOverride => alphaIsTransparencyOverride == OverrideType.Inherit && Parent != null ? Parent.AlphaIsTransparencyOverride : alphaIsTransparencyOverride;
+        public bool AlphaIsTransparency => alphaIsTransparencyOverride == OverrideType.Inherit && Parent != null ? Parent.AlphaIsTransparency : alphaIsTransparency;
         //--
         [SerializeField] private OverrideType sRgbColorTextureOverride;
         [SerializeField] private bool sRgbColorTexture;
-        public bool SRgbColorTexture => sRgbColorTextureOverride == OverrideType.Override && Parent != null ? Parent.SRgbColorTexture : sRgbColorTexture;
+        public OverrideType SRgbColorTextureOverride => sRgbColorTextureOverride == OverrideType.Inherit && Parent != null ? Parent.SRgbColorTextureOverride : sRgbColorTextureOverride;
+        public bool SRgbColorTexture => sRgbColorTextureOverride == OverrideType.Inherit && Parent != null ? Parent.SRgbColorTexture : sRgbColorTexture;
         //--
         [SerializeField] private OverrideType powerOf2Override;
         [SerializeField] private TextureImporterNPOTScale powerOf2 = TextureImporterNPOTScale.ToNearest;
-        public TextureImporterNPOTScale PowerOf2 => powerOf2Override == OverrideType.Override && Parent != null ? Parent.PowerOf2 : powerOf2;
+        public OverrideType PowerOf2Override => powerOf2Override == OverrideType.Inherit && Parent != null ? Parent.PowerOf2Override : powerOf2Override;
+        public TextureImporterNPOTScale PowerOf2 => powerOf2Override == OverrideType.Inherit && Parent != null ? Parent.PowerOf2 : powerOf2;
         //--
         [SerializeField] private OverrideType isReadableOverride;
         [SerializeField] private bool isReadable;
-        public bool IsReadable => isReadableOverride == OverrideType.Override && Parent != null ? Parent.IsReadable : isReadable;
+        public OverrideType IsReadableOverride => powerOf2Override == OverrideType.Inherit && Parent != null ? Parent.IsReadableOverride : isReadableOverride;
+        public bool IsReadable => isReadableOverride == OverrideType.Inherit && Parent != null ? Parent.IsReadable : isReadable;
         //--
         [SerializeField] private OverrideType miniMapOverride;
         [SerializeField] private bool miniMap;
-        public bool MiniMap => miniMapOverride == OverrideType.Override && Parent != null ? Parent.MiniMap : miniMap;
+        public OverrideType MiniMapOverride => powerOf2Override == OverrideType.Inherit && Parent != null ? Parent.MiniMapOverride : miniMapOverride;
+        public bool MiniMap => miniMapOverride == OverrideType.Inherit && Parent != null ? Parent.MiniMap : miniMap;
         //--
         [SerializeField] private OverrideType wrapModeOverride;
         [SerializeField] private TextureWrapMode wrapMode;
-        public TextureWrapMode WrapMode => wrapModeOverride == OverrideType.Override && Parent != null ? Parent.WrapMode : wrapMode;
+        public OverrideType WrapModeOverride => powerOf2Override == OverrideType.Inherit && Parent != null ? Parent.WrapModeOverride : wrapModeOverride;
+        public TextureWrapMode WrapMode => wrapModeOverride == OverrideType.Inherit && Parent != null ? Parent.WrapMode : wrapMode;
         //--
         [SerializeField] private OverrideType filterModeOverride;
         [SerializeField] private FilterMode filterMode;
-        public FilterMode FilterMode => filterModeOverride == OverrideType.Override && Parent != null ? Parent.FilterMode: filterMode;
+        public OverrideType FilterModeOverride => filterModeOverride == OverrideType.Inherit && Parent != null ? Parent.FilterModeOverride : filterModeOverride;
+        public FilterMode FilterMode => filterModeOverride == OverrideType.Inherit && Parent != null ? Parent.FilterMode: filterMode;
 
         //通用贴图格式相关
         [SerializeField] private OverrideType maxSizeOverride;
         [SerializeField] private TextureMaxSizeType maxSize = TextureMaxSizeType._2048;
-        public TextureMaxSizeType MaxSize => maxSizeOverride == OverrideType.Override && Parent != null ? Parent.MaxSize : maxSize;
+        public OverrideType MaxSizeOverride => powerOf2Override == OverrideType.Inherit && Parent != null ? Parent.MaxSizeOverride : maxSizeOverride;
+        public TextureMaxSizeType MaxSize => maxSizeOverride == OverrideType.Inherit && Parent != null ? Parent.MaxSize : maxSize;
         //--
         [SerializeField] private OverrideType compressionOverride;
         [SerializeField] private TextureImporterCompression compression = TextureImporterCompression.Compressed;
-        public TextureImporterCompression Compression => compressionOverride == OverrideType.Override && Parent != null ? Parent.Compression : compression;
+        public OverrideType CompressionOverride => powerOf2Override == OverrideType.Inherit && Parent != null ? Parent.CompressionOverride : compressionOverride;
+        public TextureImporterCompression Compression => compressionOverride == OverrideType.Inherit && Parent != null ? Parent.Compression : compression;
 
         //Sprite
         [SerializeField] private OverrideType spriteImportModeOverride;
         [SerializeField] private SpriteImportMode spriteImportMode;
-        public SpriteImportMode SpriteImportMode => spriteImportModeOverride == OverrideType.Override && Parent != null ? Parent.SpriteImportMode : spriteImportMode;
+        public OverrideType SpriteImportModeOverride => powerOf2Override == OverrideType.Inherit && Parent != null ? Parent.SpriteImportModeOverride : spriteImportModeOverride;
+        public SpriteImportMode SpriteImportMode => spriteImportModeOverride == OverrideType.Inherit && Parent != null ? Parent.SpriteImportMode : spriteImportMode;
         //--
         [SerializeField] private OverrideType spriteMeshTypeOverride;
         [SerializeField] private SpriteMeshType spriteMeshType = SpriteMeshType.Tight;
-        public SpriteMeshType SpriteMeshType => spriteMeshTypeOverride == OverrideType.Override && Parent != null ? Parent.SpriteMeshType : spriteMeshType;
+        public OverrideType SpriteMeshTypeOverride => powerOf2Override == OverrideType.Inherit && Parent != null ? Parent.SpriteMeshTypeOverride : spriteMeshTypeOverride;
+        public SpriteMeshType SpriteMeshType => spriteMeshTypeOverride == OverrideType.Inherit && Parent != null ? Parent.SpriteMeshType : spriteMeshType;
         //--
         [SerializeField] private OverrideType spritePivotOverride;
         [SerializeField] private Vector2 spritePivot = new Vector2(0.5f, 0.5f);
-        public Vector2 SpritePivot => spritePivotOverride == OverrideType.Override && Parent != null ? Parent.SpritePivot : spritePivot;
+        public OverrideType SpritePivotOverride => powerOf2Override == OverrideType.Inherit && Parent != null ? Parent.SpritePivotOverride : spritePivotOverride;
+        public Vector2 SpritePivot => spritePivotOverride == OverrideType.Inherit && Parent != null ? Parent.SpritePivot : spritePivot;
 
         [SerializeField] private OverrideType defaultPlatformOverride;
         [SerializeField] private TextureImporterPlatformSettings defaultPlatform;
-        public TextureImporterPlatformSettings DefaultPlatform => defaultPlatformOverride == OverrideType.Override && Parent != null ? Parent.DefaultPlatform : defaultPlatform;
+        public OverrideType DefaultPlatformOverride => powerOf2Override == OverrideType.Inherit && Parent != null ? Parent.DefaultPlatformOverride : defaultPlatformOverride;
+        public TextureImporterPlatformSettings DefaultPlatform => defaultPlatformOverride == OverrideType.Inherit && Parent != null ? Parent.DefaultPlatform : defaultPlatform;
 
         //[SerializeField] private OverrideType standaloneSettingsOverride;
         //[SerializeField] private TextureImporterPlatformSettings standaloneSettings;
@@ -81,45 +94,45 @@ namespace GameCore.Unity
         {
             var importer = im as TextureImporter;
             //通用基础
-            if(textureTypeOverride != OverrideType.Ignore)
+            if(TextureTypeOverride != OverrideType.Ignore)
             {
                 importer.textureType = TextureType;
             }
-            if(sRgbColorTextureOverride != OverrideType.Ignore)
+            if(SRgbColorTextureOverride != OverrideType.Ignore)
             {
                 importer.sRGBTexture = SRgbColorTexture;
             }
-            if(alphaIsTransparencyOverride != OverrideType.Ignore)
+            if(AlphaIsTransparencyOverride != OverrideType.Ignore)
             {
                 importer.alphaIsTransparency = AlphaIsTransparency;
             }
-            if(powerOf2Override != OverrideType.Ignore)
+            if(PowerOf2Override != OverrideType.Ignore)
             {
                 importer.npotScale = PowerOf2;
             }
-            if(isReadableOverride != OverrideType.Ignore)
+            if(IsReadableOverride != OverrideType.Ignore)
             {
                 importer.isReadable = IsReadable;
             }
-            if(miniMapOverride != OverrideType.Ignore)
+            if(MiniMapOverride != OverrideType.Ignore)
             {
                 importer.mipmapEnabled = MiniMap;
             }
-            if(wrapModeOverride != OverrideType.Ignore)
+            if(WrapModeOverride != OverrideType.Ignore)
             {
                 importer.wrapMode = WrapMode;
             }
-            if(filterModeOverride != OverrideType.Ignore)
+            if(FilterModeOverride != OverrideType.Ignore)
             {
-                importer.filterMode = filterMode;
+                importer.filterMode = FilterMode;
             }
 
             //通用贴图格式相关
-            if(maxSizeOverride != OverrideType.Specified && importer.maxTextureSize != (int)MaxSize)
+            if(MaxSizeOverride != OverrideType.Customize && importer.maxTextureSize != (int)MaxSize)
             {
                 importer.maxTextureSize = (int)MaxSize;
             }
-            if(compressionOverride != OverrideType.Ignore)
+            if(CompressionOverride != OverrideType.Ignore)
             {
                 importer.textureCompression = Compression;
             }
@@ -127,11 +140,11 @@ namespace GameCore.Unity
             //Sprite
             if (importer.textureType == TextureImporterType.Sprite)
             {
-                if(spriteImportModeOverride != OverrideType.Ignore)
+                if(SpriteImportModeOverride != OverrideType.Ignore)
                 {
                     importer.spriteImportMode = SpriteImportMode;
                 }
-                if(spritePivotOverride != OverrideType.Ignore)
+                if(SpritePivotOverride != OverrideType.Ignore)
                 {
                     importer.spritePivot = SpritePivot;
                 }

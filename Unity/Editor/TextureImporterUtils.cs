@@ -144,10 +144,10 @@ namespace GameCore.Unity
                 var format = (TextureImporterFormat)f.GetValue(null);
 
                 // 跳过未压缩格式
-                if (!IsCompressedFormat(format))
-                {
-                    continue;
-                }
+                //if (!IsCompressedFormat(format))
+                //{
+                //    continue;
+                //}
 
                 //跳过弃用的
                 if (f.HasCustomAttribute<ObsoleteAttribute>())

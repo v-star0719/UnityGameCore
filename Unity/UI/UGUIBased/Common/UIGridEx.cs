@@ -151,7 +151,7 @@ namespace GameCore.Unity.UGUIEx
             var index = recycledItems.Count - 1;
             if (index < 0)
             {
-                var go = GameObject.Instantiate(itemPrefab, itemPrefab.transform.parent);
+                var go = GameObject.Instantiate(itemPrefab, transform);
                 itemTotalCount += 1;
                 go.transform.localScale = new Vector3(itemScale, itemScale, itemScale);
                 item = go.GetComponent<UIGridExItem>();
@@ -316,7 +316,7 @@ namespace GameCore.Unity.UGUIEx
             RefreshItemName();
         }
 
-        public void Insert(int index, IGridExData data)
+        public UIGridExItem Insert(int index, IGridExData data)
         {
             datas.Insert(index, data);
             var item = GetAvailableItem();
@@ -329,16 +329,17 @@ namespace GameCore.Unity.UGUIEx
             {
                 items[i].index = i;
             }
+            return item;
         }
 
-        public void InsertTail(IGridExData data)
+        public UIGridExItem InsertTail(IGridExData data)
         {
-            Insert(items.Count, data);
+            return Insert(items.Count, data);
         }
 
-        public void InsetHead(IGridExData data)
+        public UIGridExItem InsetHead(IGridExData data)
         {
-            Insert(0, data);
+            return Insert(0, data);
         }
 
         public void OnItemSelect(UIGridExItem item, bool isClickMsg)

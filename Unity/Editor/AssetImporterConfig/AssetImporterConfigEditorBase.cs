@@ -13,7 +13,10 @@ namespace GameCore.Unity
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
+            var config = target as AssetImporterConfigBase;
+            var parent = config.ParentNode;
             EditorGUILayout.ObjectField(serializedObject.FindProperty("parent"));
+            config.isParentChanged = parent == config.ParentNode;
 
             var settings = target as AssetImporterConfigBase;
             if(settings.CheckParentLoop())

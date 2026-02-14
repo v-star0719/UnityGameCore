@@ -35,25 +35,10 @@ namespace GameCore.Unity
         {
             var settings = target as TextureImporterConfig;
 
-            EditorGUILayout.ObjectField(serializedObject.FindProperty("parent"));
-            if (settings.CheckParentLoop())
-            {
-                var clr = GUI.color;
-                GUI.color = Color.red;
-                GUILayout.Label("parent loop reference");
-                GUI.color = clr;
-                serializedObject.ApplyModifiedProperties();
-                return;
-            }
-
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("desc"));
-            if (settings.Parent == null)
+            if (settings.isParentChanged)
             {
                 TextureImporterConfigWindow.RootConfig = null;
-            }
-            else
-            {
-                //EditorGUIUtil.DrawSeparator();
+                settings.isParentChanged = false;
             }
 
             //通用基础
@@ -76,12 +61,6 @@ namespace GameCore.Unity
 
             //platforms
             this.GUIPropertyFieldWithOverride_TextureImporterPlatformSettings("defaultPlatform", ()=>settings.DefaultPlatform, settings.TextureType, 0);
-
-            //this.GUIPropertyFieldWithOverride_String("assetBundlePackage", () => settings.AssetBundlePackage);
-            //this.GUIPropertyFieldWithOverride_Bool("isRelease", () => settings.IsRelease);
-            //this.GUIPropertyFieldWithOverride_Bool("isDevelopment", () => settings.IsDevelopment);
-            //this.GUIPropertyFieldWithOverride_StringMultiLine("scriptingDefineSymbols", () => settings.ScriptingDefineSymbols);
-            //this.GUIPropertyFieldWithOverride_StringMultiLine("extraScriptingDefineSymbols", () => settings.ExtraScriptingDefineSymbols);
         }
     }
 }

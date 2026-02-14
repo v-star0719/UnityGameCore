@@ -13,6 +13,9 @@ namespace GameCore.Unity
 
         //当修改配置里的parent属性后，会清空这里的缓存
         private static T _rootConfig;
+        private static string multiRootTip = "Multiple root configs have been found. There should be only one root node, which is the node with a parent of null. There should be exactly one configuration with a null parent property.";
+        private static bool findMultiRoot = false;
+
         public static T RootConfig
         {
             get
@@ -31,6 +34,7 @@ namespace GameCore.Unity
                     {
                         tis.ChildNodes.Clear();
                     }
+                    findMultiRoot = false;
 
                     foreach(var tis in list)
                     {
@@ -39,7 +43,8 @@ namespace GameCore.Unity
                             if(_rootConfig != null)
                             {
                                 //发现了多个根节点，这可能会出现非预期的问题
-                                Debug.LogWarning("Multiple root nodes have been found. There should be only one root node, which is the node with a parent of null.");
+                                Debug.LogWarning(multiRootTip);
+                                findMultiRoot = true;
                             }
                             else
                             {
@@ -76,6 +81,8 @@ namespace GameCore.Unity
             {
                 s.ChildNodes.Clear();
             }
+
+            findMultiRoot = false;
             foreach(var s in settings)
             {
                 if(s.ParentNode == null)
@@ -86,7 +93,8 @@ namespace GameCore.Unity
                     }
                     else
                     {
-                        Debug.LogWarning("TextureImportSettings: should have only one root setting");
+                        Debug.LogWarning(multiRootTip);
+                        findMultiRoot = true;
                     }
                 }
                 else
@@ -99,6 +107,7 @@ namespace GameCore.Unity
 
         protected void OnGUI()
         {
+            treeView.OnGUI(position);
             using(GUIUtil.LayoutHorizontal())
             {
                 if(GUI.Button(new Rect(0, 0, 60, 25), "Create"))
@@ -110,7 +119,13 @@ namespace GameCore.Unity
                     InitTree();
                 }
             }
-            treeView.OnGUI(position);
+            if(findMultiRoot)
+            {
+                using(GUIUtil.Color(Color.red))
+                {
+                    GUI.Box(new Rect(0, 28, position.width * 0.5f - 60, position.height - 28), multiRootTip);
+                }
+            }
         }
 
         protected virtual void OnNodeClick(ITreeNode node)

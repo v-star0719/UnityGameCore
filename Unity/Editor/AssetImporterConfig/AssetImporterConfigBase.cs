@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -44,6 +45,7 @@ namespace GameCore.Unity
 
         //导入一个资源的时候，对应的对象会被销毁，fileAndDirList里是null，导入结束后会再次赋值。因此使用的时候转为路径使用。
         public List<string> fileAndDirPathList { get; protected set; } = new();
+        [NonSerialized] public bool isParentChanged; //parent改变了的话RootConfig需要重新判断
 
         public virtual void Apply(AssetImporter importer)
         {

@@ -1,4 +1,6 @@
 using System;
+using System.Reflection;
+using GameCore.Core;
 using GameCore.Lang.Extension;
 using UnityEditor;
 using UnityEngine;
@@ -8,8 +10,8 @@ namespace GameCore.Unity
     public enum OverrideType
     {
         Ignore,
-        Specified,
-        Override,
+        Customize,//自定义
+        Inherit,//继承Parent的值
     }
 
     //fieldName是字段迷宫
@@ -21,13 +23,14 @@ namespace GameCore.Unity
         protected SerializedObject serializedObject;
         protected string fieldName;
         protected SerializedProperty controllProperty;
+        protected string overrideFieldName => fieldName + "Override";
 
         protected void OnGUI(SerializedObject serializedObject, string fieldName)
         {
             this.serializedObject = serializedObject;
             this.fieldName = fieldName;
 
-            controllProperty = serializedObject.FindProperty(fieldName + "Override");
+            controllProperty = serializedObject.FindProperty(overrideFieldName);
             switch (controllProperty.propertyType)
             {
                 case SerializedPropertyType.Boolean:
@@ -81,20 +84,43 @@ namespace GameCore.Unity
             {
                 EditorGUILayout.LabelField(fieldName, "This option will not process, you can set it freely in the Inspector.");
             }
-            else if(overrideType == OverrideType.Specified)
+            else if(overrideType == OverrideType.Customize)
             {
                 GUISelfValue();
             }
-            else
+            else if(overrideType == OverrideType.Inherit)
             {
+                GUI.enabled = false;
                 if(parent == null)
                 {
                     EditorGUILayout.LabelField(fieldName, "Please set parent.");
                 }
                 else
                 {
-                    GUISelfValue();
+                    var propertyName = StringUtils.FirstLetterToUpper(overrideFieldName);
+                    PropertyInfo propertyInfo = serializedObject.targetObject.GetType().GetProperty(propertyName);
+                    if (propertyInfo == null)
+                    {
+                        EditorGUILayout.LabelField(fieldName, $"Property getter {propertyName} is not found, which is used to get parent's override type.");
+                    }
+                    else
+                    {
+                        var finalOverrideType = (OverrideType)propertyInfo.GetValue(serializedObject.targetObject);
+                        if(finalOverrideType == OverrideType.Ignore)
+                        {
+                            EditorGUILayout.LabelField(fieldName, "This option will not process, you can set it freely in the Inspector.");
+                        }
+                        else
+                        {
+                            GUIParentValue();
+                        }
+                    }
                 }
+                GUI.enabled = true;
+            }
+            else
+            {
+                EditorGUILayout.LabelField("Error", "Unknown override type");
             }
         }
 

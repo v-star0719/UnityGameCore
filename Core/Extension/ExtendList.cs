@@ -177,6 +177,24 @@ namespace GameCore.Lang.Extension
             return list[index];
         }
 
+        //元素一样，不要求顺序一样
+        public static bool ElementEqual<T>(this IList<T> list, IList<T> target)
+        {
+            if (list.Count != target.Count)
+            {
+                return false;
+            }
+
+            foreach (var item in list)
+            {
+                if (!target.Contains(item))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         /// <summary>
         /// 一个列表里的项移上移下
         /// </summary>

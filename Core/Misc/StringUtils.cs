@@ -146,6 +146,28 @@ namespace GameCore.Core
             return s.Substring(idx1, idx2 - idx1);
         }
 
+        /// <summary>
+        /// 将字符串首字母大写，其余字符保持原样
+        /// </summary>
+        /// <param name="input">输入字符串（可null/空/空白）</param>
+        /// <returns>首字母大写的字符串，空值返回空字符串</returns>
+        public static string FirstLetterToUpper(string input)
+        {
+            // 处理null、空字符串、全空白字符串
+            if(string.IsNullOrWhiteSpace(input))
+            {
+                return input;
+            }
+
+            // 单个字符直接转大写
+            if(input.Length == 1)
+            {
+                return input.ToUpper();
+            }
+
+            // 首字母大写 + 剩余字符拼接
+            return char.ToUpper(input[0]) + input.Substring(1);
+        }
         private class StringSortInfo : IComparable
         {
             public string Str { get; private set; }
