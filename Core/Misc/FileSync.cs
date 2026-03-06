@@ -3,7 +3,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-namespace GameCore.Core
+namespace GameCore.Core.Misc
 {
     public enum FileSyncLogType
     {

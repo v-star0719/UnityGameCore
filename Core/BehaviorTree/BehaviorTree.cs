@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using GameCore.Core.Misc;
 
-namespace GameCore.Core
+namespace GameCore.Core.BehaviorTree
 {
     public class BehaviorTree
     {

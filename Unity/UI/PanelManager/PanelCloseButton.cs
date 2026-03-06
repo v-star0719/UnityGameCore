@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.UI
 {
     public class PanelCloseButton : MonoBehaviour
     {

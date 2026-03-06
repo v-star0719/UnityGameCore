@@ -1,16 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using GameCore.Edit;
-using GameCore.Unity;
+using GameCore.Unity.Edit;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     public partial class MiscToolsWnd : EditorWindowBase
     {
@@ -42,7 +36,7 @@ namespace GameCore.Unity
 
             if (GUIUtil.Button("GetChildrenCountDeeply"))
             {
-                int childCount = TransformUtils.GetChildCount(Selection.activeTransform);
+                int childCount = Misc.TransformUtils.GetChildCount(Selection.activeTransform);
                 EditorUtility.DisplayDialog("", childCount.ToString(), "ok");
             }
 
@@ -123,11 +117,11 @@ namespace GameCore.Unity
 
             using (Edit.GUIUtil.LayoutHorizontal(EditorGUIUtil.StyleBox))
             {
-                if(GUILayout.Button($"复制选择的Transform路径", GUILayout.ExpandWidth(false)))
+                if(GUILayout.Button($"澶嶅埗閫夋嫨鐨凾ransform璺緞", GUILayout.ExpandWidth(false)))
                 {
                     CopySelectTransformPath(false);
                 }
-                if(GUILayout.Button($"复制选择的Transform名字", GUILayout.ExpandWidth(false)))
+                if(GUILayout.Button($"澶嶅埗閫夋嫨鐨凾ransform鍚嶅瓧", GUILayout.ExpandWidth(false)))
                 {
                     CopySelectTransformPath(true);
                 }
@@ -189,7 +183,7 @@ namespace GameCore.Unity
                     {
                         sb.Append("\n");
                     }
-                    var text = justName ? go.name : TransformUtils.GetTransformPath(go.transform);
+                    var text = justName ? go.name : Misc.TransformUtils.GetTransformPath(go.transform);
                     sb.Append(text);
                 }
             }

@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
-using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     [CustomEditor(typeof(TextureImporterConfig))]
     public class TextureImporterConfigEditor : AssetImporterConfigEditorBase

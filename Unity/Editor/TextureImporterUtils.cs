@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using GameCore.Core.Extension;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     public static class TextureImporterUtils
     {

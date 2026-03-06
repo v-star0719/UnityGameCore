@@ -1,8 +1,7 @@
 using UnityEditor;
 using UnityEngine;
-using static GameCore.Unity.EditorGUIUtil;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     public class TextureImporterConfig : AssetImporterConfigBase
     {
@@ -56,9 +55,9 @@ namespace GameCore.Unity
 
         //通用贴图格式相关
         [SerializeField] private OverrideType maxSizeOverride;
-        [SerializeField] private TextureMaxSizeType maxSize = TextureMaxSizeType._2048;
+        [SerializeField] private EditorGUIUtil.TextureMaxSizeType maxSize = EditorGUIUtil.TextureMaxSizeType._2048;
         public OverrideType MaxSizeOverride => powerOf2Override == OverrideType.Inherit && Parent != null ? Parent.MaxSizeOverride : maxSizeOverride;
-        public TextureMaxSizeType MaxSize => maxSizeOverride == OverrideType.Inherit && Parent != null ? Parent.MaxSize : maxSize;
+        public EditorGUIUtil.TextureMaxSizeType MaxSize => maxSizeOverride == OverrideType.Inherit && Parent != null ? Parent.MaxSize : maxSize;
         //--
         [SerializeField] private OverrideType compressionOverride;
         [SerializeField] private TextureImporterCompression compression = TextureImporterCompression.Compressed;

@@ -1,6 +1,7 @@
+#if GAME_CORE_LITJSON
 using LitJson;
 
-namespace GameCore.Core
+namespace GameCore.Core.Misc
 {
     public static class LitJsonExtension
     {
@@ -71,3 +72,5 @@ namespace GameCore.Core
         }
     }
 }
+
+#endif

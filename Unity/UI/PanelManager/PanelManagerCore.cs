@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
-using GameCore.Core;
+using GameCore.Core.Logger;
+using GameCore.Unity.Main;
+using GameCore.Unity.Misc;
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.UI
 {
     public class PanelManagerCore
     {

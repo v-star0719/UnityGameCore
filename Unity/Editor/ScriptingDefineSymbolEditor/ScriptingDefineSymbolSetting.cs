@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     [Serializable]
     public class ScriptingDefineSymbolItem

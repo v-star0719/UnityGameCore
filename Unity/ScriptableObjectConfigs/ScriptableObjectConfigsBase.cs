@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using GameCore.Core;
+using GameCore.Core.Config;
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.ScriptableObjectConfig
 {
     //[CreateAssetMenu(fileName = "Tigs", menuName = "ScriptableObjects/Tigs", order = 1)]
     public class ScriptableObjectConfigsBase<T> : ScriptableObject where T : ConfBase, new()
@@ -26,7 +26,7 @@ namespace GameCore.Unity
                 {
                     if (dict.ContainsKey(data.id))
                     {
-                        Debug.LogError($"ÖØ¸´µÄÅäÖÃ£º{data.id}");
+                        Debug.LogError($"é‡å¤çš„é…ç½®ï¼š{data.id}");
                     }
                     else
                     {
@@ -51,7 +51,7 @@ namespace GameCore.Unity
         {
             if (dict.ContainsKey(id))
             {
-                Debug.LogError($"{id} ÅäÖÃÒÑ´æÔÚ");
+                Debug.LogError($"{id} é…ç½®å·²å­˜åœ¨");
                 return null;
             }
 

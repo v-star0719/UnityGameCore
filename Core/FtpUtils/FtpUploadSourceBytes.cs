@@ -1,4 +1,4 @@
-namespace GameCore.Core
+namespace GameCore.Core.Ftp
 {
     public class FtpUploadSourceBytpes : FtpUploadSourceBase
     {

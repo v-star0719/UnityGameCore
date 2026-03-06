@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using GameCore.Edit;
+using GameCore.Unity.Edit;
 using UnityEditor;
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     public class AssetImporterConfigWindowBase<T> : EditorWindowBase where T : AssetImporterConfigBase
     {

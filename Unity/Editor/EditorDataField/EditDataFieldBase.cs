@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
-
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     public abstract class EditDataFieldBase
     {

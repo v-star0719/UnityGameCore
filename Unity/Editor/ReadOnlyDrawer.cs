@@ -1,7 +1,8 @@
+using GameCore.Unity.Edit;
 using UnityEditor;
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
     public class ReadOnlyDrawer : PropertyDrawer

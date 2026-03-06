@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Net;
 using System;
-using GameCore.Core;
+using GameCore.Core.Logger;
 
 namespace GameCore.Unity.RemoteProfile
 {

@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Collision
 {
     //将碰撞体按球处理，当有重合时互相挤开。
     //抖动：

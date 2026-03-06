@@ -1,4 +1,4 @@
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
 	public interface IDataEditor
 	{

@@ -1,5 +1,4 @@
-﻿
-namespace GameCore.Core
+namespace GameCore.Core.BehaviorTree
 {
     public class BTNodeInvert : BTNode
     {

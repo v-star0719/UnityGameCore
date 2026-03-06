@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using GameCore.Core;
+using GameCore.Core.Misc;
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.UI
 {
     public class PanelBaseCore : MonoBehaviour
     {

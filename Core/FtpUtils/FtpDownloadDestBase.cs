@@ -1,6 +1,6 @@
 using System;
 
-namespace GameCore.Core
+namespace GameCore.Core.Ftp
 {
     public class FtpDownloadDestBase : IDisposable
     {

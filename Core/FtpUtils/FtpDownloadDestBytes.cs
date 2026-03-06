@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace GameCore.Core
+namespace GameCore.Core.Ftp
 {
     public class FtpDownloadDestBytes : FtpDownloadDestBase
     {

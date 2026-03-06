@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-namespace GameCore.Lang.Extension
+namespace GameCore.Core.Extension
 {
 	public static class ExtendVector
 	{

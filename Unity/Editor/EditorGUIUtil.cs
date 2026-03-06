@@ -2,15 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using GameCore.Core;
+using GameCore.Core.Extension;
+using GameCore.Core.Misc;
+using GameCore.Unity.Edit;
 using UnityEngine;
 using UnityEditor;
-using GameCore.Edit;
-using GameCore.Lang.Extension;
-using Unity.Transforms;
-using UnityEngine.Purchasing;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
 	public partial class EditorGUIUtil
 	{

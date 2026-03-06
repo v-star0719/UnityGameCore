@@ -1,8 +1,10 @@
 using System.Collections;
+using GameCore.Unity.BlurTextureMaker;
+using GameCore.Unity.Misc;
 using UnityEngine;
 using UnityEngine.Playables;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.UI
 {
     //所有面板都会放到这个容器下。方便做通用的效果，比如动画、背景模糊
     public class PanelContainerCore : MonoBehaviour
@@ -13,7 +15,7 @@ namespace GameCore.Unity
 
         public PanelBaseCore Panel { get; private set; }
         private Texture2D screenCapture;
-        private BlurTextureMaker.MakingData makingData;
+        private BlurTextureMakingData makingData;
 
         public void Start()
         {
@@ -65,7 +67,7 @@ namespace GameCore.Unity
             screenCapture = ScreenCapture.CaptureScreenshotAsTexture();
             SetBgTexture(screenCapture);
             EnableBgTexture(true);
-            makingData = BlurTextureMaker.Blur(screenCapture);
+            makingData = BlurTextureMaker.BlurTextureMaker.Blur(screenCapture);
             PlayableDirector.gameObject.SetActive(true);
         }
 
@@ -78,7 +80,7 @@ namespace GameCore.Unity
 
             if (makingData != null && !makingData.IsFinished)
             {
-                BlurTextureMaker.Stop(makingData);
+                BlurTextureMaker.BlurTextureMaker.Stop(makingData);
                 makingData = null;
             }
         }

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     // 树节点数据结构
     public interface ITreeNode

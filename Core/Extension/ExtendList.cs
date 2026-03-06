@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using GameCore.Core.Misc;
 
-namespace GameCore.Lang.Extension
+namespace GameCore.Core.Extension
 {
 	public static class ExtendList
 	{

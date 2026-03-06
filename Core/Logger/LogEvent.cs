@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace GameCore.Core
+namespace GameCore.Core.Logger
 {
 	public struct LogEvent
 	{

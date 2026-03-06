@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Assets.GameCore.Core.Polygon.Editor
+namespace GameCore.Core.Polygon
 {
     [CustomEditor(typeof(PolygonTest))]
     public class PolygonTestEditor : UnityEditor.Editor

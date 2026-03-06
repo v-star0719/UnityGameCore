@@ -1,14 +1,9 @@
-using GameCore.Edit;
-using GameCore.Lang.Extension;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
-    public class AssetImporterConfigEditorBase : Editor
+    public class AssetImporterConfigEditorBase : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {

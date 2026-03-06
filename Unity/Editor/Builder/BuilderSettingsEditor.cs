@@ -3,10 +3,10 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     [CustomEditor(typeof(BuilderSettings))]
-    public class BuilderSettingsEditorEditor : Editor
+    public class BuilderSettingsEditorEditor : UnityEditor.Editor
     {
         private static string[] builders;
 

@@ -1,3 +1,5 @@
+using GameCore.Unity.Sound;
+using GameCore.Unity.UI;
 using UnityEngine;
 
 namespace GameCore.Unity.UGUIEx

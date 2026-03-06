@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Animator
 {
     public class AnimatorUtils
     {
-        public static float GetClipDuration(Animator an, string clipName)
+        public static float GetClipDuration(UnityEngine.Animator an, string clipName)
         {
             foreach(var clip in an.runtimeAnimatorController.animationClips)
             {
@@ -17,7 +17,7 @@ namespace GameCore.Unity
             return 0;
         }
 
-        public static AnimationClip GetClip(Animator an, string clipName)
+        public static AnimationClip GetClip(UnityEngine.Animator an, string clipName)
         {
             foreach(var clip in an.runtimeAnimatorController.animationClips)
             {

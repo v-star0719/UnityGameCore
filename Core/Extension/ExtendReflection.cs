@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace GameCore
+namespace GameCore.Core.Extension
 {
 	public static class ExtendReflection
 	{

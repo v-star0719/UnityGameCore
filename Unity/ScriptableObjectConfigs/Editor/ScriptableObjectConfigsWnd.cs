@@ -1,10 +1,10 @@
-using GameCore.Unity;
 using System;
 using System.Collections.Generic;
+using GameCore.Unity.ScriptableObjectConfig;
 using UnityEditor;
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.ScriptableObjectConfigs
 {
     public class ScriptableObjectConfigsWnd : EditorWindow
     {

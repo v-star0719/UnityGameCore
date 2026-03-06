@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace GameCore.Core
+namespace GameCore.Core.Misc
 {
     class Md5Utils
     {

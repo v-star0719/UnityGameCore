@@ -1,153 +1,14 @@
 using System.Collections.Generic;
-using GameCore.Core.Misc;
-using GameCore.Lang.Extension;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace GameCore.Core
+namespace GameCore.Core.Misc
 {
-    public class MathUtils
+    public partial class MathUtils
     {
         public static float Cross(Vector2 a, Vector2 b)
         {
             return a.x * b.y - b.x * a.y;
-        }
-
-        public static Vector2 Bezier2(Vector2 p0, Vector2 p1, Vector2 p2, float t)
-        {
-            var t1 = 1 - t;
-            return t1 * t1 * p0 + 2 * t * t1 * p1 + t * t * p2;
-        }
-
-        public static Vector3 Bezier2(Vector3 p0, Vector3 p1, Vector3 p2, float t)
-        {
-            var t1 = 1 - t;
-            return t1 * t1 * p0 + 2 * t * t1 * p1 + t * t * p2;
-        }
-
-        public static Vector3 Bezier3(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
-        {
-            var _t = 1 - t;
-            var _t2 = _t * _t;
-            var t2 = t * t;
-            return _t2 * _t * p0 + 3 * t * _t2 * p1 + 3 * t2 * _t * p2 + t2 * t * p3;
-        }
-
-        public static Vector3 BezierN(List<Vector3> points, float f)
-        {
-            //通用公式
-            var count = points.Count;
-            var n = count - 1;
-            Vector3 pos = Vector3.zero;
-            for (int i = 0; i < count; i++)
-            {
-                pos += Combination(n, i) * Mathf.Pow(1 - f, n - i) * Mathf.Pow(f, i) * points[i];
-            }
-
-            return pos;
-
-            //两两差值
-            //var count = points.Length;
-            //var tpoints = new Vector3[count];
-            //for (int i = 0; i < count; i++)
-            //{
-            //    tpoints[i] = points[i];
-            //}
-            //for (int i = 0; i <= count - 2; i++)
-            //{
-            //    for (int j = 0; j < count - i - 1; j++)
-            //    {
-            //        tpoints[j] = Vector3.Lerp(tpoints[j], tpoints[j + 1], f);
-            //    }
-            //}
-
-            //return tpoints[0];
-        }
-
-        public static long Combination(int n, int c)
-        {
-            long a = 1;
-            long b = 1;
-            for (int i = c; i > 0; i--)
-            {
-                a *= n;
-                b *= c;
-                n--;
-                c--;
-            }
-
-            return a / b;
-        }
-
-        public static Vector3 CatmullRom(List<Vector3> pathPoints, float t)
-        {
-            int numSections = pathPoints.Count - 3;
-            int p = Mathf.Min((int)(t * numSections), numSections - 1);
-            float u = t * (float)numSections - (float)p;
-
-            Vector3 a = pathPoints[p];
-            Vector3 b = pathPoints[p + 1];
-            Vector3 c = pathPoints[p + 2];
-            Vector3 d = pathPoints[p + 3];
-
-            return 0.5f * ((-a + 3f * b - 3f * c + d) *
-                (u * u * u) + (2f * a - 5f * b + 4f * c - d) *
-                (u * u) + (-a + c) * u + 2f * b);
-        }
-
-        public static Vector3 BSpline(List<Vector3> pathPoints, int p, float t, List<float> uArray)
-        {
-            Vector3 pos = Vector3.zero;
-            for (int i = 0; i < pathPoints.Count; i++)
-            {
-                pos += Cox_deBoor(i, p, t, uArray) * pathPoints[i]; //Combination(n, i) * 
-            }
-
-            return pos;
-        }
-
-        public static float Cox_deBoor(int i, int p, float u, List<float> uArray)
-        {
-            if (p == 0)
-            {
-                return uArray[i] <= u && u < uArray[i + 1] ? 1f : 0f;
-            }
-            else
-            {
-                //return (u - uArray[i]) / (uArray[i + p] - uArray[i]) * Cox_deBoor(i, p - 1, u, uArray) +
-                //       (uArray[i + p + 1] - u) / (uArray[i + d + 1] - uArray[i + 1]) * Cox_deBoor(i + 1, p - 1, u, uArray);
-                float a1 = u - uArray[i];
-                float a2 = uArray[i + p] - uArray[i];
-                if (a1 != 0 && a2 != 0)
-                {
-                    a1 = a1 / a2;
-                    a2 = Cox_deBoor(i, p - 1, u, uArray);
-                }
-                else
-                {
-                    a1 = 0;
-                    a2 = 0;
-                }
-
-                float b1 = uArray[i + p + 1] - u;
-                float b2 = 0;
-                if (b1 != 0)
-                {
-                    b2 = uArray[i + p + 1] - uArray[i + 1];
-                    if (b2 == 0)
-                    {
-                        b1 = 1;
-                    }
-                    else
-                    {
-                        b1 = b1 / b2;
-                    }
-
-                    b2 = Cox_deBoor(i + 1, p - 1, u, uArray);
-                }
-
-                return a1 * a2 + b1 * b2;
-            }
         }
 
         //相对于x+轴的角度
@@ -712,6 +573,72 @@ namespace GameCore.Core
             Vector3 symmetricPoint = 2 * pj - p;
 
             return symmetricPoint;
+        }
+
+        /// <summary>
+        /// 在矩形范围内随机生成多个圆形位置，保证它们之间的距离不小于两倍半径
+        /// 点位过多时不建议使用，比较次数太多。(n - 1) * n / 2。10=>45，20=>190, 3i=>435。这还是没有出现未命中的情况
+        /// </summary>
+        /// <param name="width">矩形宽度</param>
+        /// <param name="height">矩形高度</param>
+        /// <param name="count">爆炸点数量</param>
+        /// <param name="radius">每个爆炸点的半径</param>
+        /// <param name="shrinkRadius">缩小半径继续尝试 <param>
+        /// <returns>爆炸点位置列表</returns>
+        public static void GetRandomRoundsInRect(List<Vector2> positions, float width, float height, int count, float radius, bool shrinkRadius)
+        {
+            // 最小距离：两个爆炸点中心的距离至少为 2 * radius
+            float minDistance = radius * 2f;
+            minDistance *= minDistance;
+
+            // 最大尝试次数，避免死循环
+            int maxAttempts = 3;//前面的点尝试次数少，后面的会增加
+            int attempts = 0;
+            float shrinkRadiusStep = radius * 0.1f;
+
+            while(positions.Count < count)
+            {
+                // 在矩形范围内随机生成一个点
+                float x = UnityEngine.Random.Range(-width / 2f, width / 2f);
+                float y = UnityEngine.Random.Range(-height / 2f, height / 2f);
+
+                // 检查是否与已有爆炸点重合或距离过近
+                bool isValid = true;
+                foreach(var pos in positions)
+                {
+                    var xt = x - pos.x;
+                    var yt = y - pos.y;
+                    if(xt * xt + yt * yt < minDistance * minDistance)
+                    {
+                        isValid = false;
+                        break;
+                    }
+                }
+
+                if(isValid)
+                {
+                    positions.Add(new Vector2(x, y));
+                    attempts = 0;
+                    maxAttempts++;
+                }
+                else
+                {
+                    attempts++;
+                    if(attempts >= maxAttempts)
+                    {
+                        if(shrinkRadius)
+                        {
+                            radius -= shrinkRadiusStep;
+                            minDistance = radius * 2;
+                            minDistance *= minDistance;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
         }
     }
 }

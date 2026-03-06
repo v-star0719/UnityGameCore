@@ -1,4 +1,4 @@
-﻿namespace GameCore.Edit
+namespace GameCore.Unity.Edit
 {
 	public interface ISelectFromListData
     {

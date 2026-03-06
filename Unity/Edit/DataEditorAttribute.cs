@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace GameCore.Edit
+namespace GameCore.Unity.Edit
 {
 	//指定一个类的Editor。纯编辑器用。
 	[AttributeUsage(AttributeTargets.Class)]

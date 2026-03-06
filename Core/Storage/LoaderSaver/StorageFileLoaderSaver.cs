@@ -1,7 +1,9 @@
 using System.IO;
 
-namespace GameCore.Core
+namespace GameCore.Core.Storage
 {
+    //以文件的方式保存和读取数据
+    //Save and load data using files.
     public class StorageFileLoaderSaver : IStorageLoaderSaver
     {
         private string filePath;

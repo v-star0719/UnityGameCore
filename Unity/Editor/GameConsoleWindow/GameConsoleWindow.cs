@@ -2,12 +2,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
-using GameCore.Edit;
+using GameCore.Unity.Edit;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     public class GameConsoleWindow : EditorWindow
     {

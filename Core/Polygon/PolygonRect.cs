@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameCore.Common
+namespace GameCore.Core.Polygon
 {
     public class PolygonRect : Polygon
     {

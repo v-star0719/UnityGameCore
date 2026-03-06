@@ -1,6 +1,6 @@
 using System;
 
-namespace UKernel.Unity
+namespace GameCore.Unity.UI
 {
     public class Touch_SmoothlyZoom
     {

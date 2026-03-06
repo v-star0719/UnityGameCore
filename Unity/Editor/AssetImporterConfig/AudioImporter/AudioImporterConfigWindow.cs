@@ -1,6 +1,6 @@
 using UnityEditor;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     public class AudioImporterConfigWindow : AssetImporterConfigWindowBase<AudioImporterConfig>
     {

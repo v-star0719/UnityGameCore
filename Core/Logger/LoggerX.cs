@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace GameCore.Core
+namespace GameCore.Core.Logger
 {
     public interface ILogTarget
     {

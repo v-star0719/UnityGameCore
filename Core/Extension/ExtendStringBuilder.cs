@@ -1,6 +1,6 @@
-﻿using System.Text;
+using System.Text;
 
-namespace GameCore.Lang.Extension
+namespace GameCore.Core.Extension
 {
 	public static class ExtendedStringBuilder
 	{

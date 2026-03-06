@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using GameCore.Edit;
+using GameCore.Unity.Edit;
 using UnityEditor;
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     //可以折叠列表项的列表
     public class ListEditorFoldItem<T> : ListEditor<T>

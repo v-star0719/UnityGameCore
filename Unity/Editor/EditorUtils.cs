@@ -1,16 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
-using GameCore.Core;
-using GameCore.Edit;
 using UnityEditor;
 using UnityEditor.Build;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     public static class EditorUtils
     {

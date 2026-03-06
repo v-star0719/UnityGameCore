@@ -1,12 +1,16 @@
-using System.Collections.Generic;
-using Cinemachine;
 using UnityEngine;
 
-namespace GameCore.Unity
+#if CINEMAACHINE
+using Cinemachine;
+#endif
+
+namespace GameCore.Unity.UI
 {
     public class ModelDisplayCinemachine : ModelDisplayBase
     {
-        public Transform cameraRoot;//多个相机都放在这下面
+        public Transform cameraRoot; //多个相机都放在这下面
+
+#if CINEMAACHINE
         private Dictionary<string, ModelDisplayCinemachineCamInfo> camInfoMap;
         private ModelDisplayCinemachineCamInfo curCameraInfo;
         private ModelDisplayCinemachineCamInfo cacheCameraInfo;
@@ -314,5 +318,7 @@ namespace GameCore.Unity
             this.zoomMin = zoomMin;
             this.zoomMax = zoomMax;
         }
+    }
+#endif
     }
 }

@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.IO;
 
-namespace GameCore.Lang.Extension
+namespace GameCore.Core.Extension
 {
 	public static class ExtendStream
 	{

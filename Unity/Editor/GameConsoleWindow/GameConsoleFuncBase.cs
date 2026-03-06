@@ -1,9 +1,6 @@
 using System;
-using System.Xml.Serialization;
-using UnityEditor;
-using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     [Serializable]
     public class GameConsoleFuncBase

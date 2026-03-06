@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Move
 {
     public abstract class MoveBase
     {
@@ -19,7 +19,7 @@ namespace GameCore.Unity
         public virtual bool IsStopped { get; set; }
         public virtual bool IsPaused { get; set; }
 
-        public virtual int priority { get; set; }//Åö×²ÓÅÏÈ¼¶
+        public virtual int priority { get; set; }//ç¢°æ’žä¼˜å…ˆçº§
 
         protected Transform transform;
 

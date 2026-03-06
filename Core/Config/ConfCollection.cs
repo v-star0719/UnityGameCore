@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using GameCore.Core.Logger;
 
-namespace GameCore.Core
+namespace GameCore.Core.Config
 {
     public class ConfCollection<TMgr, TData> : IConfCollection<TData> where TData : ConfBase where TMgr : new()
     {

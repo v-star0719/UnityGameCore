@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Text;
 
-namespace GameCore.Core
+namespace GameCore.Core.Misc
 {
     class Base64Utils
     {

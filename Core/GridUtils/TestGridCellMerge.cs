@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace GameCore.Core
+namespace GameCore.Core.Grid
 {
     [ExecuteAlways]
     public class TestGridCellMerge : MonoBehaviour

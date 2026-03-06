@@ -1,11 +1,12 @@
+using GameCore.Unity.Main;
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.UI
 {
     public class PanelManager
     {
-        public static PanelManagerCore Top;
-        public static PanelManagerCore Normal;
+        public static PanelManagerCore Top { get; private set; }
+        public static PanelManagerCore Normal { get; private set; }
 
         public static void InitTop(Transform root, IResManager resManager, int startDepth = 0, int depthGap = 10)
         {

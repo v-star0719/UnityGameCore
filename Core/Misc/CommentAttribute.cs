@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace GameCore.Core
+namespace GameCore.Core.Misc
 {
     [AttributeUsage(AttributeTargets.Field)]
     public class CommentAttribute : System.Attribute

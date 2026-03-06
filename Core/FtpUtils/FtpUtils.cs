@@ -2,8 +2,9 @@ using System;
 using System.IO;
 using System.Net;
 using System.Threading;
+using GameCore.Core.Logger;
 
-namespace GameCore.Core
+namespace GameCore.Core.Ftp
 {
     public class FtpUtils
     {

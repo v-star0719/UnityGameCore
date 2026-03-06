@@ -1,7 +1,8 @@
-using UKernel.Unity;
+using GameCore.Unity.Main;
+using GameCore.Unity.Misc;
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.UI
 {
     public class ModelDisplayBase : MonoBehaviour
     {
@@ -20,6 +21,7 @@ namespace GameCore.Unity
         protected float dragFactor;//拖动时，屏幕位移转换成逻辑位移。
         protected float zoomFactor = 1;//双指缩放时，屏幕位移转换成逻辑位移
         private float scrollFactor;//鼠标滚轮的位移转化为屏幕位移
+        private IResManager resManager;
 
         public GameObject modelGo => modelObj;
         public string ResName => curResName;
@@ -30,8 +32,9 @@ namespace GameCore.Unity
             set => freeDrag = value;
         }
 
-        public void Init(float dragFactor = -1, float zoomFactor = -1, float scrollFactor = -1)
+        public void Init(IResManager resManager, float dragFactor = -1, float zoomFactor = -1, float scrollFactor = -1)
         {
+            this.resManager = resManager;
             this.dragFactor = dragFactor > 0 ? dragFactor : 180f / Screen.width;//位移1屏180度
             this.zoomFactor = zoomFactor > 0 ? zoomFactor : 0.5f / Screen.width;//位移1屏缩放1半
             this.scrollFactor = scrollFactor > 0 ? scrollFactor : 100;
@@ -55,7 +58,7 @@ namespace GameCore.Unity
             }
 
             curResName = resName;
-            modelObj = ResManager.Instance.GetGameObject(resName);
+            modelObj = resManager.GetGameObject(resName);
             modelObj.transform.parent = modelRoot;
             modelObj.transform.localPosition = Vector3.zero;
             modelObj.transform.localRotation = Quaternion.identity;;

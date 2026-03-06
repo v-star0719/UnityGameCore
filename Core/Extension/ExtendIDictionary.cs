@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace GameCore.Lang.Extension
+namespace GameCore.Core.Extension
 {
 	public static class ExtendIDictionary
 	{

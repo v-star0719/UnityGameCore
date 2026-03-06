@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using GameCore.Edit;
+using GameCore.Core.Misc;
+using GameCore.Unity.Edit;
 using UnityEngine;
 
-namespace GameCore.Common
+namespace GameCore.Core.Polygon
 {
-
     public class PolygonVertex
     {
         public Vector2 pos;
@@ -196,7 +196,7 @@ namespace GameCore.Common
             for (int i = 0; i < verticesCount; i++)
             {
                 var to = points[i];
-                if (GameCore.Core.MathUtils.SegmentIntersect(p1, p2, from.pos, to.pos, out var intersectionPoint))
+                if (MathUtils.SegmentIntersect(p1, p2, from.pos, to.pos, out var intersectionPoint))
                 {
                     var p = new PolygonVertex(intersectionPoint);
                     p.intersectDepthValue = Vector2.Distance(intersectionPoint, p1);
@@ -235,7 +235,7 @@ namespace GameCore.Common
             for (int i = 0; i < n; i++)
             {
                 var p1 = points[i];
-                if (GameCore.Core.MathUtils.Cross(pos - p0.pos, p1.pos - p0.pos) >= -0.0001)
+                if (MathUtils.Cross(pos - p0.pos, p1.pos - p0.pos) >= -0.0001)
                 {
                     //浮点数可能有误差，多往里面一点
                     return false;

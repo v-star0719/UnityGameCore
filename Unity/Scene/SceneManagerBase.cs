@@ -1,8 +1,9 @@
 using System;
-using GameCore.Core;
+using GameCore.Core.Logger;
 using GameCore.Unity.UGUIEx;
+using GameCore.Unity.UI;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Scene
 {
     public class SceneManagerBase
     {

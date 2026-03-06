@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using GameCore.Core.Logger;
 
-namespace GameCore.Core
+namespace GameCore.Core.Misc
 {
 	public class EventManager
 	{

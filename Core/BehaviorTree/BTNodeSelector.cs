@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
-namespace GameCore.Core
+namespace GameCore.Core.BehaviorTree
 {
     //依次执行，直到出现一个成功的。效果就是依次尝试，直到成功。
     public class BTNodeSelector : BTNode

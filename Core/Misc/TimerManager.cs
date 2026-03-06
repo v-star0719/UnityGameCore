@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using GameCore.Lang.Extension;
+using GameCore.Core.Extension;
 
-namespace GameCore.Core
+namespace GameCore.Core.Misc
 {
     public class TimerManager : Singleton<TimerManager>
     {

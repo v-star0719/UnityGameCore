@@ -1,8 +1,7 @@
-using System.Collections;
 using UnityEditor;
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     //名字改成首字母大写的
     public class FixGameObjectName
@@ -14,7 +13,7 @@ namespace GameCore.Unity
                 Debug.LogError("no GameObject selected");
                 return;
             }
-            TransformUtils.TraverseTransformTree(Selection.activeTransform, trans =>
+            Misc.TransformUtils.TraverseTransformTree(Selection.activeTransform, trans =>
             {
                 if (char.IsLower(trans.name, 0))
                 {

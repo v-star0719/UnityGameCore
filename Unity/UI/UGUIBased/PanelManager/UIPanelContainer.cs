@@ -1,3 +1,4 @@
+using GameCore.Unity.UI;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -1,4 +1,4 @@
-namespace GameCore.Core
+namespace GameCore.Core.Misc
 {
     public class BitUtils
     {

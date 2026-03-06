@@ -1,11 +1,16 @@
-//#define STORAGE_DEBUG
-//#define STORAGE_ENCRYPT
+//打印存储相关的日志
+//Print logs
+//#define GAME_CORE_STORAGE_DEBUG
+
+//加密存储数据
+//Encrypt data
+//#define GAME_CORE_STORAGE_ENCRYPT
 
 using System;
 using System.Diagnostics;
-using GameCore.Core;
+using GameCore.Core.Logger;
 
-namespace GameCore.Storage
+namespace GameCore.Core.Storage
 {
     public interface IStorage
     {
@@ -17,6 +22,7 @@ namespace GameCore.Storage
     }
 
     //默认是存文件，如果要存别的地方，请重载OnLoad和OnSave
+    //File storage is used by default. If you need to store data elsewhere, please override the OnLoad and OnSave methods.
     public class StorageBase<T> : IStorage where T : new()
     {
         private volatile bool changed;
@@ -60,7 +66,7 @@ namespace GameCore.Storage
             try
             {
                 bytes = loaderSaver.Load();
-#if !UNITY_EDITOR || STORAGE_ENCRYPT
+#if GAME_CORE_STORAGE_ENCRYPT
                 Decode(bytes);
 #endif
             }
@@ -93,7 +99,7 @@ namespace GameCore.Storage
 
             try
             {
-#if !UNITY_EDITOR || STORAGE_ENCRYPT
+#if GAME_CORE_STORAGE_ENCRYPT
                 Encode(bytes);
 #endif
                 loaderSaver.Save(bytes);
@@ -109,27 +115,31 @@ namespace GameCore.Storage
         {
         }
 
-        //读取后调用
+        //加载数据前调用
+        //Call before loading data.
         protected virtual void OnBeforeLoad()
         {
         }
 
-        //读取后调用
+        //加载数据后调用
+        //Call after loading data.
         protected virtual void OnAfterLoad()
         {
         }
 
-        //保存前调用
+        //保存数据前调用
+        //Call before saving data.
         protected virtual void OnBeforeSave()
         {
         }
-        
-        //保存前调用
+
+        //保存数据后调用
+        //Call after saving data.
         protected virtual void OnAfterSave()
         {
         }
 
-        [Conditional("STORAGE_DEBUG")]
+        [Conditional("GAME_CORE_STORAGE_DEBUG")]
         protected void Log(string text)
         {
             LoggerX.Info(text);

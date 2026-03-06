@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Move
 {
     public class MoveByNavMeshAgent : MoveBase
     {
@@ -51,7 +51,7 @@ namespace GameCore.Unity
         public override bool IsStopped
         {
             get => agent.isStopped;
-            set => agent.isStopped = value;//NavMeshAgent.isStopped其实是暂停的效果
+            set => agent.isStopped = value;//NavMeshAgent.isStopped鍏跺疄鏄殏鍋滅殑鏁堟灉
         }
 
         public override bool IsPaused

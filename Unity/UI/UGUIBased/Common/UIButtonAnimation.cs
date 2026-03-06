@@ -1,8 +1,10 @@
-using System;
 using System.Collections;
 using GameCore.Unity.Tweener;
 using UnityEngine;
 using UnityEngine.EventSystems;
+
+namespace GameCore.Unity.UGUIEx
+{
 
 public class UIButtonAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, ISelectHandler, IDeselectHandler, ISubmitHandler
 {
@@ -124,5 +126,6 @@ public class UIButtonAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpH
         startScale = transform.localScale;
         endScale = targetScale;
         isWorking = true;
+    }
     }
 }

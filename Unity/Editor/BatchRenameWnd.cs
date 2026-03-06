@@ -1,17 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GameCore.Core;
-using GameCore.Edit;
-using GameCore.Unity;
+using GameCore.Unity.Edit;
 using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     public partial class BatchRenameWnd : EditorWindowBase
     {

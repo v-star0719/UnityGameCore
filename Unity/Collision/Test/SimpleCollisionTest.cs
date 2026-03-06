@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Collision
 {
     public class SimpleCollisionTest : MonoBehaviour
     {

@@ -1,8 +1,9 @@
 using System;
 using System.Text;
+using GameCore.Core.Storage;
 using UnityEngine;
 
-namespace GameCore.Storage
+namespace GameCore.Unity.Storage
 {
     public class StorageUnityJsonSerializer : IStorageSerializer
     {

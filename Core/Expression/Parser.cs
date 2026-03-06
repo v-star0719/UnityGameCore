@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using GameCore.Core;
+using GameCore.Core.Logger;
 
-namespace GameCore.Scripts
+namespace GameCore.Core.Expression
 {
 	public abstract class Parser
 	{

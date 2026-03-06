@@ -1,30 +1,35 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-[ExecuteAlways]
-public class FunctionGraphAxis : MonoBehaviour
+namespace GameCore.Unity.FunctionGraph
 {
-    public int length;
-
-    public GameObject mark;
-    // Start is called before the first frame update
-    void Start()
+    [ExecuteAlways]
+    public class FunctionGraphAxis : MonoBehaviour
     {
-        
-    }
+        public int length;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Application.isPlaying)
+        public GameObject mark;
+
+        // Start is called before the first frame update
+        void Start()
         {
-            return;
+
         }
-        
+
+        // Update is called once per frame
+        void Update()
+        {
+            if (Application.isPlaying)
+            {
+                return;
+            }
+
+        }
+
+        public void SetLength(float len)
+        {
+            transform.localScale = new Vector3(1, len, 1);
+            mark.transform.localPosition = new Vector3(0, len * 0.5f, 0);
+        }
     }
 
-    public void SetLength(float len)
-    {
-        transform.localScale = new Vector3(1, len, 1);
-        mark.transform.localPosition = new Vector3(0, len * 0.5f, 0);
-    }
 }

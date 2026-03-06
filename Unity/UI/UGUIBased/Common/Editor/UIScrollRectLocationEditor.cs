@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using GameCore.Edit;
+using GameCore.Unity.Edit;
 using GameCore.Unity.UGUIEx;
 using UnityEditor;
 using UnityEngine;

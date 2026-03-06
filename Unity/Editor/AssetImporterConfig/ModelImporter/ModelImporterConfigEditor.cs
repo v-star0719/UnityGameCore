@@ -1,13 +1,7 @@
-using GpuEcsAnimationBaker.Engine.Data;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering;
-using static UnityEditor.SpeedTreeImporter;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     [CustomEditor(typeof(ModelImporterConfig))]
     public class ModelImporterConfigEditor : AssetImporterConfigEditorBase

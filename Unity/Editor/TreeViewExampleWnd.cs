@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     public class TreeViewExampleWnd : EditorWindowBase
     {

@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Collision
 {
     public interface ICollisionObject
     {

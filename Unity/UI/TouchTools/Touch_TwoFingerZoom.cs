@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.UI
 {
     public class Touch_TwoFingerZoom
     {

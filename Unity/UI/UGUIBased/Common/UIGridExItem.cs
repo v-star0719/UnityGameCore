@@ -1,3 +1,4 @@
+using GameCore.Unity.Edit;
 using UnityEngine;
 
 namespace GameCore.Unity.UGUIEx

@@ -4,7 +4,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-namespace Kernel.Unity
+namespace GameCore.Core.Misc
 {
     public class SvnUtils
     {
@@ -21,7 +21,7 @@ namespace Kernel.Unity
         private static string _reversionPath;
         private static int _reversion = -1;
 
-        /// »ñÈ¡ĞŞ¸ÄÈÕÆÚ¸üĞÂµÄÎÄ¼şÁĞ±í
+        /// è·å–ä¿®æ”¹æ—¥æœŸæ›´æ–°çš„æ–‡ä»¶åˆ—è¡¨
         public static List<string> GetModifiedAssets(DateTime afterOrOn)
         {
             string cmd = string.Format(_SVN_FORMAT, afterOrOn, Path.GetFullPath(_HOTRES_PATH));

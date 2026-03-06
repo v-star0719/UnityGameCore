@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
 	public static partial class EditorGUIUtil
     {

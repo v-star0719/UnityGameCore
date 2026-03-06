@@ -1,7 +1,8 @@
 using System;
 using System.IO;
+using GameCore.Core.Logger;
 
-namespace GameCore.Core
+namespace GameCore.Core.Ftp
 {
     public class FtpUploadSourceFile : FtpUploadSourceBase
     {

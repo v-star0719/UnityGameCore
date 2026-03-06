@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameCore.Common
+namespace GameCore.Core.Polygon
 {
-//边是要有方向的。如果边和多边形相交，交点到外面的点的方向，分离的方向。
+    //边是要有方向的。如果边和多边形相交，交点到外面的点的方向，分离的方向。
     public class PolygonEdge
     {
         public int id; //边的编号，用顶点组合。比如12是1->2的边

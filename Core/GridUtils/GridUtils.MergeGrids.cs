@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using GameCore.Core.Extension;
 using UnityEngine;
-using GameCore.Lang.Extension;
 
-namespace GameCore.Core
+namespace GameCore.Core.Grid
 {
     //用左下角坐标，作为格子坐标，（0,0）是第一个格子
     public partial class GridUtils

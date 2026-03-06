@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Animator
 {
 //随机播放动画序列
     public class AnimatorBatchPlayer : MonoBehaviour
@@ -24,7 +24,7 @@ namespace GameCore.Unity
 
         public ActionInfo[] actions;
 
-        private Animator animator;
+        private UnityEngine.Animator animator;
         private int acitonIndex;
         private int nodeIndex;
         private int nodeDuration;
@@ -32,7 +32,7 @@ namespace GameCore.Unity
 
         void Start()
         {
-            animator = GetComponentInChildren<Animator>();
+            animator = GetComponentInChildren<UnityEngine.Animator>();
             Play(Random.Range(0, actions.Length));
         }
 

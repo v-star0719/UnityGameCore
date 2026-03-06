@@ -2,7 +2,6 @@ using GameCore.Unity.UGUIEx;
 using UnityEditor;
 using UnityEditor.UI;
 using UnityEngine;
-using UnityEngine.UI;
 
 [CustomEditor(typeof(UIUVTransformImage))]
 [CanEditMultipleObjects]

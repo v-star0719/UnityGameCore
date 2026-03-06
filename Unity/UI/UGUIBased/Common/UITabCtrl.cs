@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using GameCore.Unity.Sound;
 using UnityEngine.Events;
 
 //标签页控件

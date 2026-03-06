@@ -1,8 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
+using GameCore.Core.Extension;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using GameCore.Lang.Extension;
 
 //
 //(1)目前没有做循环滚动，循环很麻烦

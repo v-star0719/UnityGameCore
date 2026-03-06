@@ -1,4 +1,4 @@
-﻿namespace GameCore.Lang.Extension
+namespace GameCore.Core.Extension
 {
 	public static class ExtendFloat
 	{

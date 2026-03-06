@@ -1,8 +1,8 @@
-using GameCore.Core;
 using System.Reflection;
 using System;
+using GameCore.Core.Misc;
 
-namespace Assets.Kernel.Unity
+namespace GameCore.Unity.Edit
 {
     public class EditUtils
     {

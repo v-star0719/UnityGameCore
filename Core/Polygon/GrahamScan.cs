@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameCore.Common
+namespace GameCore.Core.Polygon
 {
     //平面上一组点的凸包的
     public class GrahamScanPoint

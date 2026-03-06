@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Animator
 {
     public class AnimatorPlayer : MonoBehaviour
     {
-        public Animator animator;
+        public UnityEngine.Animator animator;
         public float Timer { get; private set; }
         private float duration;
         private Action onFinish;

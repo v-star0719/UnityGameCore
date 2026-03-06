@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Collections;
@@ -6,9 +6,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
-using GameCore.Core;
 
-namespace GameCore
+namespace GameCore.Core.Misc
 {
 	public struct FieldAndAttribute<T> where T : Attribute
 	{

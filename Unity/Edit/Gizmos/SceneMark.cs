@@ -1,8 +1,6 @@
-﻿using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-namespace GameCore.Edit
+namespace GameCore.Unity.Edit
 {
     public class SceneMark : MonoBehaviour
     {

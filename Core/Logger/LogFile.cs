@@ -1,49 +1,51 @@
-﻿using UnityEngine;
-using GameCore.Core;
+using UnityEngine;
 
-public class LogFile : ILogTarget
+namespace GameCore.Core.Logger
 {
-    public string filePathName;
-    public LogFile(string filePathName)
+    public class LogFile : ILogTarget
     {
-        this.filePathName = filePathName;
-    }
-    public void Init()
-    {
-
-    }
-
-    public void Clear()
-    {
-    }
-
-    public void OnLog(LogEvent ev)
-    {
-        try
+        public string filePathName;
+        public LogFile(string filePathName)
         {
-            //logging = true;
-            if(Application.isEditor)
+            this.filePathName = filePathName;
+        }
+        public void Init()
+        {
+
+        }
+
+        public void Clear()
+        {
+        }
+
+        public void OnLog(LogEvent ev)
+        {
+            try
             {
-                switch(ev.Level)
+                //logging = true;
+                if(Application.isEditor)
                 {
-                    case LogLevel.FATAL:
-                    case LogLevel.ERROR:
-                        Debug.LogError(ev.ToString());
-                        break;
-                    case LogLevel.WARN:
-                        Debug.LogWarning(ev.ToString());
-                        break;
-                    case LogLevel.INFO:
-                    case LogLevel.DEBUG:
-                    case LogLevel.TRACE:
-                        Debug.Log(ev.ToString());
-                        break;
+                    switch(ev.Level)
+                    {
+                        case LogLevel.FATAL:
+                        case LogLevel.ERROR:
+                            Debug.LogError(ev.ToString());
+                            break;
+                        case LogLevel.WARN:
+                            Debug.LogWarning(ev.ToString());
+                            break;
+                        case LogLevel.INFO:
+                        case LogLevel.DEBUG:
+                        case LogLevel.TRACE:
+                            Debug.Log(ev.ToString());
+                            break;
+                    }
                 }
             }
-        }
-        finally
-        {
-            //logging = false;
+            finally
+            {
+                //logging = false;
+            }
         }
     }
 }

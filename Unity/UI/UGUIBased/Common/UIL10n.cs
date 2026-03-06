@@ -1,4 +1,4 @@
-using Misc;
+using GameCore.Unity.Localization;
 using TMPro;
 using UnityEngine;
 

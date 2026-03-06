@@ -1,8 +1,6 @@
-using System.Collections;
 using UnityEditor;
-using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     public class EditDataFloatField : EditDataFieldBase
     {

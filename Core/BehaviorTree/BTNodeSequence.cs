@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
-namespace GameCore.Core
+namespace GameCore.Core.BehaviorTree
 {
     //依次执行，直到失败。
     public class BTNodeSequence : BTNode

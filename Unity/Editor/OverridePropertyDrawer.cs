@@ -1,11 +1,11 @@
 using System;
 using System.Reflection;
-using GameCore.Core;
-using GameCore.Lang.Extension;
+using GameCore.Core.Extension;
+using GameCore.Core.Misc;
 using UnityEditor;
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     public enum OverrideType
     {

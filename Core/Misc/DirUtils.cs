@@ -1,35 +1,40 @@
-﻿using System.IO;
+using System.IO;
+using GameCore.Core.Logger;
 
-public class DirUtils
+namespace GameCore.Core.Misc
 {
-    public static void ClearDir(string p)
+    public class DirUtils
     {
-        DirectoryInfo dir = new DirectoryInfo(p);
-        FileInfo[] fs = dir.GetFiles("*", SearchOption.TopDirectoryOnly);
-        for(int index = 0; index < fs.Length; index++)
+        public static void ClearDir(string p)
         {
-            try
+            DirectoryInfo dir = new DirectoryInfo(p);
+            FileInfo[] fs = dir.GetFiles("*", SearchOption.TopDirectoryOnly);
+            for(int index = 0; index < fs.Length; index++)
             {
-                File.Delete(fs[index].FullName);
+                try
+                {
+                    File.Delete(fs[index].FullName);
+                }
+                catch
+                {
+                    LoggerX.Warn($"exception thrown deleting {fs[index].FullName}");
+                }
             }
-            catch
+
+            DirectoryInfo[] subs = dir.GetDirectories("*", SearchOption.TopDirectoryOnly);
+            for(int index = 0; index < subs.Length; index++)
             {
-                Logger.LogYellow(string.Format("exception thrown deleting {0}", fs[index].FullName));
+                try
+                {
+                    Directory.Delete(subs[index].FullName, true);
+                }
+                catch
+                {
+                    LoggerX.Warn($"exception thrown deleting {subs[index].FullName}");
+                }
             }
         }
 
-        DirectoryInfo[] subs = dir.GetDirectories("*", SearchOption.TopDirectoryOnly);
-        for(int index = 0; index < subs.Length; index++)
-        {
-            try
-            {
-                Directory.Delete(subs[index].FullName, true);
-            }
-            catch
-            {
-                Logger.LogYellow(string.Format("exception thrown deleting {0}", subs[index].FullName));
-            }
-        }
     }
-
 }
+

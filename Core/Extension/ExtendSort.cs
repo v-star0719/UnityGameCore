@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace GameCore.Lang.Extension
+namespace GameCore.Core.Extension
 {
 	public static class ExtendSort
 	{

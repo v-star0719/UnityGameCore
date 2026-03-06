@@ -1,10 +1,11 @@
 using System;
 using System.IO;
 using System.Threading;
-using GameCore.Core;
+using GameCore.Core.Logger;
+using GameCore.Core.Storage;
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Storage
 {
     public class StorageUnityFileLoaderSaver : IStorageLoaderSaver
     {

@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace GameCore.Core
+namespace GameCore.Core.Ftp
 {
     public class FtpDownloadDestFile : FtpDownloadDestBase
     {

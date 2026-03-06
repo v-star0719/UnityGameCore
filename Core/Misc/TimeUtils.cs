@@ -1,6 +1,6 @@
 using System;
 
-namespace GameCore.Core
+namespace GameCore.Core.Misc
 {
     class TimeUtils
     {

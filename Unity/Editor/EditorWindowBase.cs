@@ -1,8 +1,8 @@
-using GameCore.Storage;
+using GameCore.Core.Storage;
 using UnityEditor;
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     public class EditorWindowBase : EditorWindow
     {

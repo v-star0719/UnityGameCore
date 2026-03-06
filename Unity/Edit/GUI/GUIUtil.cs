@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace GameCore.Edit
+namespace GameCore.Unity.Edit
 {
 	public partial class GUIUtil
 	{

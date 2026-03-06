@@ -2,7 +2,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Editor
 {
     //fieldName是字段迷宫
     //<fieldName>Override 控制重写方式，可以是bool或者OverrideType枚举
@@ -10,37 +10,37 @@ namespace GameCore.Unity
     //getParentValue 获取父对象里的值
     public partial class EditorGUIUtil
     {
-        public static void GUIPropertyFieldWithOverride_String(this Editor editor, string fieldName, Func<string> getParentValue)
+        public static void GUIPropertyFieldWithOverride_String(this UnityEditor.Editor editor, string fieldName, Func<string> getParentValue)
         {
             OverridePropertyDrawerString.Inst.OnGUI(editor.serializedObject, fieldName, getParentValue);
         }
 
-        public static void GUIPropertyFieldWithOverride_Bool(this Editor editor, string fieldName, Func<bool> getParentValue)
+        public static void GUIPropertyFieldWithOverride_Bool(this UnityEditor.Editor editor, string fieldName, Func<bool> getParentValue)
         {
             OverridePropertyDrawerBool.Inst.OnGUI(editor.serializedObject, fieldName, getParentValue);
         }
 
-        public static void GUIPropertyFieldWithOverride_Int(this Editor editor, string fieldName, Func<int> getParentValue)
+        public static void GUIPropertyFieldWithOverride_Int(this UnityEditor.Editor editor, string fieldName, Func<int> getParentValue)
         {
             OverridePropertyDrawerInt.Inst.OnGUI(editor.serializedObject, fieldName, getParentValue);
         }
 
-        public static void GUIPropertyFieldWithOverride_Popup(this Editor editor, string fieldName, string[] options, Func<string> getParentValue)
+        public static void GUIPropertyFieldWithOverride_Popup(this UnityEditor.Editor editor, string fieldName, string[] options, Func<string> getParentValue)
         {
             OverridePropertyDrawerPopupString.Inst.OnGUI(editor.serializedObject, fieldName, getParentValue, options);
         }
 
-        public static void GUIPropertyFieldWithOverride_Enum(this Editor editor, string fieldName, Func<Enum> getParentValue)
+        public static void GUIPropertyFieldWithOverride_Enum(this UnityEditor.Editor editor, string fieldName, Func<Enum> getParentValue)
         {
             OverridePropertyDrawerEnum.Inst.OnGUI(editor.serializedObject, fieldName, getParentValue);
         }
 
-        public static void GUIPropertyFieldWithOverride_Vector2(this Editor editor, string fieldName, Func<Vector2> getParentValue)
+        public static void GUIPropertyFieldWithOverride_Vector2(this UnityEditor.Editor editor, string fieldName, Func<Vector2> getParentValue)
         {
             OverridePropertyDrawerVector2.Inst.OnGUI(editor.serializedObject, fieldName, getParentValue);
         }
 
-        public static void GUIPropertyFieldWithOverride_TextureImporterPlatformSettings(this Editor editor, string fieldName, Func<TextureImporterPlatformSettings> getParentValue, TextureImporterType importerType, BuildTarget buildTarget)
+        public static void GUIPropertyFieldWithOverride_TextureImporterPlatformSettings(this UnityEditor.Editor editor, string fieldName, Func<TextureImporterPlatformSettings> getParentValue, TextureImporterType importerType, BuildTarget buildTarget)
         {
             OverridePropertyDrawerTextureImporterPlatformSettings.Inst.OnGUI(editor.serializedObject, fieldName, getParentValue, importerType, buildTarget);
         }

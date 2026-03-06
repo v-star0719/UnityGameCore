@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GameCore.Unity
+namespace GameCore.Unity.Edit
 {
     public class ReadOnlyAttribute : PropertyAttribute
     {
