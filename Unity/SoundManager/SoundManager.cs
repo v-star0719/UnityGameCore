@@ -201,7 +201,10 @@ namespace GameCore.Unity
 
         public void StopSound(SoundItemInfo sound, float fadeout = -1)
         {
-            Players[(int)sound.layer]?.Stop(sound.id);
+            if (sound != null)
+            {
+                Players[(int)sound.layer]?.Stop(sound.id);
+            }
         }
 
         public void PlayBgm(string name, float volume = 1, float fadeIn = 2f, float fadeOut = 2f)

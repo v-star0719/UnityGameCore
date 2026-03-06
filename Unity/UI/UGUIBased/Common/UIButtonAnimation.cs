@@ -16,6 +16,7 @@ public class UIButtonAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpH
     private Vector3 initScale;
     private bool isWorking;//enable=false的话收不到消息
     private TweenPlayer selectGoTweener;
+    public bool IsSelected { get; private set;}
 
     public void Awake()
     {
@@ -71,6 +72,7 @@ public class UIButtonAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     public void OnSelect(BaseEventData eventData)
     {
+        IsSelected = true;
         if(selectGo != null)
         {
             if(selectGoTweener != null)
@@ -86,6 +88,7 @@ public class UIButtonAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     public void OnDeselect(BaseEventData eventData)
     {
+        IsSelected = false;
         if(selectGo != null)
         {
             if(selectGoTweener != null)

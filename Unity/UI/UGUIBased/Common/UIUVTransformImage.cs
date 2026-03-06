@@ -124,6 +124,7 @@ namespace GameCore.Unity.UGUIEx
         }
 
         #region 全版本兼容生命周期（延迟刷新）
+#if UNITY_EDITOR
         protected override void OnValidate()
         {
             base.OnValidate();
@@ -136,6 +137,7 @@ namespace GameCore.Unity.UGUIEx
 
             MarkVerticesDirtyNextFrame(); // 延迟刷新
         }
+#endif
 
         protected override void OnRectTransformDimensionsChange()
         {
