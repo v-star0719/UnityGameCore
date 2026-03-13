@@ -12,5 +12,6 @@ namespace GameCore.Unity.Main
         public Material GetMaterial(string name);
         public Texture GetTexture(string name);
         public void LoadScene(string name);
+        public void LoadSceneAdditive(string name);
     }
 }

@@ -24,12 +24,18 @@ namespace GameCore.Unity.Scene
         public SceneArgBase newSceneArg;
         public LoadingPanelBase loadingPanel;
 
+        //加载界面的Prefab名字
+        public virtual string LoadingPanelName => "LoadingPanel";
+
         public virtual void LoadScene(SceneArgBase arg)
         {
-            newSceneArg = arg;//判断这个参数不是null就自动切换场景。分帧执行，确保上一个场景已经卸载完毕
-            if (arg.loadingPanelArg != null)
+            //判断这个参数不是null就自动切换场景。分帧执行，确保上一个场景已经卸载完毕
+            newSceneArg = arg;
+
+            //loadingPanelArg不为null则打开loading界面，场景加载完成后会关闭
+            if(arg.loadingPanelArg != null)
             {
-                loadingPanel = PanelManager.Top.OpenPanel("LoadingPanel", arg.loadingPanelArg) as LoadingPanelBase;
+                loadingPanel = PanelManager.Top.OpenPanel(LoadingPanelName, arg.loadingPanelArg) as LoadingPanelBase;
             }
         }
 
@@ -43,7 +49,7 @@ namespace GameCore.Unity.Scene
                         CurScene = CreateScene(newSceneArg.type);
                         if (CurScene == null)
                         {
-                            LoggerX.Error("场景未实现：" + newSceneArg.type);
+                            LoggerX.Error("Scene is not implemented：" + newSceneArg.type);
                             return;
                         }
                         CurScene.Init(newSceneArg);
@@ -69,7 +75,7 @@ namespace GameCore.Unity.Scene
                     if (newSceneArg != null && (loadingPanel == null || !loadingPanel.IsCapturingScreen))
                     {
                         ChangeState(StateType.Unloading);
-                        CurScene.Destroy();
+                        CurScene?.Destroy();
                         CurScene = null;
                     }
                     break;
@@ -134,6 +140,7 @@ namespace GameCore.Unity.Scene
             timer = 0;
         }
 
+        //重装这个方法，根据type返回场景对象
         protected virtual SceneBase CreateScene(int type)
         {
             return null;
