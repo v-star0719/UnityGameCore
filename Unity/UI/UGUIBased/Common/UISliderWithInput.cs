@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace GameCore.Unity.UGUIEx
+namespace GameCore.Unity.UI.UGUIEx
 {
     public class UISliderWithInput : MonoBehaviour
     {

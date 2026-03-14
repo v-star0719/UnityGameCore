@@ -2,7 +2,7 @@
 
 //标签页控件
 //可以在标签上指定对应的页面
-namespace GameCore.Unity.NGUIEx
+namespace GameCore.Unity.UI.NGUIEx
 {
     using UnityEngine;
     using System.Collections.Generic;

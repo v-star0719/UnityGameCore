@@ -3,7 +3,7 @@
 using UnityEngine;
 using System.Collections;
 
-namespace GameCore.Unity.NGUIEx
+namespace GameCore.Unity.UI.NGUIEx
 {
     public class UICollapsibleListItemCtrlBase : MonoBehaviour
     {

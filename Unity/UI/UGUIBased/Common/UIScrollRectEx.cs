@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System;
 using UnityEngine.EventSystems;
 
-namespace GameCore.Unity.UGUIEx
+namespace GameCore.Unity.UI.UGUIEx
 {
     //https://discussions.unity.com/t/nested-scrollrect/550540/10
     public class UIScrollRectEx : ScrollRect

@@ -3,7 +3,7 @@ using GameCore.Unity.Tweener;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace GameCore.Unity.UGUIEx
+namespace GameCore.Unity.UI.UGUIEx
 {
 
 public class UIButtonAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, ISelectHandler, IDeselectHandler, ISubmitHandler

@@ -2,7 +2,7 @@ using GameCore.Unity.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GameCore.Unity.UGUIEx
+namespace GameCore.Unity.UI.UGUIEx
 {
     public class UIPanelContainer: PanelContainerCore
     {
@@ -28,7 +28,7 @@ namespace GameCore.Unity.UGUIEx
             bgTexture.gameObject.SetActive(bgType != PanelBaseCore.BgType.None);
             switch(bgType)
             {
-                case PanelBaseCore.BgType.Gray:
+                case PanelBaseCore.BgType.Color:
                     bgTexture.color = grayBgColor;
                     break;
                 case PanelBaseCore.BgType.Empty:

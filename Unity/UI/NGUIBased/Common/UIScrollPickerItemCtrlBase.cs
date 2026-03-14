@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace GameCore.Unity.NGUIEx
+namespace GameCore.Unity.UI.NGUIEx
 {
     public class UIScrollPickerItemCtrlBase : MonoBehaviour
     {

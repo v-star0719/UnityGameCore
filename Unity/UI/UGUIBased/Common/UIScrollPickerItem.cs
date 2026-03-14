@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace GameCore.Unity.UGUIEx
+namespace GameCore.Unity.UI.UGUIEx
 {
     [ExecuteAlways]
     public class UIScrollPickerItem : MonoBehaviour, IPointerClickHandler

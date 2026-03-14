@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using GameCore.Core.Misc;
 
 namespace GameCore.Unity.Sound
 {
@@ -12,7 +13,7 @@ namespace GameCore.Unity.Sound
     {
         public const float DEFAULT_BKVOLUMN = 0.5f;
         public const float DEFAULT_SOUND_VOLUMN = 0.5f;
-        public static SoundManager Instance { get; private set; }
+        public static SoundManager Inst{ get; private set; }
         public static Func<string, AudioClip> loader;
 
         private float bgmVolume = DEFAULT_BKVOLUMN;
@@ -102,12 +103,12 @@ namespace GameCore.Unity.Sound
 
         void Awake()
         {
-            if (Instance != null)
+            if (Inst != null)
             {
                 throw new Exception("multi Sound Manager running");
             }
 
-            Instance = this;
+            Inst = this;
             Players = new SoundPlayer[3];
             Players[(int) SoundLayer.bgm] = new SoundPlayerBgm(this, SoundLayer.bgm);
             Players[(int) SoundLayer.normal] = new SoundPlayer(this, SoundLayer.normal);
@@ -124,7 +125,7 @@ namespace GameCore.Unity.Sound
         {
             foreach (var player in Players)
             {
-                player.Udpate();
+                player.Tick(Time.deltaTime);
             }
 
             if (globalEffect != null)
@@ -139,7 +140,7 @@ namespace GameCore.Unity.Sound
         void OnDestroy()
         {
             Clear();
-            Instance = null;
+            Inst = null;
         }
 
 #endregion
@@ -203,8 +204,8 @@ namespace GameCore.Unity.Sound
         {
             if (sound != null)
             {
-            Players[(int)sound.layer]?.Stop(sound.id);
-        }
+                Players[(int)sound.layer]?.Stop(sound.id);
+            }
         }
 
         public void PlayBgm(string name, float volume = 1, float fadeIn = 2f, float fadeOut = 2f)

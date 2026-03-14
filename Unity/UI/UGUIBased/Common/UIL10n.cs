@@ -2,7 +2,7 @@ using GameCore.Unity.Localization;
 using TMPro;
 using UnityEngine;
 
-namespace GameCore.Unity.UGUIEx
+namespace GameCore.Unity.UI.UGUIEx
 {
     public class UIL10n : MonoBehaviour, IL10nMsgReceiver
     {

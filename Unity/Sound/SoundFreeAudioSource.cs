@@ -15,12 +15,12 @@ namespace GameCore.Unity.Sound
 
         private void OnEnable()
         {
-            SoundManager.Instance.RegisterFreeAudioSource(this);
+            SoundManager.Inst.RegisterFreeAudioSource(this);
         }
 
         private void OnDisable()
         {
-            SoundManager.Instance.UnregisterFreeAudioSource(this);
+            SoundManager.Inst.UnregisterFreeAudioSource(this);
         }
     }
 }

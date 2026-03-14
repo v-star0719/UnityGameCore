@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GameCore.Unity.UGUIEx
+namespace GameCore.Unity.UI.UGUIEx
 {
     [ExecuteAlways]
     public class UIScrollPickerHorizontal : UIScrollPickerBase

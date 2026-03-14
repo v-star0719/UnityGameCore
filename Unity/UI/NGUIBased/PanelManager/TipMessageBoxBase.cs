@@ -1,5 +1,5 @@
 #if NGUI
-namespace GameCore.Unity.NGUIEx
+namespace GameCore.Unity.UI.NGUIEx
 {
 
     //（1）点击弹出，点击屏幕其他任意位置关闭

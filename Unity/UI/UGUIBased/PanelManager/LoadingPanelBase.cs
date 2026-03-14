@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GameCore.Unity.UGUIEx
+namespace GameCore.Unity.UI.UGUIEx
 {
     public class LoadingPanelBase : UIPanelBase
     {

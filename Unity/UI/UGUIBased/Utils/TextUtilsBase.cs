@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GameCore.Unity.UGUIEx
+namespace GameCore.Unity.UI.UGUIEx
 {
     public class TextUtilsBase
     {

@@ -1,6 +1,6 @@
 #if NGUI
 
-namespace GameCore.Unity.NGUIEx
+namespace GameCore.Unity.UI.NGUIEx
 {
     public class UIL10n : MonoBehaviour, IL10nMsgReceiver
     {

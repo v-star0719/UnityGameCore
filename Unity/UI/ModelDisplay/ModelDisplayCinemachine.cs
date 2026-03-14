@@ -1,8 +1,8 @@
-using UnityEngine;
-
-#if CINEMAACHINE
+#if GAME_CORE_CINEMAACHINE
+using System.Collections.Generic;
 using Cinemachine;
-#endif
+using GameCore.Unity.Main;
+using UnityEngine;
 
 namespace GameCore.Unity.UI
 {
@@ -10,16 +10,15 @@ namespace GameCore.Unity.UI
     {
         public Transform cameraRoot; //多个相机都放在这下面
 
-#if CINEMAACHINE
         private Dictionary<string, ModelDisplayCinemachineCamInfo> camInfoMap;
         private ModelDisplayCinemachineCamInfo curCameraInfo;
         private ModelDisplayCinemachineCamInfo cacheCameraInfo;
 
         public ModelDisplayCinemachineCamInfo CurCameraInfo => curCameraInfo;
 
-        public void Init( ModelDisplayCinemachineCamConf[] confs, float screenFactor = -1, float zoomFactor = -1, float scrollFactor = -1)
+        public void Init(IResManager resManager, ModelDisplayCinemachineCamConf[] confs, float screenFactor = -1, float zoomFactor = -1, float scrollFactor = -1)
         {
-            base.Init(screenFactor, zoomFactor, scrollFactor);
+            base.Init(resManager, screenFactor, zoomFactor, scrollFactor);
             camInfoMap = new Dictionary<string, ModelDisplayCinemachineCamInfo>();
 
             foreach (var conf in confs)
@@ -319,6 +318,5 @@ namespace GameCore.Unity.UI
             this.zoomMax = zoomMax;
         }
     }
-#endif
-    }
 }
+#endif

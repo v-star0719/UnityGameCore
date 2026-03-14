@@ -2,7 +2,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace GameCore.Unity.UGUIEx
+namespace GameCore.Unity.UI.UGUIEx
 {
     [CustomEditor(typeof(UISpriteAnimation))]
     public class UISpriteAnimationEditor : UnityEditor.Editor

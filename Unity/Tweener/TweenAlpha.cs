@@ -1,4 +1,4 @@
-using GameCore.Unity.UGUIEx;
+using GameCore.Unity.UI.UGUIEx;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

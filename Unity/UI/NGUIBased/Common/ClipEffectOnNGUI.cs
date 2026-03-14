@@ -1,6 +1,6 @@
 #if NGUI
 
-namespace GameCore.Unity.NGUIEx
+namespace GameCore.Unity.UI.NGUIEx
 {
     //通过设置特效shader的_ScreenClip参数来裁剪特效
     public class ClipEffectOnNGUI : MonoBehaviour

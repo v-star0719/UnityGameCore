@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace GameCore.Unity.UGUIEx
+namespace GameCore.Unity.UI.UGUIEx
 {
     public partial class UIAnchorToObject
     {

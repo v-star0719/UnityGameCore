@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GameCore.Unity.UGUIEx
+namespace GameCore.Unity.UI.UGUIEx
 {
     //点在包含这个脚本的UI上，不会关闭界面
     public class TipPanelButtonMask : MonoBehaviour

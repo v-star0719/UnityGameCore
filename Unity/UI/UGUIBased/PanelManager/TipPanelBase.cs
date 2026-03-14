@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace GameCore.Unity.UGUIEx
+namespace GameCore.Unity.UI.UGUIEx
 {
     //（1）点击弹出，点击屏幕其他任意位置关闭
     //当点击弹窗本体关闭时，不会触发底部的点击，非常安全。点击弹窗本体不关闭。

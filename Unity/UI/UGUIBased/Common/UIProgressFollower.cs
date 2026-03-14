@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GameCore.Unity.UGUIEx
+namespace GameCore.Unity.UI.UGUIEx
 {
     ///进度条跟着另一个进度条变。实现的效果是：原进度先变化，另一个进度条从原位置变化到新位置
     public class UIProgressFollower : MonoBehaviour

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 //标签页控件
 //可以在标签上指定对应的页面
-namespace GameCore.Unity.UGUIEx
+namespace GameCore.Unity.UI.UGUIEx
 {
     //每个标签都包含UITabCellCtrl.cs组件，标签的切换操作由UITabCtrl完成
     //没有默认选择机制，请使用方手动选择。
@@ -72,7 +72,7 @@ namespace GameCore.Unity.UGUIEx
 
         public void OnCellClicked(UITabCell cell)
         {
-            SoundManager.Instance.PlayNormalSound("Audio_ClickNormal");
+            SoundManager.Inst.PlayNormalSound("Audio_ClickNormal");
             SelectTab(cell.Index);
         }
 

@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 // https://discussions.unity.com/t/635261
 // fixes issue where clicking away from a menu will cause future keyboard navigation to not work
-namespace GameCore.Unity.UGUIEx
+namespace GameCore.Unity.UI.UGUIEx
 {
     public class AutoReselecter : MonoBehaviour
     {

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
-namespace GameCore.Unity.UGUIEx
+namespace GameCore.Unity.UI.UGUIEx
 {
     public struct ScrollViewDragDirs
     {

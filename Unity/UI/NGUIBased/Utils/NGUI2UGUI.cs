@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GameCore.Unity.NGUIEx
+namespace GameCore.Unity.UI.NGUIEx
 {
     public class NGUI2UGUI
     {

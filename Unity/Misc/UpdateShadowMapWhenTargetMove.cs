@@ -1,4 +1,5 @@
 ﻿#if HDRP
+using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
 
 namespace GameCore.Unity

@@ -2,7 +2,7 @@ using GameCore.Unity.Sound;
 using GameCore.Unity.UI;
 using UnityEngine;
 
-namespace GameCore.Unity.UGUIEx
+namespace GameCore.Unity.UI.UGUIEx
 {
     public class UIPanelBase : PanelBaseCore
     {
@@ -46,12 +46,12 @@ namespace GameCore.Unity.UGUIEx
 
         protected override void PlayOpenSound()
         {
-            SoundManager.Instance.PlayNormalSound("Audio_PanelOpen");
+            SoundManager.Inst.PlayNormalSound("Audio_PanelOpen");
         }
 
         protected override void PlayCloseSound()
         {
-            SoundManager.Instance.PlayNormalSound("Audio_PanelClose");
+            SoundManager.Inst.PlayNormalSound("Audio_PanelClose");
         }
     }
 }

@@ -12,7 +12,7 @@ using UnityEngine.EventSystems;
 //滚动的时候，移动的是contentTrans
 //坐标系y有两套，viewport坐标系（原点在视口中心），content坐标系（原点在content节点）
 //视口不会动，是content在动。比如要把content上(1,0)点移动到中间，只需要content移动(-1,0)就行了
-namespace GameCore.Unity.UGUIEx
+namespace GameCore.Unity.UI.UGUIEx
 {
     public abstract class UIScrollPickerBase : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {

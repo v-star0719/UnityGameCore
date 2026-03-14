@@ -9,7 +9,7 @@ using System.Collections.Generic;
  * 动态列表，即列表项数变化的列表。当列表数量少不会超出滚动区域太多时建议使用。
  *
  */
-namespace GameCore.Unity.NGUIEx
+namespace GameCore.Unity.UI.NGUIEx
 {
     [ExecuteAlways]
     public class UIDynamicListCtrl : MonoBehaviour

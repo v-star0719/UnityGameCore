@@ -1,4 +1,4 @@
-using GameCore.Unity.UGUIEx;
+using GameCore.Unity.UI.UGUIEx;
 using GameCore.Unity.UI;
 
 namespace GameCore.Unity.Scene

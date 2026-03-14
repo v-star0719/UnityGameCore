@@ -1,5 +1,5 @@
 #if NGUI
-namespace GameCore.Unity.NGUIEx
+namespace GameCore.Unity.UI.NGUIEx
 {
     [ExecuteAlways]
     public class ProgressUI : MonoBehaviour

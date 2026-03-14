@@ -1,6 +1,6 @@
 using TMPro;
 
-namespace GameCore.Unity.UGUIEx
+namespace GameCore.Unity.UI.UGUIEx
 {
     public class UIOptionItem : UIGridExItemT<UIOptionItem.Data>
     {

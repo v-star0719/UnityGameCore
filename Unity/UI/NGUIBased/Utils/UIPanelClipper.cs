@@ -1,6 +1,6 @@
 #if NGUI
 
-namespace GameCore.Unity.NGUIEx
+namespace GameCore.Unity.UI.NGUIEx
 {
     [RequireComponent(typeof(UIPanel))]
     public class UIPanelClipper : MonoBehaviour

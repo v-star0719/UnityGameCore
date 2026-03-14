@@ -1,6 +1,6 @@
 using UnityEngine.EventSystems;
 
-namespace GameCore.Unity.UGUIEx
+namespace GameCore.Unity.UI.UGUIEx
 {
     public class UIScrollPickerSelectableHorizontal : UIScrollPickerSelectableBase
     {

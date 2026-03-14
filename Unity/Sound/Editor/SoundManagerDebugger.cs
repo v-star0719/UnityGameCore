@@ -72,12 +72,12 @@ namespace GameCore.Unity.Sound
                     soundName = EditorGUILayout.TextField(soundName);
                     if(GUILayout.Button("Play", GUILayout.ExpandWidth(false)))
                     {
-                        SoundManager.Instance.PlaySound(layer, soundName, isLoop, volume, duration, fadeIn, fadeOut);
+                        SoundManager.Inst.PlaySound(layer, soundName, isLoop, volume, duration, fadeIn, fadeOut);
                     }
                 }
             }
 
-            if(SoundManager.Instance == null)
+            if(SoundManager.Inst == null)
             {
                 return;
             }
@@ -88,19 +88,19 @@ namespace GameCore.Unity.Sound
                 using(new GUILayout.HorizontalScope())
                 {
                     GUILayout.Label("EnableBg: ", GUILayout.ExpandWidth(false));
-                    SoundManager.Instance.BgmEnable = EditorGUILayout.Toggle(SoundManager.Instance.BgmEnable, GUILayout.ExpandWidth(false));
+                    SoundManager.Inst.BgmEnable = EditorGUILayout.Toggle(SoundManager.Inst.BgmEnable, GUILayout.ExpandWidth(false));
                     GUILayout.Label("EnableSound: ", GUILayout.ExpandWidth(false));
-                    SoundManager.Instance.SoundEnable = EditorGUILayout.Toggle(SoundManager.Instance.SoundEnable, GUILayout.ExpandWidth(false));
+                    SoundManager.Inst.SoundEnable = EditorGUILayout.Toggle(SoundManager.Inst.SoundEnable, GUILayout.ExpandWidth(false));
                     GUILayout.Label("PauseSound: ", GUILayout.ExpandWidth(false));
                     if(GUILayout.Button(isPaused ? "继续" : "暂停"))
                     {
                         if(isPaused)
                         {
-                            SoundManager.Instance.Resume();
+                            SoundManager.Inst.Resume();
                         }
                         else
                         {
-                            SoundManager.Instance.Pause();
+                            SoundManager.Inst.Pause();
                         }
 
                         isPaused = !isPaused;
@@ -110,7 +110,7 @@ namespace GameCore.Unity.Sound
 
             using (var s = new GUILayout.ScrollViewScope(scrollPos))
             {
-                var players = SoundManager.Instance.Players;
+                var players = SoundManager.Inst.Players;
                 for (var i = 0; i < players.Length; i++)
                 {
                     GUILayout.BeginVertical(EditorStyles.helpBox);
@@ -152,7 +152,7 @@ namespace GameCore.Unity.Sound
 
                 if (tb)
                 {
-                    foreach (SoundPlayer player in SoundManager.Instance.Players)
+                    foreach (SoundPlayer player in SoundManager.Inst.Players)
                     {
                         GUILayout.Label($"【{player.Layer.ToString()}】");
                         foreach (var kv in player.AliveCounter)
@@ -182,7 +182,7 @@ namespace GameCore.Unity.Sound
                     EditorGUILayout.ObjectField(item.AudioSource.clip, typeof(AudioClip), false, GUILayout.ExpandWidth(false));
                     if (GUILayout.Button("stop", GUILayout.ExpandWidth(false)))
                     {
-                        SoundManager.Instance.StopSound(item.GetInfo());
+                        SoundManager.Inst.StopSound(item.GetInfo());
                     }
                 }
             }

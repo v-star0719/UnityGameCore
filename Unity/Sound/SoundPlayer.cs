@@ -94,13 +94,12 @@ namespace GameCore.Unity.Sound
             go.transform.localPosition = Vector3.zero;
         }
 
-        public void Udpate()
+        public void Tick(float deltaTime)
         {
             if (paused)
             {
                 return;
             }
-            float deltaTime = Time.deltaTime;
             for(var i = LoadingSounds.Count - 1; i >= 0; i--)
             {
                 var sound = LoadingSounds[i];

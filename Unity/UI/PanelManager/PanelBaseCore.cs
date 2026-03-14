@@ -9,17 +9,16 @@ namespace GameCore.Unity.UI
     {
         public enum BgType
         {
-            None,
-            Gray,
-            Blur,
-            Empty,
+            None, //没有背景
+            Color, //纯色背景
+            Blur, //虚化的背景
+            Empty, //完全透明的背景
         }
 
         [Serializable]
         public class Settings
         {
             public bool isFullPanel; //全屏界面会遮挡主底部的UI
-            public bool blurBg = true; //显示模糊被背景，否则隐藏背景
             public bool playPopUpAnimation = true;
             public bool clickBgClose = true;
             public BgType bgType = BgType.Blur;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace GameCore.Unity.NGUIEx
+namespace GameCore.Unity.UI.NGUIEx
 {
     public class TestCollapsibleList : MonoBehaviour
     {

@@ -202,5 +202,31 @@ namespace GameCore.Core.Extension
             }
             return char.ToUpper(s[0]) + s.Substring(1);
         }
+
+        //两个字符串之间的字符串。比如123|13333|323，("|", "|")返回13333
+        public static string Substring(this string s, string start, string end)
+        {
+            var idx1 = 0;
+            if(!string.IsNullOrEmpty(start))
+            {
+                idx1 = s.IndexOf(start);
+                if(idx1 < 0)
+                {
+                    return string.Empty;
+                }
+                idx1 = idx1 + start.Length;
+            }
+
+            var idx2 = s.Length - 1;
+            if(!string.IsNullOrEmpty(end))
+            {
+                idx2 = s.IndexOf(end, idx1 + 1);
+                if(idx2 < 0)
+                {
+                    return string.Empty;
+                }
+            }
+            return s.Substring(idx1, idx2 - idx1);
+        }
 }
 }

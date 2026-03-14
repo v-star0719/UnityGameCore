@@ -2,10 +2,6 @@
 //Print logs
 //#define GAME_CORE_STORAGE_DEBUG
 
-//加密存储数据
-//Encrypt data
-//#define GAME_CORE_STORAGE_ENCRYPT
-
 using System;
 using System.Diagnostics;
 using GameCore.Core.Logger;
